@@ -1,0 +1,296 @@
+@font-face{
+    font-family: sohopro;
+    src: url('SohoPro-Condensed.otf');
+}
+@font-face{
+    font-family: sohopro_ie;
+    src: url('SohoPro-Condensed.eot');
+}
+body{
+    background: #2e3132;
+	/*background: white;*/
+    font-family: "SohoPro-Condensed", sohopro, sohopro_ie, serif;
+    margin: 0;
+}
+#support_message, #support_none, #support_limited{
+    display: none;
+}
+#support_message{
+    position: absolute;
+    left: 25%;
+    top: 25%;
+    width: 50%;
+    height: 50%;
+    background: rgb(204, 204, 204);
+    border: 3px solid black;
+    z-index: 4;
+}
+#support_none, #support_limited{
+    position: relative;
+    top: 35%;
+    text-align: center;
+}
+#support_button{
+    width: 20%;
+}
+#frame{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    overflow: hidden;
+	background-image: url('background.png');
+	background-size: 100% 100%;
+}
+#frame a:link, #frame a:visited{
+    color: black;
+    text-decoration: none;
+}
+#lab_video{
+    position:absolute;
+	left: 4%;
+	top: 22%;
+    width: 57%;
+    height: 57%;
+	border-style: solid;
+	border-color: #999;
+	border-width: 0.35em;
+	box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
+}
+#logo1{
+	height: 13%;
+    position: absolute;
+	top: 0%;
+	left: 0%;
+}
+#logo2{
+	height: 13%;
+    position: absolute;
+	top: 0%;
+	right: 0%;
+}
+.slider_arrow{
+    position: absolute;
+	transition: opacity 1s;
+	-moz-transition: opacity 1s;
+	-webkit-transition: opacity 1s;
+	-o-transition: opacity 1s;
+}
+#arrow_left{
+    height: 18%;
+    top: 42%;
+    left: 1%;
+	opacity: 0;
+}
+#arrow_right{
+    height: 18%;
+    top: 42%;
+    right: 1%;
+}
+#arrow_up{
+    width: 10%;
+    left: 45%;
+    top: 1%;
+}
+#arrow_down{
+    width: 10%;
+    left: 45%;
+    bottom: 1%;
+}
+#slider{
+    position: absolute;
+}
+#frame_middle{
+    position: absolute;
+    overflow: hidden;
+}
+#frame_left{
+    position: absolute;
+	overflow: hidden;
+}
+#frame_right{
+    position: absolute;
+	overflow: hidden;
+}
+#tip_area{
+	position: absolute;
+	right: 6%;
+	top: 19%;
+	height: 68%;
+	width: 28%;
+}
+.tip{
+    display: block;
+	position: relative;
+	background: white;
+	padding: 0px;
+	border-radius: 5% / 12%;
+    width: 100%;
+    height: 19%;
+	margin-bottom: 10%;
+    opacity: 0;
+    cursor: pointer;
+	overflow: hidden;
+	box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
+	transition        : opacity 1s, height 1s, width 1s, left 1s, margin 1s, margin-bottom 1s;
+	-moz-transition   : opacity 1s, height 1s, width 1s, left 1s, margin 1s, margin-bottom 1s;
+	-webkit-transition: opacity 1s, height 1s, width 1s, left 1s, margin 1s, margin-bottom 1s;
+	-o-transition     : opacity 1s, height 1s, width 1s, left 1s, margin 1s, margin-bottom 1s;
+}
+.tip div.title{
+	display: inline-block;
+	vertical-align: middle;
+    border-radius: 0% 5% 5% 0% / 0% 12% 12% 0%;
+    width: 68%;
+	margin-left: 2%;
+    text-align: left;
+	max-height: 100%;
+}
+.tip div.icon{
+	display: inline-block;
+	vertical-align: middle;
+    color: white;
+    background: #7f8184;
+    border-radius: 12% 0% 0% 12% / 12% 0% 0% 12%;
+    width: 28%;
+    height: 100%;
+    text-align: center;
+}
+.tip_group div.icon{
+    background: rgb(239, 72, 25); /*#ef4819;*/
+}
+div.icon img{
+    height: 80%;
+    width: 80%;
+    margin: 10%;
+}
+/* Left Div, Resource Link Area */
+#instructions_list{
+	display: block;
+	list-style: none;
+	position: relative;
+	margin: auto 5%;
+    top: 0em;
+	transition        : top 1s;
+	-moz-transition   : top 1s;
+	-webkit-transition: top 1s;
+	-o-transition     : top 1s;
+}
+.instruction{
+    margin: 1em 0em;
+    padding: 0em;
+}
+.instruction .icon{
+	background: green;
+	display: inline-block;
+	width: 3em;
+	height: 3em;
+    border-radius: 0.5em;
+	box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
+    vertical-align: top;
+}
+.instruction .content{
+	background: white;
+	display: inline-block;
+    border-radius: 0.5em;
+    width: 27em;
+    min-height: 3em;
+	box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
+}
+.instruction .header{
+    height: 3em;
+}
+.instruction .title{
+    display: inline-block;
+    vertical-align: middle;
+}
+.instruction .title:before{
+    display: inline-block;
+    vertical-align: middle;
+    width: 1em;
+    height: 3em;
+    content: ' ';
+}
+.instruction .expander{
+    height: 0em;
+    display: none;
+}
+
+/* Custom video controls. */
+#control_panel{
+	position: absolute;
+	bottom: 0%;
+	left: 10%;
+	width: 80%;
+	height: 10%;
+	background: rgba(153, 153, 153, 0.5);
+    border-radius: 2% 2% 0% 0% / 25% 25% 0% 0%;
+}
+#control_panel:hover{
+	opacity: 1;
+}
+#control_big_play{
+    cursor: pointer;
+    position: absolute;
+    top: 40%;
+    height: 20%;
+    left: 40%;
+    width: 20%;
+	transition: opacity 0.5s;
+	-moz-transition: opacity 0.5s;
+	-webkit-transition: opacity 0.5s;
+	-o-transition: opacity 0.5s;
+}
+#control_play{
+    cursor: pointer;
+	position: absolute;
+	top: 15%;
+	left: 7%;
+	height: 67%;
+	width: 4.92%; /* 70% of 10% = what% of 80%; w = 8.75; a = 16:9 */
+}
+#control_progress{
+    cursor: pointer;
+	position: absolute;
+	top: 29%;
+	left: 14%;
+	height: 40%;
+	width: 60%;
+	overflow: hidden;
+	background: rgb(102, 102, 102);
+	z-index: 2;
+}
+#control_elapsed_time{
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	height: 100%;
+	width: 0%;
+	background: rgb(153, 153, 153);
+}
+#control_buffered_time{
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	height: 100%;
+	width: 0%;
+	background: rgb(51, 51, 51);
+}
+#control_progress:hover #control_elapsed_time{
+	background: rgb(239, 72, 25);
+}
+#control_timer{
+	position: absolute;
+	top: 0%;
+	left: 75%;
+	height: 100%;
+	width: 13%;
+	z-index: 1;
+}
+#control_mute{
+    cursor: pointer;
+	position: absolute;
+	top: 15%;
+	left: 88%;
+	height: 70%;
+	width: 4.92%;
+}
