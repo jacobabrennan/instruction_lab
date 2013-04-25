@@ -169,11 +169,13 @@ div.icon img{
 	list-style: none;
 	position: relative;
 	margin: auto 5%;
+    padding-bottom: 3em;
+    /* Padding gives the slider a margin of error.*/
     top: 0em;
-	transition        : top 1s;
-	-moz-transition   : top 1s;
-	-webkit-transition: top 1s;
-	-o-transition     : top 1s;
+	transition        : top 0.2s;
+	-moz-transition   : top 0.2s;
+	-webkit-transition: top 0.2s;
+	-o-transition     : top 0.2s;
 }
 .instruction{
     margin: 1em 0em;
@@ -192,7 +194,7 @@ div.icon img{
 	background: white;
 	display: inline-block;
     border-radius: 0.5em;
-    width: 27em;
+    width: 26em;
     min-height: 3em;
 	box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
 }
@@ -213,6 +215,55 @@ div.icon img{
 .instruction .expander{
     height: 0em;
     display: none;
+}
+#instructions_slider{
+    background: white;
+    position: absolute;
+    top: 1em;;
+    right: 1em;
+    width: 2em;
+    height: 17.5em;
+    border-radius: 0.5em;
+	box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
+}
+#instructions_slider .scroll_bar{
+    position: absolute;
+    top: 2em;
+    left: 0em;
+    width: 2em;
+    height: 13.5em;
+    
+}
+#instructions_slider .scroll_up{
+    position: absolute;
+    top: 0em;
+    left: 0em;
+    width: 2em;
+    height: 2em;
+    border-radius: 0.5em 0.5em 0em 0em;
+    background: grey;
+}
+#instructions_slider .scroll_down{
+    position: absolute;
+    bottom: 0em;
+    left: 0em;
+    width: 2em;
+    height: 2em;
+    border-radius: 0em 0em 0.5em 0.5em;
+    background: grey;
+}
+#instructions_slider .scroll_handle{
+    position: absolute;
+    width: 2em;
+    border-radius: 0.5em;
+    background: red;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    /**/
+    min-height: 1em;
+    
 }
 
 /* Custom video controls. */

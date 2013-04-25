@@ -85,8 +85,11 @@ instruction_lab = {
 		document.title = configuration.title;
         this.seeking = false;
         this.popcorn = Popcorn("#lab_video");
-        window.addEventListener("resize", function (){ instruction_lab.resize()}, false);
-        window.addEventListener("keydown", function (e){ instruction_lab.key_down(e);}, false);
+        window.addEventListener("resize", function (e){ instruction_lab.resize()}, false);
+        window.addEventListener("keydown", function (e){ instruction_lab.control_interface.key_down(e);}, false);
+        window.addEventListener('mousemove', function (e){ instruction_lab.control_interface.mouse_control(e);}, false);
+        window.addEventListener('mousedown', function (e){ instruction_lab.control_interface.mouse_control(e);}, false);
+        window.addEventListener('mouseup', function (e){ instruction_lab.control_interface.mouse_control(e);}, false);
         // Configure html urls:
         var logo1 = document.getElementById("logo1");
         logo1.src = configuration.urls.logo1;
@@ -215,21 +218,12 @@ instruction_lab = {
         this.slider_state = "middle";
         this.arrow_left  = document.getElementById("arrow_left" );
         this.arrow_right = document.getElementById("arrow_right");
-        this.arrow_up  = document.getElementById("arrow_up" );
-        this.arrow_down = document.getElementById("arrow_down");
         this.arrow_left.addEventListener("click", function (){
             instruction_lab.transition("left");
         }, false)
         this.arrow_right.addEventListener("click", function (){
             instruction_lab.transition("right");
         }, false)
-        this.arrow_up.addEventListener("click", function (){
-            instruction_lab.scroll("up");
-        }, false)
-        this.arrow_down.addEventListener("click", function (){
-            instruction_lab.scroll("down");
-        }, false)
-        this.resize();
         // Setup Resource Section:
         /*var setup_instruction = function (tip){
             for(var I = 0; I < tip.content.length; I++){
@@ -277,9 +271,9 @@ instruction_lab = {
                 r_element.style.top = (20+I*10)+"%";
             }
         }*/
+        this.instructions.setup_scrollbar('instructions_slider');
         this.instructions.list = document.getElementById("instructions_list");
 		var instructions_list = configuration.instructions;
-        this.instructions.max_scroll = instructions_list.length;
 		var display_step = function (instruction, display_number){
 			if(!display_number){
 				display_number = '&nbsp;';
@@ -316,6 +310,7 @@ instruction_lab = {
 				this.popcorn.cue(indexed_step.time_in + indexed_tip.time_offset, cue_function);
 			}
 		}
+        this.resize();
         this.popcorn.on("seeked", function (){
             instruction_lab.seeking = false;
             instruction_lab.tip_manager.setup_at(instruction_lab.popcorn.currentTime());
@@ -333,28 +328,57 @@ instruction_lab = {
         var _y = window.innerHeight || e.clientHeight || g.clientHeight;
         return {width: _x, height: _y};
     },
-    key_down: function (e){
-        var key_code;
-        if(window.event){ key_code = e.keyCode} // IE 8 and earlier compatibility.
-        else{
-            key_code = e.which// | e.keyCode;
-        }
-        switch(key_code){
-            case 37:{
-                this.transition("left");
-                break;
+    control_interface: {
+        focus: undefined,
+        dragged_element: undefined,
+        last_click: undefined,
+        key_down: function (e){
+            var key_code;
+            if(window.event){ key_code = e.keyCode} // IE 8 and earlier compatibility.
+            else{
+                key_code = e.which// | e.keyCode;
             }
-            case 39:{
-                this.transition("right");
-                break;
+            switch(key_code){
+                case 37:{
+                    instruction_lab.transition("left");
+                    break;
+                }
+                case 39:{
+                    instruction_lab.transition("right");
+                    break;
+                }/*
+                case 38:{
+                    instruction_lab.scroll("up");
+                    break;
+                }
+                case 40:{
+                    instruction_lab.scroll("down");
+                    break;
+                }*/
             }
-            case 38:{
-                this.scroll("up");
-                break;
-            }
-            case 40:{
-                this.scroll("down");
-                break;
+        },
+        mouse_control: function (e){
+            if(window.event){ e = w} // IE 8 and earlier compatibility.
+            switch(e.type.toLowerCase()){
+                case 'mousedown':{
+                    this.dragged_element = e.target;
+                    this.last_click = {
+                        x: e.pageX,
+                        y: e.pageY,
+                        offset_x: e.pageX - e.target.offsetLeft,
+                        offset_y: e.pageY - e.target.offsetTop
+                    };
+                    break;
+                }
+                case 'mouseup':{
+                    this.dragged_element = undefined;
+                    break;
+                }
+                case 'mousemove':{
+                    if(this.dragged_element && (typeof this.dragged_element.drag === 'function')){
+                        this.dragged_element.drag(e);
+                    }
+                }
             }
         }
     },
@@ -414,6 +438,7 @@ instruction_lab = {
         this.left.style.height    = modified_height+"px";
         this.right.style.height   = modified_height+"px";
         this.slider.style.height  = modified_height+"px";
+        this.instructions.resize();
     },
     transition: function (direction, force){
         this.slider.style.transition       = "left 1s";
@@ -471,13 +496,6 @@ instruction_lab = {
                 this.arrow_right.style.opacity = "0";
                 this.popcorn.pause()
                 break;
-            }
-        }
-    },
-    scroll: function (direction){
-        switch(this.slider_state){
-            case "right":{
-                instruction_lab.instructions.scroll(direction);
             }
         }
     },
@@ -599,26 +617,44 @@ instruction_lab = {
 };
 instruction_lab.instructions = {
     list: undefined, // an html element
+    scroll_bar: undefined,
     scroll_number: 1,
-    max_scroll: undefined,
-    scroll: function (direction, number){
-        switch(direction){
-            case 'up':{
-                this.scroll_number--;
-                break;
-            }
-            case 'down':{
-                this.scroll_number++;
-                break;
-            }
-            default:{
-                if(number){
-                    this.scroll_number = number;
-                }
-            }
+    scroll: function (percent){
+        var inverse_screen_percent = instruction_lab.instructions.list.offsetHeight / instruction_lab.slider.offsetHeight;
+        instruction_lab.instructions.list.style.top = -(percent*inverse_screen_percent*100)+'%';
+    },
+    resize: function (){
+        var screen_percent = instruction_lab.slider.offsetHeight / instruction_lab.instructions.list.offsetHeight;
+        screen_percent = Math.max(0, Math.min(1, screen_percent));
+        this.scroll_bar.handle.style.height = Math.floor(screen_percent*this.scroll_bar.bar.offsetHeight)+'px';
+    },
+    setup_scrollbar: function (element_id){
+        this.scroll_bar = {
+            container: document.getElementById(element_id),
+            up_button: document.createElement('div'),
+            down_button: document.createElement('div'),
+            bar: document.createElement('div'),
+            handle: document.createElement('div')
         }
-        this.scroll_number = Math.max(1, Math.min(this.max_scroll, this.scroll_number));
-        this.list.style.top = (-4*(this.scroll_number-1))+'em';
+        this.scroll_bar.up_button.setAttribute('class', 'scroll_up');
+        this.scroll_bar.container.appendChild(this.scroll_bar.up_button);
+        this.scroll_bar.down_button.setAttribute('class', 'scroll_down');
+        this.scroll_bar.container.appendChild(this.scroll_bar.down_button);
+        this.scroll_bar.bar.setAttribute('class', 'scroll_bar');
+        this.scroll_bar.container.appendChild(this.scroll_bar.bar);
+        this.scroll_bar.handle.setAttribute('class', 'scroll_handle');
+        this.scroll_bar.bar.appendChild(this.scroll_bar.handle);
+        this.scroll_bar.handle.drag = function (e){
+            //var active_x = e.pageX - instruction_lab.control_interface.last_click.offset_x;
+            var active_y = e.pageY - instruction_lab.control_interface.last_click.offset_y;
+            var scroll_bar = instruction_lab.instructions.scroll_bar;
+            var scroll_top_offset = scroll_bar.bar.offsetTop + scroll_bar.container.offsetTop;
+            var scroll_percent = (active_y) / (scroll_bar.bar.offsetHeight);
+            var handle_percent = scroll_bar.handle.offsetHeight / scroll_bar.bar.offsetHeight;
+            scroll_percent = Math.min(1-handle_percent, Math.max(0, scroll_percent));
+            scroll_bar.handle.style.top = (scroll_percent*100)+'%';
+            instruction_lab.instructions.scroll(scroll_percent)
+        };
     }
 };
 instruction_lab.compatibility.check(true);
