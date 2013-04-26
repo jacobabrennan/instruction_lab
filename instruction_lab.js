@@ -271,14 +271,16 @@ instruction_lab = {
                 r_element.style.top = (20+I*10)+"%";
             }
         }*/
+        this.instructions.list = configuration.instructions;
         this.instructions.setup_scrollbar('instructions_slider');
-        this.instructions.list = document.getElementById("instructions_list");
+        this.instructions.list_element = document.getElementById("instructions_list");
 		var instructions_list = configuration.instructions;
-		var display_step = function (instruction, display_number){
+		var display_step = function (instruction, instruction_index, display_number){
 			if(!display_number){
 				display_number = '&nbsp;';
 			}
 			var instruction_element = document.createElement('div');
+            instruction.element = instruction_element;
 			instruction_element.setAttribute('class', 'instruction');
             var insert_html  = '<div class="icon">';
             insert_html += display_number;
@@ -287,7 +289,12 @@ instruction_lab = {
             insert_html += '<div class="expander">Nodes!</div>'
             insert_html += '</div>';
 			instruction_element.innerHTML = insert_html;
-			instruction_lab.instructions.list.appendChild(instruction_element);
+			instruction_lab.instructions.list_element.appendChild(instruction_element);
+            instruction_element.addEventListener('click', (function (){
+                return function (){
+                    instruction_lab.instructions.toggle_highlight(instruction_index);
+                };
+            })(instruction_index), false);
 		};
 		instruction_lab.tip_manager.tip_area = document.getElementById('tip_area');
 		var step_number = 0;
@@ -296,7 +303,7 @@ instruction_lab = {
 			if(!indexed_step.unnumbered){
 				step_number++;
 			}
-			display_step(indexed_step, step_number);
+			display_step(indexed_step, step_index, step_number);
 			//setup_instruction(indexed_step);
 			for(var tip_index = 0; tip_index < indexed_step.content.length; tip_index++){
 				var indexed_tip = indexed_step.content[tip_index];
@@ -618,21 +625,44 @@ instruction_lab = {
     }
 };
 instruction_lab.instructions = {
-    list: undefined, // an html element
+    list: undefined,
+    list_element: undefined, // an html element
     scroll_bar: undefined,
     percent: 0,
     scroll: function (percent){
         var handle_percent = this.scroll_bar.handle.offsetHeight / this.scroll_bar.bar.offsetHeight;
         percent = Math.min(1-handle_percent, Math.max(0, percent));
         this.percent = percent;
-        var inverse_screen_percent = instruction_lab.instructions.list.offsetHeight / instruction_lab.slider.offsetHeight;
-        instruction_lab.instructions.list.style.top = -(percent*inverse_screen_percent*100)+'%';
+        var inverse_screen_percent = instruction_lab.instructions.list_element.offsetHeight / instruction_lab.slider.offsetHeight;
+        instruction_lab.instructions.list_element.style.top = -(percent*inverse_screen_percent*100)+'%';
         this.scroll_bar.handle.style.top = (percent*100)+'%';
     },
     resize: function (){
-        var screen_percent = instruction_lab.slider.offsetHeight / instruction_lab.instructions.list.offsetHeight;
+        var screen_percent = instruction_lab.slider.offsetHeight / instruction_lab.instructions.list_element.offsetHeight;
         screen_percent = Math.max(0, Math.min(1, screen_percent));
         this.scroll_bar.handle.style.height = Math.floor(screen_percent*this.scroll_bar.bar.offsetHeight)+'px';
+    },
+    toggle_highlight: function (instruction_index){
+        var instruction = this.list[instruction_index];
+        var instruction_element = instruction.element;
+        var expander = instruction_element.getElementsByClassName('expander')[0];
+        if(!instruction.highlight){
+            instruction.highlight = true;
+            expander.style.display = 'block';
+            expander.style.height = 'auto';
+            setTimeout(function (){
+                expander.style.opacity = 1;
+            }, 1)
+        } else{
+            instruction.highlight = false;
+            expander.style.display = 'none';
+            expander.style.height = '0em';
+            setTimeout(function (){
+                expander.style.opacity = 0;
+            }, 1)
+        }
+        this.resize();
+        this.scroll(this.percent);
     },
     setup_scrollbar: function (element_id){
         this.scroll_bar = {
@@ -652,12 +682,12 @@ instruction_lab.instructions = {
         this.scroll_bar.bar.appendChild(this.scroll_bar.handle);
         //
         this.scroll_bar.up_button.addEventListener('click', function (){
-            var screen_percent = instruction_lab.slider.offsetHeight / instruction_lab.instructions.list.offsetHeight;
+            var screen_percent = instruction_lab.slider.offsetHeight / instruction_lab.instructions.list_element.offsetHeight;
             var new_percent = instruction_lab.instructions.percent - screen_percent/2;
             instruction_lab.instructions.scroll(new_percent);
         });
         this.scroll_bar.down_button.addEventListener('click', function (){
-            var screen_percent = instruction_lab.slider.offsetHeight / instruction_lab.instructions.list.offsetHeight;
+            var screen_percent = instruction_lab.slider.offsetHeight / instruction_lab.instructions.list_element.offsetHeight;
             var new_percent = instruction_lab.instructions.percent + screen_percent/2;
             instruction_lab.instructions.scroll(new_percent);
         });

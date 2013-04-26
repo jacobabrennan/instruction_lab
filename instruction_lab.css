@@ -215,6 +215,11 @@ div.icon img{
 .instruction .expander{
     height: 0em;
     display: none;
+    opacity: 0;
+	transition        : opacity 0.5s;
+	-moz-transition   : opacity 0.5s;
+	-webkit-transition: opacity 0.5s;
+	-o-transition     : opacity 0.5s;
 }
 #instructions_slider{
     background: white;
