@@ -39,12 +39,12 @@ var lab_configuration = {
 			{type: 'animal', time_offset: 14, content: {number_left: 5000, species_name: 'latinus gratuativnesus'}},
 			{type: 'TODO', time_offset: 17, content: {}},
 			{type: 'TODO', time_offset: 20, content: {}}
-		]},/*
+		]},
 		{notes: 'Step 2', time_in: 25, content: []},
 		{notes: 'Step 2', time_in: 25, content: []},
 		{notes: 'Step 2', time_in: 25, content: []},
 		{notes: 'Step 2', time_in: 25, content: []},
-		{notes: 'Step 2', time_in: 25, content: []},
+		{notes: 'Step 2', time_in: 25, content: []},/*
 		{notes: 'Step 2', time_in: 25, content: []},
 		{notes: 'Step 2', time_in: 25, content: []},
 		{notes: 'Step 2', time_in: 25, content: []},

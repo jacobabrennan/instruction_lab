@@ -649,10 +649,11 @@ instruction_lab.instructions = {
         if(!instruction.highlight){
             instruction.highlight = true;
             expander.style.display = 'block';
-            expander.style.height = 'auto';
+            expander.style.height = '5em';
             setTimeout(function (){
                 expander.style.opacity = 1;
             }, 1)
+            this.resize();
         } else{
             instruction.highlight = false;
             expander.style.display = 'none';
@@ -660,9 +661,9 @@ instruction_lab.instructions = {
             setTimeout(function (){
                 expander.style.opacity = 0;
             }, 1)
+            this.resize();
+            this.scroll(this.percent);
         }
-        this.resize();
-        this.scroll(this.percent);
     },
     setup_scrollbar: function (element_id){
         this.scroll_bar = {
