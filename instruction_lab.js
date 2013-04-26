@@ -1,4 +1,4 @@
-/*
+/**
  * This code written in whole by Jacob A Brennan.
  *
  * This work is licensed under the Creative Commons Attribution 3.0 Unported
