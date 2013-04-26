@@ -225,6 +225,14 @@ div.icon img{
     height: 17.5em;
     border-radius: 0.5em;
 	box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
+    z-index: 2; /* Above the nav arrows.*/
+}
+#instructions_slider *{
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    cursor: pointer;
 }
 #instructions_slider .scroll_bar{
     position: absolute;
@@ -257,13 +265,15 @@ div.icon img{
     width: 2em;
     border-radius: 0.5em;
     background: red;
+    /**/
+    min-height: 1em;
+    
+}
+.no_select{
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
     -o-user-select: none;
-    /**/
-    min-height: 1em;
-    
 }
 
 /* Custom video controls. */

@@ -283,7 +283,7 @@ instruction_lab = {
             var insert_html  = '<div class="icon">';
             insert_html += display_number;
             insert_html += '</div><div class="content">';
-            insert_html += '<div class="header"><span class="title">'+'Whatever'+'</span></div>';
+            insert_html += '<div class="header"><span class="title">'+instruction.title+'</span></div>';
             insert_html += '<div class="expander">Nodes!</div>'
             insert_html += '</div>';
 			instruction_element.innerHTML = insert_html;
@@ -358,7 +358,7 @@ instruction_lab = {
             }
         },
         mouse_control: function (e){
-            if(window.event){ e = w} // IE 8 and earlier compatibility.
+            if(window.event){ e = window.event} // IE 8 and earlier compatibility.
             switch(e.type.toLowerCase()){
                 case 'mousedown':{
                     this.dragged_element = e.target;
@@ -370,8 +370,10 @@ instruction_lab = {
                     };
                     break;
                 }
+                case 'blur':
                 case 'mouseup':{
                     this.dragged_element = undefined;
+                    instruction_lab.right.className = '';
                     break;
                 }
                 case 'mousemove':{
@@ -618,10 +620,14 @@ instruction_lab = {
 instruction_lab.instructions = {
     list: undefined, // an html element
     scroll_bar: undefined,
-    scroll_number: 1,
+    percent: 0,
     scroll: function (percent){
+        var handle_percent = this.scroll_bar.handle.offsetHeight / this.scroll_bar.bar.offsetHeight;
+        percent = Math.min(1-handle_percent, Math.max(0, percent));
+        this.percent = percent;
         var inverse_screen_percent = instruction_lab.instructions.list.offsetHeight / instruction_lab.slider.offsetHeight;
         instruction_lab.instructions.list.style.top = -(percent*inverse_screen_percent*100)+'%';
+        this.scroll_bar.handle.style.top = (percent*100)+'%';
     },
     resize: function (){
         var screen_percent = instruction_lab.slider.offsetHeight / instruction_lab.instructions.list.offsetHeight;
@@ -644,16 +650,45 @@ instruction_lab.instructions = {
         this.scroll_bar.container.appendChild(this.scroll_bar.bar);
         this.scroll_bar.handle.setAttribute('class', 'scroll_handle');
         this.scroll_bar.bar.appendChild(this.scroll_bar.handle);
+        //
+        this.scroll_bar.up_button.addEventListener('click', function (){
+            var screen_percent = instruction_lab.slider.offsetHeight / instruction_lab.instructions.list.offsetHeight;
+            var new_percent = instruction_lab.instructions.percent - screen_percent/2;
+            instruction_lab.instructions.scroll(new_percent);
+        });
+        this.scroll_bar.down_button.addEventListener('click', function (){
+            var screen_percent = instruction_lab.slider.offsetHeight / instruction_lab.instructions.list.offsetHeight;
+            var new_percent = instruction_lab.instructions.percent + screen_percent/2;
+            instruction_lab.instructions.scroll(new_percent);
+        });
+        this.scroll_bar.container.addEventListener('mousedown', function (){
+            instruction_lab.right.className = 'no_select';
+        }, false);
         this.scroll_bar.handle.drag = function (e){
             //var active_x = e.pageX - instruction_lab.control_interface.last_click.offset_x;
             var active_y = e.pageY - instruction_lab.control_interface.last_click.offset_y;
             var scroll_bar = instruction_lab.instructions.scroll_bar;
             var scroll_top_offset = scroll_bar.bar.offsetTop + scroll_bar.container.offsetTop;
             var scroll_percent = (active_y) / (scroll_bar.bar.offsetHeight);
-            var handle_percent = scroll_bar.handle.offsetHeight / scroll_bar.bar.offsetHeight;
-            scroll_percent = Math.min(1-handle_percent, Math.max(0, scroll_percent));
-            scroll_bar.handle.style.top = (scroll_percent*100)+'%';
-            instruction_lab.instructions.scroll(scroll_percent)
+            instruction_lab.instructions.scroll(scroll_percent);
+        };
+        this.scroll_bar.bar.addEventListener('mousedown', function (e){
+            this.drag(e)
+            /* Legacy
+            if(e.target !== this){ return};
+            var scroll_bar = instruction_lab.instructions.scroll_bar;
+            var scroll_top_offset = scroll_bar.bar.offsetTop + scroll_bar.container.offsetTop;
+            var click_loc = e.pageY - scroll_top_offset;
+            var scroll_percent = Math.floor(click_loc - scroll_bar.handle.offsetHeight/2) / scroll_bar.bar.offsetHeight;
+            instruction_lab.instructions.scroll(scroll_percent);
+            */
+        }, false);
+            
+        this.scroll_bar.bar.drag = function (e){
+            var scroll_bar = instruction_lab.instructions.scroll_bar;
+            var current_y = e.pageY - (scroll_bar.bar.offsetTop+scroll_bar.container.offsetTop);
+            var scroll_percent = (current_y-Math.floor(scroll_bar.handle.offsetHeight/2)) / scroll_bar.bar.offsetHeight;
+            instruction_lab.instructions.scroll(scroll_percent);
         };
     }
 };
@@ -673,7 +708,7 @@ if((instruction_lab.compatibility.status & instruction_lab.compatibility.EVENT))
         if(instruction_lab.compatibility.status & (instruction_lab.compatibility.DOM | instruction_lab.compatibility.HTML5)){
             instruction_lab.setup(lab_configuration);
         }
-    });
+    }, false);
 } else{
     instruction_lab.compatibility.notify()
 }
