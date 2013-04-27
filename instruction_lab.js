@@ -225,52 +225,7 @@ instruction_lab = {
             instruction_lab.transition("right");
         }, false)
         // Setup Resource Section:
-        /*var setup_instruction = function (tip){
-            for(var I = 0; I < tip.content.length; I++){
-                var resource = tip.content[I];
-                if(resource.display == "none"){
-                    continue;
-                }
-                var container_li = document.createElement("li");
-                // A separate block container is needed to prevent our resources
-                // from having an ancestor positioned absolutely. Otherwise
-                // percentage sizing would be based on that ancestor instead of
-                // the frame.
-                tip.list.appendChild(container_li)
-                var r_element
-                var logo_text;
-                if(typeof(resource.content) == "string"){
-                    r_element = document.createElement("a");
-                    resource.element = r_element;
-                    r_element.setAttribute("id", "rsc_"+resource.title)
-                    r_element.setAttribute("class", TODO);
-                    r_element.setAttribute("href", resource.content);
-                    r_element.setAttribute("target", "_blank");
-                    logo_text = ' link"><img src="'+instruction_lab.url.tip_linkbox+'" />';
-                    r_element.innerHTML = '<div class="title">'+resource.title+'</div><div class="icon'+logo_text+'</div>';
-                }
-                else{
-                    r_element = document.createElement("div");
-                    resource.element = r_element;
-                    r_element.setAttribute("id", "rsc_"+resource.title)
-                    r_element.setAttribute("class", TODO);
-                    r_element.addEventListener("click",
-                        (function (resource_replacement){
-                            return function (){
-                                instruction_lab.instructions.highlight(resource_replacement);
-                            }
-                        })(resource),
-                    false);
-                    logo_text = '"><img src="'+instruction_lab.url.tip_logo+'" />';
-                    r_element.innerHTML = '<div class="title">'+resource.title+'</div><div class="icon'+logo_text+'</div>';
-                    resource.list = document.createElement("ul");
-                    container_li.appendChild(resource.list);
-                    setup_tip(resource);
-                }
-                container_li.appendChild(r_element);
-                r_element.style.top = (20+I*10)+"%";
-            }
-        }*/
+        this.tip_manager.tip_templates = configuration.tip_templates;
         this.instructions.list = configuration.instructions;
         this.instructions.setup_scrollbar('instructions_slider');
         this.instructions.list_element = document.getElementById("instructions_list");
@@ -308,16 +263,14 @@ instruction_lab = {
             if(indexed_step.time_in){
                 for(var tip_index = 0; tip_index < indexed_step.content.length; tip_index++){
                     var indexed_tip = indexed_step.content[tip_index];
-                    var template_type = indexed_tip.type;
-                    var tip_template = configuration.tip_templates[template_type];
-                    var cue_function = function (tip, template){
+                    var cue_function = function (tip){
                         return function (){
                             if(instruction_lab.seeking){ return;}
-                            var node = instruction_lab.tip_manager.create_tip(tip, template);
+                            var node = instruction_lab.tip_manager.create_tip(tip);
                             instruction_lab.tip_manager.add_tip(node);
                         };
                     };
-                    this.popcorn.cue(indexed_step.time_in + indexed_tip.time_offset, cue_function(indexed_tip, tip_template));
+                    this.popcorn.cue(indexed_step.time_in + indexed_tip.time_offset, cue_function(indexed_tip));
                 }
                 this.popcorn.cue(indexed_step.time_in-1, function (){
                     instruction_lab.tip_manager.clear_tips();
@@ -509,6 +462,7 @@ instruction_lab = {
                 this.slider.style.left = "-100%";
                 this.arrow_left.style.opacity = "0";
                 this.arrow_right.style.opacity = "1";
+                this.tip_manager.setup_at();
                 break;
             }
             case "right":{
@@ -522,8 +476,9 @@ instruction_lab = {
         }
     },
     tip_manager: {
-		max_nodes: 4,
+		max_tips: 4,
         current_tips: new Array(),
+        tip_templates: undefined,
         add_tip: function (tip){
             this.tip_area.appendChild(tip);
 			var position;
@@ -534,7 +489,7 @@ instruction_lab = {
 				}
 			}
 			if(position === undefined){
-				position = Math.min(this.current_tips.length, this.max_nodes-1)
+				position = Math.min(this.current_tips.length, this.max_tips-1)
 			}
 			if(this.current_tips.length > position && this.current_tips[position]){
 				this.bump_tip(this.current_tips[position]);
@@ -555,7 +510,7 @@ instruction_lab = {
 			tip.style.height = "0%";
 			tip.style.margin_bottom = "0em";
 			tip.style.margin = "0em"
-            this.remove_tip(tip);
+            this.remove_tip(tip, true);
         },
         create_step: function (tip_json, step_index){
             var tip = this.create_tip(tip_json);
@@ -565,7 +520,9 @@ instruction_lab = {
             }, false);
             return tip;
         },
-        create_tip: function (tip_json, tip_template){
+        create_tip: function (tip_json){
+            var tip_template_id = tip_json.type;
+            var tip_template = this.tip_templates[tip_template_id];
             var tip = document.createElement("a");
             var icon = document.createElement('div');
             var title = document.createElement('div');
@@ -596,14 +553,18 @@ instruction_lab = {
             }*/
             return tip;
         },
-        remove_tip: function (tip){
+        remove_tip: function (tip, delay){
             var position = this.current_tips.indexOf(tip);
             if(position != -1){
 				tip = this.current_tips.splice(position, 1)[0];
             }
-            setTimeout(function (){
-				instruction_lab.tip_manager.tip_area.removeChild(tip);
-            }, 900);
+            if(delay){
+                setTimeout(function (){
+                    instruction_lab.tip_manager.tip_area.removeChild(tip);
+                }, 900);
+            } else{
+                instruction_lab.tip_manager.tip_area.removeChild(tip);
+            }
         },
         clear_tips: function (){
             var max_removals = this.current_tips.length;
@@ -611,42 +572,59 @@ instruction_lab = {
             while(this.current_tips.length && (safety_index++) <= max_removals){
                 var tip = this.current_tips[0];
                 if(tip){
-                    this.remove_tip(tip);
+                    this.remove_tip(tip, true);
                 }
             }
         },
         setup_at: function (time_code){
+            if(!time_code){
+                time_code = instruction_lab.popcorn.currentTime();
+            }
+            // Clear tip area:
+            this.clear_tips();
             // Setup current link tip group:
-            var display_group;
+            var display_step;
             var display_tips = new Array();
-            for(var I = 1 ; I < this.content.length; I++){
-                // This index starts at 1 so as to skip the global group at position 0.
-                var group = this.content[I];
-                if(group.time_in <= time_code && group.time_out > time_code){
-                    display_group = group;
+            var display_step_index;
+            for(var step_index = 0; step_index < instruction_lab.instructions.list.length; step_index++){
+                var time_in;
+                var time_out = time_code+1;
+                var indexed_step = instruction_lab.instructions.list[step_index];
+                if(indexed_step.time_in === undefined){ continue;} // Allow for time_in = 0
+                time_in = indexed_step.time_in;
+                for(var next_step_index = step_index+1; next_step_index < instruction_lab.instructions.list.length; next_step_index++){
+                    var next_step = instruction_lab.instructions.list[next_step_index];
+                    if(next_step.time_in === undefined){ continue;} // Allow for time_in = 0
+                    time_out = next_step.time_in;
+                    break;
+                }
+                if(time_in <= time_code && time_out > time_code){
+                    display_step = indexed_step;
+                    display_step_index = step_index;
                     break;
                 }
             }
-            if(!display_group){ return;}
-            for(var tip_index = display_group.content.length-1; tip_index >= 0; tip_index--){
-                var indexed_tip = display_group.content[tip_index];
-                if(indexed_tip.time_in > time_code){
+            if(!display_step){ return;}
+            for(var tip_index = display_step.content.length-1; tip_index >= 0; tip_index--){
+                var indexed_tip = display_step.content[tip_index];
+                if(indexed_tip.time_offset + display_step.time_in > time_code){
                     continue;
                 }
-                display_tips.push(indexed_tip);
-                if(display_tips.length >= this.max_nodes){
+                display_tips.unshift(indexed_tip);
+                if(display_tips.length >= this.max_tips-1){ // Account for the step tip to be added last.
                     break;
                 }
             }
-            if(display_tips.length <= 0){ return;}
-            for(var I = display_tips.length-1; I >= 0; I--){
-                var indexed_tip = display_tips[I];
-                var new_tip = this.create_tip(indexed_tip);
-                var custom;
-                if(indexed_tip.position){
-                    custom = indexed_tip.position;
+            display_tips.unshift(display_step);
+            for(var display_index = 0; display_index < display_tips.length; display_index++){
+                var indexed_tip = display_tips[display_index];
+                var new_tip;
+                if(display_index == 0){
+                    new_tip = this.create_step(indexed_tip, display_step_index);
+                } else{
+                    new_tip = this.create_tip(indexed_tip);
                 }
-                this.add_tip(new_tip, custom)
+                this.add_tip(new_tip)
             }
         }
     }

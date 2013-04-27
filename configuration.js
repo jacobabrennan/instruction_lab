@@ -26,12 +26,15 @@ var lab_configuration = {
 		{notes: 'Step 1', title:'Step One', time_in: 2, content: [
 			{type: 'video', title: 'SuperSoaker13', time_offset: 1, content: {time: 330}},
 			{type: 'value', title: 'The DOOM bringer! Yeah man!', time_offset: 2, content: {price: '$3.30'}},
-			{type: 'link', title: "Yup, I'm still here.", time_offset: 3, content: {icon: 'http://penguin.png'}}
+			{type: 'link', title: "Yup, I'm still here.", time_offset: 3, content: {icon: 'http://penguin.png'}},
+			{type: 'link', title: "Yup, I'm still here.", time_offset: 4, content: {icon: 'http://penguin.png'}},
+			{type: 'link', title: "Yup, I'm still here.", time_offset: 5, content: {icon: 'http://penguin.png'}},
+			{type: 'link', title: "Yup, I'm still here.", time_offset: 6, content: {icon: 'http://penguin.png'}}
 		]},
-		{notes: 'Step 2', title:'Another Step', time_in: 6, content: [
+		{notes: 'Step 2', title:'Another Step', time_in: 9, content: [
 			{type: 'video', title: 'SuperSoaker13', time_offset: 1, content: {time: 330}},
 			{type: 'purchase', title: 'The DOOM bringer! Yeah man!', time_offset: 3, content: {price: '$3.30'}}
 		]},
-		{notes: 'Last', time_in: 12, title: 'Last', content: []}
+		{notes: 'Last', time_in: 13, title: 'Last', content: []}
 	]
 }
