@@ -310,14 +310,14 @@ instruction_lab = {
                     var indexed_tip = indexed_step.content[tip_index];
                     var template_type = indexed_tip.type;
                     var tip_template = configuration.tip_templates[template_type];
-                    var cue_function = (function (tip, template){
+                    var cue_function = function (tip, template){
                         return function (){
                             if(instruction_lab.seeking){ return;}
                             var node = instruction_lab.tip_manager.create_tip(tip, template);
                             instruction_lab.tip_manager.add_tip(node);
                         };
-                    })(indexed_tip, tip_template);
-                    this.popcorn.cue(indexed_step.time_in + indexed_tip.time_offset, cue_function);
+                    };
+                    this.popcorn.cue(indexed_step.time_in + indexed_tip.time_offset, cue_function(indexed_tip, tip_template));
                 }
                 this.popcorn.cue(indexed_step.time_in, function (){
                     instruction_lab.tip_manager.clear_tips();
