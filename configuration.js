@@ -25,13 +25,13 @@ var lab_configuration = {
 		]},
 		{notes: 'Step 1', time_in: 1, content: [
 			{type: 'video', title: 'SuperSoaker13', time_offset: 1, content: {time: 330}},
-			{type: 'purchase', title: 'The DOOM bringer! Yeah man!', time_offset: 2, content: {price: '$3.30'}},
-			{type: 'link', title: "Yup, I'm still here.", time_offset: 3, content: {icon: 'http://penguin.png'}},
+			{type: 'value', title: 'The DOOM bringer! Yeah man!', time_offset: 2, content: {price: '$3.30'}},
+			{type: 'link', title: "Yup, I'm still here.", time_offset: 3, content: {icon: 'http://penguin.png'}}
 		]},
-		{notes: 'Step 2', time_in: 25, content: [
-			{type: 'video', title: 'SuperSoaker13', time_offset: 5, content: {time: 330}},
-			{type: 'purchase', title: 'The DOOM bringer! Yeah man!', time_offset: 8, content: {price: '$3.30'}},
+		{notes: 'Step 2', time_in: 5, content: [
+			{type: 'video', title: 'SuperSoaker13', time_offset: 1, content: {time: 330}},
+			{type: 'purchase', title: 'The DOOM bringer! Yeah man!', time_offset: 3, content: {price: '$3.30'}}
 		]},
-		{notes: 'Last', time_in: 25, title: 'Last', content: []}
+		{notes: 'Last', time_in: 30, title: 'Last', content: []}
 	]
 }

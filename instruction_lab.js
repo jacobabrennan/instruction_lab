@@ -319,11 +319,15 @@ instruction_lab = {
                     };
                     this.popcorn.cue(indexed_step.time_in + indexed_tip.time_offset, cue_function(indexed_tip, tip_template));
                 }
-                this.popcorn.cue(indexed_step.time_in, function (){
+                this.popcorn.cue(indexed_step.time_in-1, function (){
                     instruction_lab.tip_manager.clear_tips();
-                    var node = instruction_lab.tip_manager.create_step(indexed_step);
-                    instruction_lab.tip_manager.add_tip(node);
                 });
+                this.popcorn.cue(indexed_step.time_in, (function (loop_step){
+                    return function (){
+                        var node = instruction_lab.tip_manager.create_step(loop_step);
+                        instruction_lab.tip_manager.add_tip(node);
+                    }
+                })(indexed_step));
             }
 		}
         this.resize();
@@ -595,15 +599,14 @@ instruction_lab = {
 				tip = this.current_tips.splice(position, 1)[0];
             }
             setTimeout(function (){
-				this.tip_area.removeChild(tip);
+				instruction_lab.tip_manager.tip_area.removeChild(tip);
             }, 900);
         },
         clear_tips: function (){
-            if(this.custom_tip){
-                this.remove_tip(this.custom_tip);
-            }
-            for(var I = 0; I < this.current_tips.length; I++){
-                var tip = this.current_tips[I];
+            var max_removals = this.current_tips.length;
+            var safety_index = 0;
+            while(this.current_tips.length && (safety_index++) <= max_removals){
+                var tip = this.current_tips[0];
                 if(tip){
                     this.remove_tip(tip);
                 }
