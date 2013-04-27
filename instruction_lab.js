@@ -1,4 +1,4 @@
-/**
+/*
  * This code written in whole by Jacob A Brennan.
  *
  * This work is licensed under the Creative Commons Attribution 3.0 Unported
@@ -305,17 +305,26 @@ instruction_lab = {
 			}
 			display_step(indexed_step, step_index, step_number);
 			//setup_instruction(indexed_step);
-			for(var tip_index = 0; tip_index < indexed_step.content.length; tip_index++){
-				var indexed_tip = indexed_step.content[tip_index];
-				var cue_function = (function (tip){
-					return function (){
-						if(instruction_lab.seeking){ return;}
-						var node = instruction_lab.tip_manager.create_tip(tip);
-						instruction_lab.tip_manager.add_tip(node);
-					};
-				})(indexed_tip);
-				this.popcorn.cue(indexed_step.time_in + indexed_tip.time_offset, cue_function);
-			}
+            if(indexed_step.time_in){
+                for(var tip_index = 0; tip_index < indexed_step.content.length; tip_index++){
+                    var indexed_tip = indexed_step.content[tip_index];
+                    var template_type = indexed_tip.type;
+                    var tip_template = configuration.tip_templates[template_type];
+                    var cue_function = (function (tip, template){
+                        return function (){
+                            if(instruction_lab.seeking){ return;}
+                            var node = instruction_lab.tip_manager.create_tip(tip, template);
+                            instruction_lab.tip_manager.add_tip(node);
+                        };
+                    })(indexed_tip, tip_template);
+                    this.popcorn.cue(indexed_step.time_in + indexed_tip.time_offset, cue_function);
+                }
+                this.popcorn.cue(indexed_step.time_in, function (){
+                    instruction_lab.tip_manager.clear_tips();
+                    var node = instruction_lab.tip_manager.create_step(indexed_step);
+                    instruction_lab.tip_manager.add_tip(node);
+                });
+            }
 		}
         this.resize();
         this.popcorn.on("seeked", function (){
@@ -544,17 +553,29 @@ instruction_lab = {
 			tip.style.margin = "0em"
             this.remove_tip(tip);
         },
-        create_tip: function (tip_json){
+        create_step: function (tip_json){
+            var tip = this.create_tip(tip_json);
+            tip.className += " step";
+            return tip;
+        },
+        create_tip: function (tip_json, tip_template){
             var tip = document.createElement("a");
-			switch(tip_json.type){
-				case 'not_sure': { break;}
-				default: {
-					tip.setAttribute("class", "tip");
-					tip.setAttribute("href", "TODO");
-					tip.setAttribute("target", "_blank");
-					tip.innerHTML = '<div class="icon"><img src="" /></div><div class="title">'+tip_json.title+'</div>';
-				}
-			}
+            var icon = document.createElement('div');
+            var title = document.createElement('div');
+            tip.appendChild(icon);
+            tip.appendChild(title);
+            icon.innerHTML = '<img src="" />';
+            title.innerHTML = tip_json.title;
+            tip.setAttribute("class", "tip");
+            tip.setAttribute("href", "TODO");
+            tip.setAttribute("target", "_blank");
+            icon.setAttribute('class', 'icon');
+            title.setAttribute('class', 'title');
+            if(tip_template){
+                if(tip_template.icon_color){
+                    icon.style.background = tip_template.icon_color;
+                }
+            }
 			/*
             } else{
 				tip.setAttribute("class", "tip tip_group");
@@ -649,7 +670,6 @@ instruction_lab.instructions = {
         if(!instruction.highlight){
             instruction.highlight = true;
             expander.style.display = 'block';
-            expander.style.height = '5em';
             setTimeout(function (){
                 expander.style.opacity = 1;
             }, 1)
@@ -657,7 +677,6 @@ instruction_lab.instructions = {
         } else{
             instruction.highlight = false;
             expander.style.display = 'none';
-            expander.style.height = '0em';
             setTimeout(function (){
                 expander.style.opacity = 0;
             }, 1)
