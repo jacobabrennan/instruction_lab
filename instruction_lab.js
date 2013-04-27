@@ -322,12 +322,12 @@ instruction_lab = {
                 this.popcorn.cue(indexed_step.time_in-1, function (){
                     instruction_lab.tip_manager.clear_tips();
                 });
-                this.popcorn.cue(indexed_step.time_in, (function (loop_step){
+                this.popcorn.cue(indexed_step.time_in, (function (loop_step, loop_index){
                     return function (){
-                        var node = instruction_lab.tip_manager.create_step(loop_step);
+                        var node = instruction_lab.tip_manager.create_step(loop_step, loop_index);
                         instruction_lab.tip_manager.add_tip(node);
                     }
-                })(indexed_step));
+                })(indexed_step, step_index));
             }
 		}
         this.resize();
@@ -557,9 +557,12 @@ instruction_lab = {
 			tip.style.margin = "0em"
             this.remove_tip(tip);
         },
-        create_step: function (tip_json){
+        create_step: function (tip_json, step_index){
             var tip = this.create_tip(tip_json);
             tip.className += " step";
+            tip.addEventListener('click', function (){
+                instruction_lab.instructions.scroll_to(step_index);
+            }, false);
             return tip;
         },
         create_tip: function (tip_json, tip_template){
@@ -571,7 +574,7 @@ instruction_lab = {
             icon.innerHTML = '<img src="" />';
             title.innerHTML = tip_json.title;
             tip.setAttribute("class", "tip");
-            tip.setAttribute("href", "TODO");
+            //tip.setAttribute("href", "TODO");
             tip.setAttribute("target", "_blank");
             icon.setAttribute('class', 'icon');
             title.setAttribute('class', 'title');
@@ -661,16 +664,35 @@ instruction_lab.instructions = {
         instruction_lab.instructions.list_element.style.top = -(percent*inverse_screen_percent*100)+'%';
         this.scroll_bar.handle.style.top = (percent*100)+'%';
     },
+    scroll_to: function (step_index){
+        // Step index may not be the same as a step's number, do to unnumbered steps.
+        var instruction = this.list[step_index];
+        if(instruction && instruction.element){
+            var top_offset = instruction.element.offsetTop;
+            var offset_percent = top_offset / this.list_element.offsetHeight;
+            this.toggle_highlight(step_index, true);
+            this.scroll(offset_percent);
+            instruction_lab.transition('right');
+        }
+    },
     resize: function (){
         var screen_percent = instruction_lab.slider.offsetHeight / instruction_lab.instructions.list_element.offsetHeight;
         screen_percent = Math.max(0, Math.min(1, screen_percent));
         this.scroll_bar.handle.style.height = Math.floor(screen_percent*this.scroll_bar.bar.offsetHeight)+'px';
     },
-    toggle_highlight: function (instruction_index){
+    toggle_highlight: function (instruction_index, highlight_state){
         var instruction = this.list[instruction_index];
         var instruction_element = instruction.element;
         var expander = instruction_element.getElementsByClassName('expander')[0];
-        if(!instruction.highlight){
+        var toggle_command = undefined;
+        if(highlight_state != undefined){
+            toggle_command = highlight_state
+        } else if(!instruction.highlight){
+            toggle_command = true;
+        } else{
+            toggle_command = false;
+        }
+        if(toggle_command){
             instruction.highlight = true;
             expander.style.display = 'block';
             setTimeout(function (){

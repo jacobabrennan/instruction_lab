@@ -70,6 +70,9 @@ body{
 }
 .slider_arrow{
     position: absolute;
+    width: auto;
+    /* The above line overrides the size declared on the svg element,
+     * and makes the width scale to fit the height at the proper aspect ratio. */
 	transition: opacity 1s;
 	-moz-transition: opacity 1s;
 	-webkit-transition: opacity 1s;
@@ -78,13 +81,13 @@ body{
 #arrow_left{
     height: 18%;
     top: 42%;
-    left: 1%;
+    left: 2%;
 	opacity: 0;
 }
 #arrow_right{
     height: 18%;
     top: 42%;
-    right: 1%;
+    right: 2%;
 }
 #arrow_up{
     width: 10%;

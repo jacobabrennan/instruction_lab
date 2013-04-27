@@ -13,25 +13,25 @@ var lab_configuration = {
             icon_color: 'blue'
 		},
 		purchase: {
-            icon_color: 'red'
+            icon_color: 'green'
 		},
         link:{
-            icon_color: 'grey'
+            icon_color: 'purple'
         }
 	},
 	instructions: [
 		{notes: 'intro', title:'Hi!', unnumbered: true, content: [
 			
 		]},
-		{notes: 'Step 1', time_in: 1, content: [
+		{notes: 'Step 1', title:'Step One', time_in: 2, content: [
 			{type: 'video', title: 'SuperSoaker13', time_offset: 1, content: {time: 330}},
 			{type: 'value', title: 'The DOOM bringer! Yeah man!', time_offset: 2, content: {price: '$3.30'}},
 			{type: 'link', title: "Yup, I'm still here.", time_offset: 3, content: {icon: 'http://penguin.png'}}
 		]},
-		{notes: 'Step 2', time_in: 5, content: [
+		{notes: 'Step 2', title:'Another Step', time_in: 6, content: [
 			{type: 'video', title: 'SuperSoaker13', time_offset: 1, content: {time: 330}},
 			{type: 'purchase', title: 'The DOOM bringer! Yeah man!', time_offset: 3, content: {price: '$3.30'}}
 		]},
-		{notes: 'Last', time_in: 30, title: 'Last', content: []}
+		{notes: 'Last', time_in: 12, title: 'Last', content: []}
 	]
 }
