@@ -224,65 +224,10 @@ instruction_lab = {
         this.arrow_right.addEventListener("click", function (){
             instruction_lab.transition("right");
         }, false)
-        // Setup Resource Section:
-        this.tip_manager.tip_templates = configuration.tip_templates;
-        this.instructions.list = configuration.instructions;
-        this.instructions.setup_scrollbar('instructions_slider');
-        this.instructions.list_element = document.getElementById("instructions_list");
-		var instructions_list = configuration.instructions;
-		var display_step = function (instruction, instruction_index, display_number){
-			if(!display_number){
-				display_number = '&nbsp;';
-			}
-			var instruction_element = document.createElement('div');
-            instruction.element = instruction_element;
-			instruction_element.setAttribute('class', 'instruction');
-            var insert_html  = '<div class="icon">';
-            insert_html += display_number;
-            insert_html += '</div><div class="content">';
-            insert_html += '<div class="header"><span class="title">'+instruction.title+'</span></div>';
-            insert_html += '<div class="expander">Nodes!</div>'
-            insert_html += '</div>';
-			instruction_element.innerHTML = insert_html;
-			instruction_lab.instructions.list_element.appendChild(instruction_element);
-            instruction_element.addEventListener('click', (function (){
-                return function (){
-                    instruction_lab.instructions.toggle_highlight(instruction_index);
-                };
-            })(instruction_index), false);
-		};
-		instruction_lab.tip_manager.tip_area = document.getElementById('tip_area');
-		var step_number = 0;
-		for(var step_index = 0; step_index < instructions_list.length; step_index++){
-			var indexed_step = instructions_list[step_index];
-			if(!indexed_step.unnumbered){
-				step_number++;
-			}
-			display_step(indexed_step, step_index, step_number);
-			//setup_instruction(indexed_step);
-            if(indexed_step.time_in){
-                for(var tip_index = 0; tip_index < indexed_step.content.length; tip_index++){
-                    var indexed_tip = indexed_step.content[tip_index];
-                    var cue_function = function (tip){
-                        return function (){
-                            if(instruction_lab.seeking){ return;}
-                            var node = instruction_lab.tip_manager.create_tip(tip);
-                            instruction_lab.tip_manager.add_tip(node);
-                        };
-                    };
-                    this.popcorn.cue(indexed_step.time_in + indexed_tip.time_offset, cue_function(indexed_tip));
-                }
-                this.popcorn.cue(indexed_step.time_in-1, function (){
-                    instruction_lab.tip_manager.clear_tips();
-                });
-                this.popcorn.cue(indexed_step.time_in, (function (loop_step, loop_index){
-                    return function (){
-                        var node = instruction_lab.tip_manager.create_step(loop_step, loop_index);
-                        instruction_lab.tip_manager.add_tip(node);
-                    }
-                })(indexed_step, step_index));
-            }
-		}
+        // Setup Instructions + Tips Sections:
+        this.tip_manager.setup(configuration);
+        this.instructions.setup(configuration);
+        //
         this.resize();
         this.popcorn.on("seeked", function (){
             instruction_lab.seeking = false;
@@ -293,13 +238,6 @@ instruction_lab = {
             instruction_lab.tip_manager.clear_tips();
         });
         // Finished
-    },
-    viewport_size: function (){
-        var e  = document.documentElement;
-        var g  = document.getElementsByTagName('body')[0];
-        var _x = window.innerWidth  || e.clientWidth  || g.clientWidth;
-        var _y = window.innerHeight || e.clientHeight || g.clientHeight;
-        return {width: _x, height: _y};
     },
     control_interface: {
         focus: undefined,
@@ -356,6 +294,13 @@ instruction_lab = {
                 }
             }
         }
+    },
+    viewport_size: function (){
+        var e  = document.documentElement;
+        var g  = document.getElementsByTagName('body')[0];
+        var _x = window.innerWidth  || e.clientWidth  || g.clientWidth;
+        var _y = window.innerHeight || e.clientHeight || g.clientHeight;
+        return {width: _x, height: _y};
     },
     resize: function (){
         this.slider.style.transition       = "";
@@ -474,275 +419,6 @@ instruction_lab = {
                 break;
             }
         }
-    },
-    tip_manager: {
-		max_tips: 4,
-        current_tips: new Array(),
-        tip_templates: undefined,
-        add_tip: function (tip){
-            this.tip_area.appendChild(tip);
-			var position;
-			for(var I = 0; I < this.current_tips.length; I++){
-				if(!this.current_tips[I]){
-					position = I;
-					break;
-				}
-			}
-			if(position === undefined){
-				position = Math.min(this.current_tips.length, this.max_tips-1)
-			}
-			if(this.current_tips.length > position && this.current_tips[position]){
-				this.bump_tip(this.current_tips[position]);
-			}
-			this.current_tips[position] = tip;
-			/*tip.style.transition       = "opacity 1s, left 2s, top 1s";
-			tip.style.MozTransition    = "opacity 1s, left 2s, top 1s";
-			tip.style.WebkitTransition = "opacity 1s, left 2s, top 1s";
-			tip.style.OTransition      = "opacity 1s, left 2s, top 1s";*/
-            /* The following statement must be delayed from the other settings
-             * to ensure that the transition happens.
-             */
-            setInterval(function (){tip.style.opacity = "1";}, 100);
-        },
-        bump_tip: function (){
-			var tip = this.current_tips[1]
-			tip.style.visibility = "hidden";
-			tip.style.height = "0%";
-			tip.style.margin_bottom = "0em";
-			tip.style.margin = "0em"
-            this.remove_tip(tip, true);
-        },
-        create_step: function (tip_json, step_index){
-            var tip = this.create_tip(tip_json);
-            tip.className += " step";
-            tip.addEventListener('click', function (){
-                instruction_lab.instructions.scroll_to(step_index);
-            }, false);
-            return tip;
-        },
-        create_tip: function (tip_json){
-            var tip_template_id = tip_json.type;
-            var tip_template = this.tip_templates[tip_template_id];
-            var tip = document.createElement("a");
-            var icon = document.createElement('div');
-            var title = document.createElement('div');
-            tip.appendChild(icon);
-            tip.appendChild(title);
-            icon.innerHTML = '<img src="" />';
-            title.innerHTML = tip_json.title;
-            tip.setAttribute("class", "tip");
-            //tip.setAttribute("href", "TODO");
-            tip.setAttribute("target", "_blank");
-            icon.setAttribute('class', 'icon');
-            title.setAttribute('class', 'title');
-            if(tip_template){
-                if(tip_template.icon_color){
-                    icon.style.background = tip_template.icon_color;
-                }
-            }
-			/*
-            } else{
-				tip.setAttribute("class", "tip tip_group");
-                tip.innerHTML = '<div class="title">'+tip_json.title+'</span></div><div class="icon"><img src="'+instruction_lab.url.tip_logo+'" /></div>';
-				tip.addEventListener("click", function (){
-					instruction_lab.transition("right");
-					setTimeout(function (){
-						instruction_lab.instructions.navigate_id(tip_json.resource_id);
-					}, 500);
-				}, false);
-            }*/
-            return tip;
-        },
-        remove_tip: function (tip, delay){
-            var position = this.current_tips.indexOf(tip);
-            if(position != -1){
-				tip = this.current_tips.splice(position, 1)[0];
-            }
-            if(delay){
-                setTimeout(function (){
-                    instruction_lab.tip_manager.tip_area.removeChild(tip);
-                }, 900);
-            } else{
-                instruction_lab.tip_manager.tip_area.removeChild(tip);
-            }
-        },
-        clear_tips: function (){
-            var max_removals = this.current_tips.length;
-            var safety_index = 0;
-            while(this.current_tips.length && (safety_index++) <= max_removals){
-                var tip = this.current_tips[0];
-                if(tip){
-                    this.remove_tip(tip, true);
-                }
-            }
-        },
-        setup_at: function (time_code){
-            if(!time_code){
-                time_code = instruction_lab.popcorn.currentTime();
-            }
-            // Clear tip area:
-            this.clear_tips();
-            // Setup current link tip group:
-            var display_step;
-            var display_tips = new Array();
-            var display_step_index;
-            for(var step_index = 0; step_index < instruction_lab.instructions.list.length; step_index++){
-                var time_in;
-                var time_out = time_code+1;
-                var indexed_step = instruction_lab.instructions.list[step_index];
-                if(indexed_step.time_in === undefined){ continue;} // Allow for time_in = 0
-                time_in = indexed_step.time_in;
-                for(var next_step_index = step_index+1; next_step_index < instruction_lab.instructions.list.length; next_step_index++){
-                    var next_step = instruction_lab.instructions.list[next_step_index];
-                    if(next_step.time_in === undefined){ continue;} // Allow for time_in = 0
-                    time_out = next_step.time_in;
-                    break;
-                }
-                if(time_in <= time_code && time_out > time_code){
-                    display_step = indexed_step;
-                    display_step_index = step_index;
-                    break;
-                }
-            }
-            if(!display_step){ return;}
-            for(var tip_index = display_step.content.length-1; tip_index >= 0; tip_index--){
-                var indexed_tip = display_step.content[tip_index];
-                if(indexed_tip.time_offset + display_step.time_in > time_code){
-                    continue;
-                }
-                display_tips.unshift(indexed_tip);
-                if(display_tips.length >= this.max_tips-1){ // Account for the step tip to be added last.
-                    break;
-                }
-            }
-            display_tips.unshift(display_step);
-            for(var display_index = 0; display_index < display_tips.length; display_index++){
-                var indexed_tip = display_tips[display_index];
-                var new_tip;
-                if(display_index == 0){
-                    new_tip = this.create_step(indexed_tip, display_step_index);
-                } else{
-                    new_tip = this.create_tip(indexed_tip);
-                }
-                this.add_tip(new_tip)
-            }
-        }
-    }
-};
-instruction_lab.instructions = {
-    list: undefined,
-    list_element: undefined, // an html element
-    scroll_bar: undefined,
-    percent: 0,
-    scroll: function (percent){
-        var handle_percent = this.scroll_bar.handle.offsetHeight / this.scroll_bar.bar.offsetHeight;
-        percent = Math.min(1-handle_percent, Math.max(0, percent));
-        this.percent = percent;
-        var inverse_screen_percent = instruction_lab.instructions.list_element.offsetHeight / instruction_lab.slider.offsetHeight;
-        instruction_lab.instructions.list_element.style.top = -(percent*inverse_screen_percent*100)+'%';
-        this.scroll_bar.handle.style.top = (percent*100)+'%';
-    },
-    scroll_to: function (step_index){
-        // Step index may not be the same as a step's number, do to unnumbered steps.
-        var instruction = this.list[step_index];
-        if(instruction && instruction.element){
-            var top_offset = instruction.element.offsetTop;
-            var offset_percent = top_offset / this.list_element.offsetHeight;
-            this.toggle_highlight(step_index, true);
-            this.scroll(offset_percent);
-            instruction_lab.transition('right');
-        }
-    },
-    resize: function (){
-        var screen_percent = instruction_lab.slider.offsetHeight / instruction_lab.instructions.list_element.offsetHeight;
-        screen_percent = Math.max(0, Math.min(1, screen_percent));
-        this.scroll_bar.handle.style.height = Math.floor(screen_percent*this.scroll_bar.bar.offsetHeight)+'px';
-    },
-    toggle_highlight: function (instruction_index, highlight_state){
-        var instruction = this.list[instruction_index];
-        var instruction_element = instruction.element;
-        var expander = instruction_element.getElementsByClassName('expander')[0];
-        var toggle_command = undefined;
-        if(highlight_state != undefined){
-            toggle_command = highlight_state
-        } else if(!instruction.highlight){
-            toggle_command = true;
-        } else{
-            toggle_command = false;
-        }
-        if(toggle_command){
-            instruction.highlight = true;
-            expander.style.display = 'block';
-            setTimeout(function (){
-                expander.style.opacity = 1;
-            }, 1)
-            this.resize();
-        } else{
-            instruction.highlight = false;
-            expander.style.display = 'none';
-            setTimeout(function (){
-                expander.style.opacity = 0;
-            }, 1)
-            this.resize();
-            this.scroll(this.percent);
-        }
-    },
-    setup_scrollbar: function (element_id){
-        this.scroll_bar = {
-            container: document.getElementById(element_id),
-            up_button: document.createElement('div'),
-            down_button: document.createElement('div'),
-            bar: document.createElement('div'),
-            handle: document.createElement('div')
-        }
-        this.scroll_bar.up_button.setAttribute('class', 'scroll_up');
-        this.scroll_bar.container.appendChild(this.scroll_bar.up_button);
-        this.scroll_bar.down_button.setAttribute('class', 'scroll_down');
-        this.scroll_bar.container.appendChild(this.scroll_bar.down_button);
-        this.scroll_bar.bar.setAttribute('class', 'scroll_bar');
-        this.scroll_bar.container.appendChild(this.scroll_bar.bar);
-        this.scroll_bar.handle.setAttribute('class', 'scroll_handle');
-        this.scroll_bar.bar.appendChild(this.scroll_bar.handle);
-        //
-        this.scroll_bar.up_button.addEventListener('click', function (){
-            var screen_percent = instruction_lab.slider.offsetHeight / instruction_lab.instructions.list_element.offsetHeight;
-            var new_percent = instruction_lab.instructions.percent - screen_percent/2;
-            instruction_lab.instructions.scroll(new_percent);
-        });
-        this.scroll_bar.down_button.addEventListener('click', function (){
-            var screen_percent = instruction_lab.slider.offsetHeight / instruction_lab.instructions.list_element.offsetHeight;
-            var new_percent = instruction_lab.instructions.percent + screen_percent/2;
-            instruction_lab.instructions.scroll(new_percent);
-        });
-        this.scroll_bar.container.addEventListener('mousedown', function (){
-            instruction_lab.right.className = 'no_select';
-        }, false);
-        this.scroll_bar.handle.drag = function (e){
-            //var active_x = e.pageX - instruction_lab.control_interface.last_click.offset_x;
-            var active_y = e.pageY - instruction_lab.control_interface.last_click.offset_y;
-            var scroll_bar = instruction_lab.instructions.scroll_bar;
-            var scroll_top_offset = scroll_bar.bar.offsetTop + scroll_bar.container.offsetTop;
-            var scroll_percent = (active_y) / (scroll_bar.bar.offsetHeight);
-            instruction_lab.instructions.scroll(scroll_percent);
-        };
-        this.scroll_bar.bar.addEventListener('mousedown', function (e){
-            this.drag(e)
-            /* Legacy
-            if(e.target !== this){ return};
-            var scroll_bar = instruction_lab.instructions.scroll_bar;
-            var scroll_top_offset = scroll_bar.bar.offsetTop + scroll_bar.container.offsetTop;
-            var click_loc = e.pageY - scroll_top_offset;
-            var scroll_percent = Math.floor(click_loc - scroll_bar.handle.offsetHeight/2) / scroll_bar.bar.offsetHeight;
-            instruction_lab.instructions.scroll(scroll_percent);
-            */
-        }, false);
-            
-        this.scroll_bar.bar.drag = function (e){
-            var scroll_bar = instruction_lab.instructions.scroll_bar;
-            var current_y = e.pageY - (scroll_bar.bar.offsetTop+scroll_bar.container.offsetTop);
-            var scroll_percent = (current_y-Math.floor(scroll_bar.handle.offsetHeight/2)) / scroll_bar.bar.offsetHeight;
-            instruction_lab.instructions.scroll(scroll_percent);
-        };
     }
 };
 instruction_lab.compatibility.check(true);
