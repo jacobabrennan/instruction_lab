@@ -231,7 +231,7 @@ instruction_lab = {
         this.resize();
         this.popcorn.on("seeked", function (){
             instruction_lab.seeking = false;
-            instruction_lab.tip_manager.setup_at(instruction_lab.popcorn.currentTime());
+            instruction_lab.tip_manager.populate(instruction_lab.popcorn.currentTime());
         });
         this.popcorn.on("seeking", function (){
             instruction_lab.seeking = true;
@@ -407,7 +407,7 @@ instruction_lab = {
                 this.slider.style.left = "-100%";
                 this.arrow_left.style.opacity = "0";
                 this.arrow_right.style.opacity = "1";
-                this.tip_manager.setup_at();
+                this.tip_manager.populate();
                 break;
             }
             case "right":{

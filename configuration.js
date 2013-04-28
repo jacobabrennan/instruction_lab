@@ -20,21 +20,33 @@ var lab_configuration = {
         }
 	},
 	instructions: [
-		{notes: 'intro', title:'Hi!', unnumbered: true, content: [
-			
-		]},
-		{notes: 'Step 1', title:'Step One', time_in: 2, content: [
-			{type: 'video', title: 'SuperSoaker13', time_offset: 1, content: {time: 330}},
-			{type: 'value', title: 'The DOOM bringer! Yeah man!', time_offset: 2, content: {price: '$3.30'}},
-			{type: 'link', title: "Yup, I'm still here.", time_offset: 3, content: {icon: 'http://penguin.png'}},
-			{type: 'link', title: "Yup, I'm still here.", time_offset: 4, content: {icon: 'http://penguin.png'}},
-			{type: 'link', title: "Yup, I'm still here.", time_offset: 5, content: {icon: 'http://penguin.png'}},
-			{type: 'link', title: "Yup, I'm still here.", time_offset: 6, content: {icon: 'http://penguin.png'}}
-		]},
-		{notes: 'Step 2', title:'Another Step', time_in: 9, content: [
-			{type: 'video', title: 'SuperSoaker13', time_offset: 1, content: {time: 330}},
-			{type: 'purchase', title: 'The DOOM bringer! Yeah man!', time_offset: 3, content: {price: '$3.30'}}
-		]},
-		{notes: 'Last', time_in: 13, title: 'Last', content: []}
+		{title:'Hi!', unnumbered: true,
+            notes: 'Instruction Notes',
+            content: [
+            ]
+        },
+		{title:'Step One', time_in: 2,
+            notes: "Your bones don't break, mine do. That's clear. Your cells react to bacteria and viruses differently than mine. You don't get sick, I do. That's also clear. But for some reason, you and I react the exact same way to water. We swallow it too fast, we choke. We get some in our lungs, we drown. However unreal it may seem, we are connected, you and I. We're on the same curve, just on opposite ends.",
+            content: [
+                {type: 'video', title: 'SuperSoaker13', time_offset: 1, content: {time: 330}},
+                {type: 'value', title: 'The DOOM bringer! Yeah man!', time_offset: 2, content: {price: '$3.30'}},
+                {type: 'link', title: "Yup, I'm still here.", time_offset: 3, content: {icon: 'http://penguin.png'}},
+                {type: 'link', title: "Gestures. Gestures. Gestures. Gestures. Gestures.", time_offset: 4, content: {icon: 'http://penguin.png'}},
+                {type: 'link', title: "Yup, I'm still here.", time_offset: 5, content: {icon: 'http://penguin.png'}},
+                {type: 'link', title: "Yup, I'm still here.", time_offset: 6, content: {icon: 'http://penguin.png'}}
+            ]
+		},
+		{title:'Another Step', time_in: 9,
+            notes: 'Instruction Notes',
+            content: [
+                {type: 'video', title: 'SuperSoaker13', time_offset: 1, content: {time: 330}},
+                {type: 'purchase', title: 'The DOOM bringer! Yeah man!', time_offset: 3, content: {price: '$3.30'}}
+            ]
+        },
+		{title: 'Last', time_in: 13, 
+            notes: 'Instruction Notes',
+            content: [
+            ]
+        }
 	]
 }

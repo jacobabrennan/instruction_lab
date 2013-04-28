@@ -2,7 +2,7 @@ instruction_lab.instructions = {
     list: undefined,
     list_element: undefined, // an html element
     scroll_bar: undefined,
-    percent: 0,
+    scroll_percent: 0,
     setup: function (configuration){
         this.list = configuration.instructions;
         this.setup_scrollbar('instructions_slider');
@@ -19,9 +19,42 @@ instruction_lab.instructions = {
             insert_html += display_number;
             insert_html += '</div><div class="content">';
             insert_html += '<div class="header"><span class="title">'+instruction.title+'</span></div>';
-            insert_html += '<div class="expander">Nodes!</div>'
+            insert_html += '<div class="expander"></div>'
             insert_html += '</div>';
 			instruction_element.innerHTML = insert_html;
+            var expander = instruction_element.getElementsByClassName('expander')[0];
+            var instruction_notes = document.createElement('p');
+            instruction_notes.setAttribute('class', 'notes');
+            instruction_notes.textContent = instruction.notes;
+            expander.appendChild(instruction_notes);
+            var create_tip = function (tip_json){
+                var tip_template_id = tip_json.type;
+                var tip_template = configuration.tip_templates[tip_template_id];
+                var tip = document.createElement("a");
+                var icon = document.createElement('div');
+                var title = document.createElement('div');
+                tip.appendChild(icon);
+                tip.appendChild(title);
+                icon.innerHTML = '<img src="" />';
+                title.innerHTML = tip_json.title;
+                tip.setAttribute("class", "tip");
+                tip.setAttribute("target", "_blank");
+                icon.setAttribute('class', 'icon');
+                title.setAttribute('class', 'title');
+                if(tip_template){
+                    if(tip_template.icon_color){
+                        icon.style.background = tip_template.icon_color;
+                    }
+                }
+                return tip;
+            }
+            for(var tip_index = 0; tip_index < instruction.content.length; tip_index++){
+                var indexed_tip = instruction.content[tip_index];
+                if(indexed_tip){
+                    var new_tip = create_tip(indexed_tip);
+                    expander.appendChild(new_tip);
+                }
+            }
 			instruction_lab.instructions.list_element.appendChild(instruction_element);
             instruction_element.addEventListener('click', (function (){
                 return function (){
@@ -51,7 +84,7 @@ instruction_lab.instructions = {
                     instruction_lab.popcorn.cue(indexed_step.time_in + indexed_tip.time_offset, cue_function(indexed_tip));
                 }
                 instruction_lab.popcorn.cue(indexed_step.time_in-1, function (){
-                    instruction_lab.tip_manager.clear_tips();
+                    instruction_lab.tip_manager.clear_tips(true);
                 });
                 instruction_lab.popcorn.cue(indexed_step.time_in, (function (loop_step, loop_index){
                     return function (){
@@ -65,7 +98,7 @@ instruction_lab.instructions = {
     scroll: function (percent){
         var handle_percent = this.scroll_bar.handle.offsetHeight / this.scroll_bar.bar.offsetHeight;
         percent = Math.min(1-handle_percent, Math.max(0, percent));
-        this.percent = percent;
+        this.scroll_percent = percent;
         var inverse_screen_percent = instruction_lab.instructions.list_element.offsetHeight / instruction_lab.slider.offsetHeight;
         instruction_lab.instructions.list_element.style.top = -(percent*inverse_screen_percent*100)+'%';
         this.scroll_bar.handle.style.top = (percent*100)+'%';
@@ -74,9 +107,9 @@ instruction_lab.instructions = {
         // Step index may not be the same as a step's number, do to unnumbered steps.
         var instruction = this.list[step_index];
         if(instruction && instruction.element){
+            this.toggle_highlight(step_index, true);
             var top_offset = instruction.element.offsetTop;
             var offset_percent = top_offset / this.list_element.offsetHeight;
-            this.toggle_highlight(step_index, true);
             this.scroll(offset_percent);
             instruction_lab.transition('right');
         }
@@ -112,7 +145,7 @@ instruction_lab.instructions = {
                 expander.style.opacity = 0;
             }, 1)
             this.resize();
-            this.scroll(this.percent);
+            this.scroll(this.scroll_percent);
         }
     },
     setup_scrollbar: function (element_id){
@@ -134,12 +167,12 @@ instruction_lab.instructions = {
         //
         this.scroll_bar.up_button.addEventListener('click', function (){
             var screen_percent = instruction_lab.slider.offsetHeight / instruction_lab.instructions.list_element.offsetHeight;
-            var new_percent = instruction_lab.instructions.percent - screen_percent/2;
+            var new_percent = instruction_lab.instructions.scroll_percent - screen_percent/2;
             instruction_lab.instructions.scroll(new_percent);
         });
         this.scroll_bar.down_button.addEventListener('click', function (){
             var screen_percent = instruction_lab.slider.offsetHeight / instruction_lab.instructions.list_element.offsetHeight;
-            var new_percent = instruction_lab.instructions.percent + screen_percent/2;
+            var new_percent = instruction_lab.instructions.scroll_percent + screen_percent/2;
             instruction_lab.instructions.scroll(new_percent);
         });
         this.scroll_bar.container.addEventListener('mousedown', function (){

@@ -28,7 +28,7 @@ instruction_lab.tip_manager = {
         /* The following statement must be delayed from the other settings
          * to ensure that the transition happens.
          */
-        setInterval(function (){tip.style.opacity = "1";}, 100);
+        setInterval(function (){tip.style.opacity = 1;}, 100);
     },
     bump_tip: function (){
         var tip = this.current_tips[1]
@@ -66,17 +66,6 @@ instruction_lab.tip_manager = {
                 icon.style.background = tip_template.icon_color;
             }
         }
-        /*
-        } else{
-            tip.setAttribute("class", "tip tip_group");
-            tip.innerHTML = '<div class="title">'+tip_json.title+'</span></div><div class="icon"><img src="'+instruction_lab.url.tip_logo+'" /></div>';
-            tip.addEventListener("click", function (){
-                instruction_lab.transition("right");
-                setTimeout(function (){
-                    instruction_lab.instructions.navigate_id(tip_json.resource_id);
-                }, 500);
-            }, false);
-        }*/
         return tip;
     },
     remove_tip: function (tip, delay){
@@ -92,17 +81,17 @@ instruction_lab.tip_manager = {
             instruction_lab.tip_manager.tip_area.removeChild(tip);
         }
     },
-    clear_tips: function (){
+    clear_tips: function (delay){
         var max_removals = this.current_tips.length;
         var safety_index = 0;
         while(this.current_tips.length && (safety_index++) <= max_removals){
             var tip = this.current_tips[0];
             if(tip){
-                this.remove_tip(tip);
+                this.remove_tip(tip, delay);
             }
         }
     },
-    setup_at: function (time_code){
+    populate: function (time_code){
         if(!time_code){
             time_code = instruction_lab.popcorn.currentTime();
         }
