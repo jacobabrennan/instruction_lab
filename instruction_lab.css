@@ -214,6 +214,11 @@ body{
     margin: 1em 0em;
     padding: 0em;
 }
+.instruction > .icon,
+.instruction > .content,
+.tip{
+    border: 1px solid grey;
+}
 .instruction > .icon{
 	background: green;
 	display: inline-block;
