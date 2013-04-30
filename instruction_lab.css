@@ -23,7 +23,7 @@ body{
     height: 50%;
     background: rgb(204, 204, 204);
     border: 3px solid black;
-    z-index: 4;
+    z-index: 5;
 }
 #support_none, #support_limited{
     position: relative;
@@ -115,12 +115,15 @@ body{
 	overflow: hidden;
 }
 #code_display{
-	background: blue;
-    position:absolute;
-	left: 4%;
-	bottom: 78%;
-    width: 57%;
-    height: 57%;
+	z-index: 1;
+    background: white;
+    position: absolute;
+    font-family: monospace;
+    font-size: smaller;
+    padding: 0% 1%;
+	left: 6%;
+    width: 51%;
+    max-height: 57%;
 	border-style: solid;
 	border-color: #999;
 	border-width: 0.35em;
@@ -129,15 +132,12 @@ body{
 	-moz-transition   : height 1s, width 1s, left 1s, bottom 1s;
 	-webkit-transition: height 1s, width 1s, left 1s, bottom 1s;
 	-o-transition     : height 1s, width 1s, left 1s, bottom 1s;
-	transition-timing-function: cubic-bezier(.4,-0.75,.37,.96);
 }
 #code_display.hidden{
-	bottom: 78%;
-	z-index: 0;
+	bottom: -65%;
 }
 #code_display.displayed{
-	bottom: 70%;
-	z-index: 3;
+	bottom: 14%;
 }
 .tip{
     background: white;
@@ -299,7 +299,7 @@ body{
     height: 17.5em;
     border-radius: 0.5em;
 	box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
-    z-index: 2; /* Above the nav arrows.*/
+    z-index: 3; /* Above the nav arrows.*/
 }
 #instructions_slider *{
     user-select: none;
@@ -392,7 +392,7 @@ body{
 	width: 60%;
 	overflow: hidden;
 	background: rgb(102, 102, 102);
-	z-index: 2;
+	z-index: 3;
 }
 #control_elapsed_time{
 	position: absolute;

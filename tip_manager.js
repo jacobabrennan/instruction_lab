@@ -74,12 +74,16 @@ instruction_lab.tip_manager = {
 						code_area.setAttribute('id', 'code_display');
 						code_area.setAttribute('class', 'hidden');
 						instruction_lab.middle.appendChild(code_area);
-						console.log("displayed")
 						setTimeout(function (){
-							code_display.setAttribute('class', 'displayed');
+							code_area.setAttribute('class', 'displayed');
 						}, 100);
 					}
-					code_area.textContent = tip.content;
+                    code_area.tip = tip;
+					code_area.textContent = tip_json.content;
+                    tip.dispose = function (){
+                        if(code_area.tip != this){ return}
+                        code_area.setAttribute('class', 'hidden');
+                    }
 					break;
 				}
 			}
@@ -88,6 +92,9 @@ instruction_lab.tip_manager = {
     },
     remove_tip: function (tip, delay){
         var position = this.current_tips.indexOf(tip);
+        if(typeof tip.dispose === 'function'){
+            tip.dispose()
+        }
         if(position != -1){
             tip = this.current_tips.splice(position, 1)[0];
         }
