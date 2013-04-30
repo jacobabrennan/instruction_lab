@@ -49,23 +49,41 @@ instruction_lab.tip_manager = {
     create_tip: function (tip_json){
         var tip_template_id = tip_json.type;
         var tip_template = this.tip_templates[tip_template_id];
-        var tip = document.createElement("a");
+        var tip = document.createElement('a');
         var icon = document.createElement('div');
         var title = document.createElement('div');
         tip.appendChild(icon);
         tip.appendChild(title);
         icon.innerHTML = '<img src="" />';
         title.innerHTML = tip_json.title;
-        tip.setAttribute("class", "tip");
-        //tip.setAttribute("href", "TODO");
-        tip.setAttribute("target", "_blank");
+        tip.setAttribute('class', 'tip');
+        //tip.setAttribute('href', 'TODO');
+        tip.setAttribute('target', '_blank');
         icon.setAttribute('class', 'icon');
         title.setAttribute('class', 'title');
         if(tip_template){
             if(tip_template.icon_color){
                 icon.style.background = tip_template.icon_color;
             }
-        }
+        } else if(tip_template_id){
+			switch(tip_template_id){
+				case 'code': {
+					var code_area = document.getElementById('code_display');
+					if(!code_area){
+						code_area = document.createElement('div');
+						code_area.setAttribute('id', 'code_display');
+						code_area.setAttribute('class', 'hidden');
+						instruction_lab.middle.appendChild(code_area);
+						console.log("displayed")
+						setTimeout(function (){
+							code_display.setAttribute('class', 'displayed');
+						}, 100);
+					}
+					code_area.textContent = tip.content;
+					break;
+				}
+			}
+		}
         return tip;
     },
     remove_tip: function (tip, delay){
