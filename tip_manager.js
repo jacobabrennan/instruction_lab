@@ -65,28 +65,15 @@ instruction_lab.tip_manager = {
             if(tip_template.icon_color){
                 icon.style.background = tip_template.icon_color;
             }
-        } else if(tip_template_id){
-			switch(tip_template_id){
-				case 'code': {
-					var code_area = document.getElementById('code_display');
-					if(!code_area){
-						code_area = document.createElement('pre');
-						code_area.setAttribute('id', 'code_display');
-						code_area.setAttribute('class', 'hidden');
-						instruction_lab.middle.appendChild(code_area);
-					}
-                    setTimeout(function (){
-                        code_area.setAttribute('class', 'displayed');
-                    }, 100);
-                    code_area.tip = tip;
-					code_area.textContent = 'Code:\n'+tip_json.content;
-                    tip.dispose = function (){
-                        if(code_area.tip != this){ return}
-                        code_area.setAttribute('class', 'hidden');
-                    }
-					break;
-				}
+			if(tip_template.display){
+				tip.display = tip_template.display;
 			}
+			if(tip_template.dispose){
+				tip.dispose = tip_template.dispose;
+			}
+		}
+		if(tip.display){
+			tip.display(tip_json);
 		}
         return tip;
     },
