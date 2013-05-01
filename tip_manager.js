@@ -70,16 +70,16 @@ instruction_lab.tip_manager = {
 				case 'code': {
 					var code_area = document.getElementById('code_display');
 					if(!code_area){
-						code_area = document.createElement('div');
+						code_area = document.createElement('pre');
 						code_area.setAttribute('id', 'code_display');
 						code_area.setAttribute('class', 'hidden');
 						instruction_lab.middle.appendChild(code_area);
-						setTimeout(function (){
-							code_area.setAttribute('class', 'displayed');
-						}, 100);
 					}
+                    setTimeout(function (){
+                        code_area.setAttribute('class', 'displayed');
+                    }, 100);
                     code_area.tip = tip;
-					code_area.textContent = tip_json.content;
+					code_area.textContent = 'Code:\n'+tip_json.content;
                     tip.dispose = function (){
                         if(code_area.tip != this){ return}
                         code_area.setAttribute('class', 'hidden');
