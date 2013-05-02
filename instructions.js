@@ -45,6 +45,10 @@ instruction_lab.instructions = {
                     if(tip_template.icon_color){
                         icon.style.background = tip_template.icon_color;
                     }
+					if(tip_template.display_instructions){
+						tip.display = tip_template.display_instructions;
+						tip.display(tip_json);
+					}
                 }
                 return tip;
             }

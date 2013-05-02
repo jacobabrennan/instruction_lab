@@ -65,8 +65,8 @@ instruction_lab.tip_manager = {
             if(tip_template.icon_color){
                 icon.style.background = tip_template.icon_color;
             }
-			if(tip_template.display){
-				tip.display = tip_template.display;
+			if(tip_template.display_tip_area){
+				tip.display = tip_template.display_tip_area;
 			}
 			if(tip_template.dispose){
 				tip.dispose = tip_template.dispose;

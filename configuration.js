@@ -13,13 +13,22 @@ var lab_configuration = {
             icon_color: 'blue'
 		},
 		purchase: {
-            icon_color: 'green'
+            icon_color: 'magenta'
 		},
         link:{
             icon_color: 'purple'
         },
 		code:{
-			display: function(tip_json){
+			icon_color: 'darkgreen',
+			display_instructions: function (tip_json){
+				// this = an html element; a tip.
+				this.className = this.className + ' double';
+				var title = this.getElementsByClassName('title')[0];
+				var expander = document.createElement('pre');
+				expander.textContent = tip_json.content;
+				title.appendChild(expander);
+			},
+			display_tip_area: function (tip_json){
 				// this = an html element; a tip.
 				var code_area = document.getElementById('code_display');
 				if(!code_area){
@@ -34,7 +43,7 @@ var lab_configuration = {
 				code_area.tip = this;
 				code_area.textContent = 'Code:\n'+tip_json.content;
 			},
-			dispose: function(){
+			dispose: function (){
 				// this = an html element; a tip.
 				var self = this;
 				var code_area = document.getElementById('code_display');
