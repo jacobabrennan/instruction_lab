@@ -67,12 +67,11 @@ var lab_configuration = {
             notes: "Your bones don't break, mine do. That's clear. Your cells react to bacteria and viruses differently than mine. You don't get sick, I do. That's also clear. But for some reason, you and I react the exact same way to water. We swallow it too fast, we choke. We get some in our lungs, we drown. However unreal it may seem, we are connected, you and I. We're on the same curve, just on opposite ends.",
             content: [
                 {type: 'video', title: 'SuperSoaker13', time_offset: 1, content: {time: 330}},
-                {type: 'code', title: 'The DOOM bringer! Yeah man!', time_offset: 2, content: 'echo out > /sys/class/gyio/gpio38/direction'},
                 {type: 'code', title: 'The DOOM bringer! Yeah man!', time_offset: 2, content: '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>\n<div class="crazy_idea" largeString=\'Hello\nThis is long!\'></div>\n<script type="text/javascript">\n    alert($(".crazy_idea").attr("largeString"));\n</script>'},
                 {type: 'link', title: "Yup, I'm still here.", time_offset: 3, content: {icon: 'http://penguin.png'}},
                 {type: 'link', title: "Gestures. Gestures. Gestures. Gestures. Gestures. Gestures. Gestures. Gestures. Gestures.", time_offset: 4, content: {icon: 'http://penguin.png'}},
                 {type: 'link', title: "Yup, I'm still here.", time_offset: 5, content: {icon: 'http://penguin.png'}},
-                {type: 'link', title: "Yup, I'm still here.", time_offset: 6, content: {icon: 'http://penguin.png'}},
+                {type: 'code', title: 'The DOOM bringer! Yeah man!', time_offset: 6, content: 'echo out > /sys/class/gyio/gpio38/direction'},
             ]
 		},
 		{title:'Another Step', time_in: 9,
