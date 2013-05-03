@@ -1,19 +1,16 @@
 var lab_configuration = {
 	title: 'Test Lab', // Used as the text for the html title.
 	urls: {
-		node_linkbox: 'resources/svg/linkbox_padding.svg',
-		node_logo: 'resources/svg/ignite_embossed_logo.svg',
 		logo1: 'logo1.png',
 		logo2: 'logo2.png',
 		resource_background: 'resources/svg/ignite_embossed_logo.svg',
-		hackable_demo: 'https://github.com/mozilla/mozilla-ignite-learning-lab-demos/tree/master/lab-5-spdy'
 	},
 	tip_templates: {
 		video: {
             icon_color: 'blue'
 		},
 		purchase: {
-            icon_color: 'magenta'
+            icon_color: 'magenta',
 		},
         link:{
             icon_color: 'purple'

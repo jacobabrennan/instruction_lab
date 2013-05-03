@@ -59,14 +59,14 @@ body{
 #logo1{
 	height: 13%;
     position: absolute;
-	top: 0%;
-	left: 0%;
+	top: 1em;
+	left: 1em;
 }
 #logo2{
 	height: 13%;
     position: absolute;
-	top: 0%;
-	right: 0%;
+	top: 1em;
+	right: 1em;
 }
 .slider_arrow{
     position: absolute;
@@ -303,7 +303,7 @@ body{
     /*border-top: 1px solid #ccc;*/
 }
 .instruction > .icon{
-	background: green;
+	background: red;
 	display: inline-block;
 	width: 3em;
 	height: 3em;
@@ -469,7 +469,7 @@ body{
 	background: rgb(51, 51, 51);
 }
 #control_progress:hover #control_elapsed_time{
-	background: rgb(239, 72, 25);
+	background: red;
 }
 #control_timer{
 	position: absolute;
