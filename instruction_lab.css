@@ -314,6 +314,7 @@ body{
     border-radius: 0.2em;
 	box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
     vertical-align: top;
+    cursor: pointer;
 }
 .instruction > .content{
 	background: white;
@@ -329,6 +330,20 @@ body{
 .instruction > .content > .header > .title{
     display: inline-block;
     vertical-align: middle;
+    width: 23em;
+    cursor: pointer;
+}
+.instruction > .content > .header > .title > img{
+    display: inline-block;
+    vertical-align: middle;
+    height: 2.5em;
+    margin-right: 1em;
+}
+.instruction > .content > .header > .time_stamp{
+    display: inline-block;
+    vertical-align: middle;
+    color: blue;
+    cursor: pointer;
 }
 .instruction > .content > .header > .title:before{
     display: inline-block;

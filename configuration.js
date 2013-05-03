@@ -59,7 +59,7 @@ var lab_configuration = {
 		}
 	},
 	instructions: [
-		{title:'Hi!', unnumbered: true, logo_linked: true,
+		{title:'Optional Title! Optional Title!', unnumbered: true, logo_linked: true,
             notes: 'Instruction Notes',
             content: [
             ]

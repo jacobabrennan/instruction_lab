@@ -9,28 +9,60 @@ instruction_lab.instructions = {
         this.list_element = document.getElementById("instructions_list");
 		var instructions_list = configuration.instructions;
 		var display_step = function (instruction, instruction_index, display_number){
-			if(!display_number){
-				display_number = '&nbsp;';
-			}
 			var instruction_element = document.createElement('div');
             instruction.element = instruction_element;
 			instruction_element.setAttribute('class', 'instruction');
-            var insert_html  = '<div class="icon">';
-            insert_html += display_number;
-            insert_html += '</div><div class="content">';
-            insert_html += '<div class="header"><span class="title">'+instruction.title+'</span></div>';
-            insert_html += '<div class="expander"></div>'
-            insert_html += '</div>';
-			instruction_element.innerHTML = insert_html;
-            var expander = instruction_element.getElementsByClassName('expander')[0];
+            var icon = document.createElement('div');
+            var content = document.createElement('div');
+            var header = document.createElement('div');
+            var title = document.createElement('span');
+            var expander = document.createElement('div');
             var instruction_notes = document.createElement('p');
+            icon.setAttribute('class', 'icon');
+            content.setAttribute('class', 'content');
+            header.setAttribute('class', 'header');
+            title.setAttribute('class', 'title');
+            expander.setAttribute('class', 'expander');
             instruction_notes.setAttribute('class', 'notes');
             instruction_notes.textContent = instruction.notes;
             expander.appendChild(instruction_notes);
+            title.textContent = instruction.title;
+            header.appendChild(title);
+            content.appendChild(header);
+            content.appendChild(expander);
+            instruction_element.appendChild(icon);
+            instruction_element.appendChild(content);
+			if(!display_number){
+				display_number = '&nbsp;';
+                icon.style.background = '#058ef8';
+			}
+            if(instruction.logo_linked){
+                icon.style.visibility = 'hidden';
+                //icon.style.background = 'transparent';
+                //icon.style.boxShadow = 'none';
+                instruction_lab.logo2.style.cursor = 'pointer';
+                instruction_lab.logo2.addEventListener('click', function (){
+                    instruction_lab.instructions.scroll_to(instruction_index);
+                }, false);
+                if(configuration.urls.logo2){
+                    var title_logo = document.createElement('img');
+                    title_logo.src = configuration.urls.logo2;
+                    title.insertBefore(title_logo, title.firstChild);
+                }
+            }
+            if(instruction.time_in){
+                var time_stamp = document.createElement('a');
+                time_stamp.setAttribute('class', 'time_stamp');
+                var first_digit  = Math.floor( instruction.time_in    /60);
+                var second_digit = Math.floor((instruction.time_in%60)/10);
+                var third_digit  = Math.floor( instruction.time_in%10    );
+                time_stamp.textContent = ''+first_digit+':'+second_digit+third_digit;
+                header.appendChild(time_stamp);
+            }
             var create_tip = function (tip_json){
                 var tip_template_id = tip_json.type;
                 var tip_template = configuration.tip_templates[tip_template_id];
-                var tip = document.createElement("a");
+                var tip = document.createElement('a');
                 var icon = document.createElement('div');
                 var content = document.createElement('div');
                 var header = document.createElement('div');
@@ -40,8 +72,8 @@ instruction_lab.instructions = {
                 content.appendChild(header);
                 tip.appendChild(content);
                 title.innerHTML = tip_json.title;
-                tip.setAttribute("class", "tip");
-                tip.setAttribute("target", "_blank");
+                tip.setAttribute('class', 'tip');
+                tip.setAttribute('target', '_blank');
                 icon.setAttribute('class', 'icon');
                 content.setAttribute('class', 'content');
                 header.setAttribute('class', 'header');
@@ -69,11 +101,13 @@ instruction_lab.instructions = {
                 }
             }
 			instruction_lab.instructions.list_element.appendChild(instruction_element);
-            instruction_element.addEventListener('click', (function (){
+            var expander_function = (function (){
                 return function (){
                     instruction_lab.instructions.toggle_highlight(instruction_index);
                 };
-            })(instruction_index), false);
+            })(instruction_index);
+            icon.addEventListener('click', expander_function, false);
+            title.addEventListener('click', expander_function, false);
 		};
 		instruction_lab.tip_manager.tip_area = document.getElementById('tip_area');
 		var step_number = 0;

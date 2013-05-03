@@ -31,15 +31,15 @@ instruction_lab = {
 				}
                 // Test for progress bar click support, which requires clientWidth.
                     // Note: event.clientX is not tested here, but support charts show near universal compatibility.
-                var progress_bar = document.getElementById("control_progress")
+                var progress_bar = document.getElementById('control_progress')
                 if((progress_bar.clientWidth !== undefined) && (progress_bar.offsetLeft !== undefined) && progress_bar.offsetParent){
                     this.status |= this.CONTROLS;
                 }
                 // Test for DOM manipulation.
                 if(document.createElement && document.appendChild){
-                    var test_element = document.createElement("div");
-                    var test_contents = document.createElement("span");
-                    test_contents.innerHTML = "textContent check";
+                    var test_element = document.createElement('div');
+                    var test_contents = document.createElement('span');
+                    test_contents.innerHTML = 'textContent check';
                     test_element.appendChild(test_contents)
                     if(test_element.setAttribute || test_element.innerHTML){
                         this.status |= this.DOM;
@@ -49,10 +49,10 @@ instruction_lab = {
                         this.status &= ~this.CONTROLS;
                     }
                     var test_style = test_element.style;
-                    if( "transition"       in test_style ||
-                        "MozTransition"    in test_style ||
-                        "WebkitTransition" in test_style ||
-                        "OTransition"      in test_style){
+                    if( 'transition'       in test_style ||
+                        'MozTransition'    in test_style ||
+                        'WebkitTransition' in test_style ||
+                        'OTransition'      in test_style){
                         this.status |= this.CSS_TRANSITION;
                     }
                 }
@@ -91,10 +91,10 @@ instruction_lab = {
         window.addEventListener('mousedown', function (e){ instruction_lab.control_interface.mouse_control(e);}, false);
         window.addEventListener('mouseup', function (e){ instruction_lab.control_interface.mouse_control(e);}, false);
         // Configure html urls:
-        var logo1 = document.getElementById("logo1");
-        logo1.src = configuration.urls.logo1;
-        var logo2 = document.getElementById("logo2");
-        logo2.src = configuration.urls.logo2;
+        this.logo1 = document.getElementById("logo1");
+        this.logo1.src = configuration.urls.logo1;
+        this.logo2 = document.getElementById("logo2");
+        this.logo2.src = configuration.urls.logo2;
         // Configure Custom Controls:
         var controls = document.getElementById("controls");
         if(this.compatibility.status & this.compatibility.CONTROLS){
