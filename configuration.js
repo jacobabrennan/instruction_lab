@@ -7,16 +7,20 @@ var lab_configuration = {
 	},
 	tip_templates: {
 		video: {
-            icon_color: 'blue'
+            icon_color: '#058ef8',
+            icon_url: 'test_template_logo_1.png'
 		},
 		purchase: {
-            icon_color: 'magenta',
+            icon_color: '#ffffff',
+            icon_url: 'test_template_logo_2.png'
 		},
         link:{
-            icon_color: 'purple'
+            icon_color: '#ffffff',
+            icon_url: 'test_template_logo_2.png'
         },
 		code:{
 			icon_color: 'darkgreen',
+            icon_url: 'test_template_logo_3.png',
             display_instructions: function (tip_json){
 				// this = an html element; a tip.
 				this.className = this.className + ' double';
@@ -55,7 +59,7 @@ var lab_configuration = {
 		}
 	},
 	instructions: [
-		{title:'Hi!', unnumbered: true,
+		{title:'Hi!', unnumbered: true, logo_linked: true,
             notes: 'Instruction Notes',
             content: [
             ]

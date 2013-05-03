@@ -146,10 +146,12 @@ body{
 	border-radius: 0.2em;
 }
 .tip div.content{
+    position: relative;
     background: white;
     display: inline-block;
 	vertical-align: top;
     overflow: hidden;
+    z-index: 3;
 }
 .tip .content pre.code{
     font-family: monospace;
@@ -180,11 +182,19 @@ body{
     text-align: left;
 }
 .tip div.icon{
+    position: relative;
 	display: inline-block;
 	vertical-align: top;
     background: #7f8184;
     text-align: center;
 	border-radius: 0.2em;
+    z-index: 0;
+}
+.tip div.icon img{
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 100%;
 }
 #tip_area{
 	position: absolute;
@@ -231,10 +241,7 @@ body{
 #tip_area .tip.step div.icon{
     background: red;
 }
-#tip_area div.icon img{
-    height: 80%;
-    width: 80%;
-    margin: 10%;
+#tip_area .tip div.icon img{
 }
 .expander .tip div.header,
 .expander .tip div.icon,
@@ -274,10 +281,7 @@ body{
     width: 2em;
     height: 2em;
 }
-.expander div.icon img{
-    height: 80%;
-    width: 80%;
-    margin: 10%;
+.expander .tip div.icon img{
 }
 /* Left Div, Resource Link Area */
 #instructions_list{
@@ -297,10 +301,10 @@ body{
     margin: 1em 0em;
     padding: 0em;
 }
-.instruction > .icon,
-.instruction > .content,
-.tip{
-    /*border-top: 1px solid #ccc;*/
+/*.instruction > .icon,*/
+.instruction > .content/*,
+.tip*/{
+    border: 0.02em solid black;
 }
 .instruction > .icon{
 	background: red;
@@ -417,6 +421,7 @@ body{
 	height: 10%;
 	background: rgba(153, 153, 153, 0.5);
     border-radius: 0.2em 0.2em 0% 0%;
+    z-index: 2;
 }
 #control_panel:hover{
 	opacity: 1;

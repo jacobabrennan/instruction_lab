@@ -58,7 +58,6 @@ instruction_lab.tip_manager = {
         header.appendChild(title);
         content.appendChild(header);
         tip.appendChild(content);
-        icon.innerHTML = '<img src="" />';
         title.innerHTML = tip_json.title.toUpperCase();
         tip.setAttribute('class', 'tip');
         //tip.setAttribute('href', 'TODO');
@@ -68,6 +67,10 @@ instruction_lab.tip_manager = {
         header.setAttribute('class', 'header');
         title.setAttribute('class', 'title');
         if(tip_template){
+            if(tip_template.icon_url){
+                // TODO: html insertion. Parse for valid url.
+                icon.innerHTML = '<img src="'+tip_template.icon_url+'" />';
+            }
             if(tip_template.icon_color){
                 icon.style.background = tip_template.icon_color;
             }
