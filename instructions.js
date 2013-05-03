@@ -32,14 +32,20 @@ instruction_lab.instructions = {
                 var tip_template = configuration.tip_templates[tip_template_id];
                 var tip = document.createElement("a");
                 var icon = document.createElement('div');
+                var content = document.createElement('div');
+                var header = document.createElement('div');
                 var title = document.createElement('div');
                 tip.appendChild(icon);
-                tip.appendChild(title);
+                header.appendChild(title);
+                content.appendChild(header);
+                tip.appendChild(content);
                 icon.innerHTML = '<img src="" />';
                 title.innerHTML = tip_json.title;
                 tip.setAttribute("class", "tip");
                 tip.setAttribute("target", "_blank");
                 icon.setAttribute('class', 'icon');
+                content.setAttribute('class', 'content');
+                header.setAttribute('class', 'header');
                 title.setAttribute('class', 'title');
                 if(tip_template){
                     if(tip_template.icon_color){

@@ -51,15 +51,21 @@ instruction_lab.tip_manager = {
         var tip_template = this.tip_templates[tip_template_id];
         var tip = document.createElement('a');
         var icon = document.createElement('div');
+        var content = document.createElement('div');
+        var header = document.createElement('div');
         var title = document.createElement('div');
         tip.appendChild(icon);
-        tip.appendChild(title);
+        header.appendChild(title);
+        content.appendChild(header);
+        tip.appendChild(content);
         icon.innerHTML = '<img src="" />';
-        title.innerHTML = tip_json.title;
+        title.innerHTML = tip_json.title.toUpperCase();
         tip.setAttribute('class', 'tip');
         //tip.setAttribute('href', 'TODO');
         tip.setAttribute('target', '_blank');
         icon.setAttribute('class', 'icon');
+        content.setAttribute('class', 'content');
+        header.setAttribute('class', 'header');
         title.setAttribute('class', 'title');
         if(tip_template){
             if(tip_template.icon_color){
