@@ -52,12 +52,22 @@ instruction_lab.instructions = {
             }
             if(instruction.time_in){
                 var time_stamp = document.createElement('a');
+                var time_stamp_play = document.createElement('img');
                 time_stamp.setAttribute('class', 'time_stamp');
                 var first_digit  = Math.floor( instruction.time_in    /60);
                 var second_digit = Math.floor((instruction.time_in%60)/10);
                 var third_digit  = Math.floor( instruction.time_in%10    );
+                time_stamp_play.src = configuration.urls.time_stamp_play;
                 time_stamp.textContent = ''+first_digit+':'+second_digit+third_digit;
+                time_stamp.insertBefore(time_stamp_play, time_stamp.firstChild);
                 header.appendChild(time_stamp);
+                time_stamp.addEventListener('click', function (){
+                    instruction_lab.popcorn.currentTime(Math.max(0, instruction.time_in-2));
+                    instruction_lab.transition('left');
+                    setTimeout(function (){
+                        instruction_lab.popcorn.play();
+                    }, 1000);
+                }, false)
             }
             var create_tip = function (tip_json){
                 var tip_template_id = tip_json.type;

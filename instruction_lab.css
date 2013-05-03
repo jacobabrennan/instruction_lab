@@ -345,6 +345,11 @@ body{
     color: blue;
     cursor: pointer;
 }
+.instruction > .content > .header > .time_stamp > img{
+    display: inline-block;
+    vertical-align: middle;
+    width: 1em;
+}
 .instruction > .content > .header > .title:before{
     display: inline-block;
     vertical-align: middle;

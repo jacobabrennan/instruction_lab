@@ -4,6 +4,7 @@ var lab_configuration = {
 		logo1: 'logo1.png',
 		logo2: 'logo2.png',
 		resource_background: 'resources/svg/ignite_embossed_logo.svg',
+        time_stamp_play: 'play_button.svg'
 	},
 	tip_templates: {
 		video: {
