@@ -2,7 +2,8 @@
  * This code written in whole by Jacob A Brennan.
  *
  */
-lab = {
+main_lab = {
+    lab: undefined,
     // Define compatibility flags. This may be expanded in the future.
     compatibility: {
         EVENT: 1,
@@ -220,10 +221,10 @@ lab = {
         this.arrow_left  = document.getElementById("arrow_left" );
         this.arrow_right = document.getElementById("arrow_right");
         this.arrow_left.addEventListener("click", function (){
-            lab.transition("left");
+            main_lab.transition("left");
         }, false)
         this.arrow_right.addEventListener("click", function (){
-            lab.transition("right");
+            main_lab.transition("right");
         }, false)
         /*// Setup Instructions + Tips Sections:
         this.tip_manager.setup(configuration);
@@ -242,8 +243,42 @@ lab = {
         */
         // Finished
     },
-    configure: function (lab, configuration){
-        
+    register_lab: function (new_lab, configuration){
+        this.lab = new_lab;
+        new_lab.setup(configuration);
+    },
+    frame_left: undefined,
+    frame_middle: undefined,
+    frame_right: undefined,
+    register_frame: function (frame_loc, new_frame){
+        var container_element;
+        switch(frame_loc){
+            case 'left': {
+                if(this.frame_left){
+                    this.left.removeChild(this.frame_left);
+                }
+                this.frame_left = new_frame;
+                container_element = this.left;
+                break;
+            }
+            case 'middle': {
+                if(this.frame_middle){
+                    this.middle.removeChild(this.frame_middle);
+                }
+                this.frame_middle = new_frame;
+                container_element = this.middle;
+                break;
+            }
+            case 'right': {
+                if(this.frame_right){
+                    this.right.removeChild(this.frame_right);
+                }
+                this.frame_right = new_frame;
+                container_element = this.right;
+                break;
+            }
+        }
+        return container_element.appendChild(new_frame);
     },
     control_interface: {
         focus: undefined,
@@ -257,19 +292,19 @@ lab = {
             }
             switch(key_code){
                 case 37:{
-                    lab.transition("left");
+                    main_lab.transition("left");
                     break;
                 }
                 case 39:{
-                    lab.transition("right");
+                    main_lab.transition("right");
                     break;
                 }/*
                 case 38:{
-                    lab.scroll("up");
+                    main_lab.scroll("up");
                     break;
                 }
                 case 40:{
-                    lab.scroll("down");
+                    main_lab.scroll("down");
                     break;
                 }*/
             }
@@ -290,7 +325,7 @@ lab = {
                 case 'blur':
                 case 'mouseup':{
                     this.dragged_element = undefined;
-                    lab.right.className = '';
+                    main_lab.right.className = '';
                     break;
                 }
                 case 'mousemove':{
@@ -428,30 +463,30 @@ lab = {
         }
     }
 };
-lab.compatibility.check(true);
-if((lab.compatibility.status & lab.compatibility.EVENT)){
+main_lab.compatibility.check(true);
+if((main_lab.compatibility.status & main_lab.compatibility.EVENT)){
     document.addEventListener("DOMContentLoaded", function (){
-        lab.compatibility.check();
+        main_lab.compatibility.check();
         var full_featured = (
-            lab.compatibility.CONTROLS |
-            lab.compatibility.CSS_TRANSITION |
-            lab.compatibility.DOM |
-            lab.compatibility.EVENT |
-            lab.compatibility.HTML5);
-        if(lab.compatibility.status != full_featured){
-            lab.compatibility.notify()
-            console.log(lab.compatibility.CONTROLS)
-            console.log(lab.compatibility.CSS_TRANSITION)
-            console.log(lab.compatibility.DOM)
-            console.log(lab.compatibility.EVENT)
-            console.log(lab.compatibility.HTML5)
-            console.log('Notify: '+lab.compatibility.status + ' | '+full_featured)
+            main_lab.compatibility.CONTROLS |
+            main_lab.compatibility.CSS_TRANSITION |
+            main_lab.compatibility.DOM |
+            main_lab.compatibility.EVENT |
+            main_lab.compatibility.HTML5);
+        if(main_lab.compatibility.status != full_featured){
+            main_lab.compatibility.notify()
+            console.log(main_lab.compatibility.CONTROLS)
+            console.log(main_lab.compatibility.CSS_TRANSITION)
+            console.log(main_lab.compatibility.DOM)
+            console.log(main_lab.compatibility.EVENT)
+            console.log(main_lab.compatibility.HTML5)
+            console.log('Notify: '+main_lab.compatibility.status + ' | '+full_featured)
         }
-        if(lab.compatibility.status & (lab.compatibility.DOM | lab.compatibility.HTML5)){
-            lab.setup(/*lab_configuration*/);
+        if(main_lab.compatibility.status & (main_lab.compatibility.DOM | main_lab.compatibility.HTML5)){
+            main_lab.setup(/*lab_configuration*/);
         }
     }, false);
 } else{
-    lab.compatibility.notify()
-    console.log('notify: '+lab.compatibility.status)
+    main_lab.compatibility.notify()
+    console.log('notify: '+main_lab.compatibility.status)
 }
