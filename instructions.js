@@ -26,7 +26,13 @@ instruction_lab.instructions = {
             instruction_notes.setAttribute('class', 'notes');
             instruction_notes.textContent = instruction.notes;
             expander.appendChild(instruction_notes);
-            title.textContent = instruction.title;
+            var display_title = instruction.short_title;
+            if(!display_title){
+                display_title = instruction.title;
+            }
+            if(display_title){
+                title.innerHTML = display_title.toUpperCase();
+            }
             header.appendChild(title);
             content.appendChild(header);
             content.appendChild(expander);
@@ -35,7 +41,12 @@ instruction_lab.instructions = {
 			if(!display_number){
 				display_number = '&nbsp;';
                 icon.style.background = '#058ef8';
-			}
+			} else{
+                var step_number_display = document.createElement('span');
+                step_number_display.textContent = display_number;
+                step_number_display.setAttribute('class', 'number');
+                icon.appendChild(step_number_display);
+            }
             if(instruction.logo_linked){
                 icon.style.visibility = 'hidden';
                 //icon.style.background = 'transparent';
@@ -81,7 +92,13 @@ instruction_lab.instructions = {
                 header.appendChild(title);
                 content.appendChild(header);
                 tip.appendChild(content);
-                title.innerHTML = tip_json.title;
+                var display_title = tip_json.short_title;
+                if(!display_title){
+                    display_title = tip_json.title;
+                }
+                if(display_title){
+                    title.innerHTML = display_title.toUpperCase();
+                }
                 tip.setAttribute('class', 'tip');
                 tip.setAttribute('target', '_blank');
                 icon.setAttribute('class', 'icon');

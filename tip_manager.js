@@ -44,6 +44,11 @@ instruction_lab.tip_manager = {
         tip.addEventListener('click', function (){
             instruction_lab.instructions.scroll_to(step_index);
         }, false);
+        var step_number_display = document.createElement('span');
+        step_number_display.textContent = step_index;
+        step_number_display.setAttribute('class', 'number');
+        var icon = tip.getElementsByClassName('icon')[0];
+        icon.appendChild(step_number_display);
         return tip;
     },
     create_tip: function (tip_json){
@@ -58,9 +63,15 @@ instruction_lab.tip_manager = {
         header.appendChild(title);
         content.appendChild(header);
         tip.appendChild(content);
-        title.innerHTML = tip_json.title.toUpperCase();
+        var display_title = tip_json.short_title;
+        if(!display_title){
+            display_title = tip_json.title;
+        }
+        if(display_title){
+            title.innerHTML = display_title.toUpperCase();
+        }
         tip.setAttribute('class', 'tip');
-        //tip.setAttribute('href', 'TODO');
+        //tip.setAttribute('href', 'TODO:');
         tip.setAttribute('target', '_blank');
         icon.setAttribute('class', 'icon');
         content.setAttribute('class', 'content');
@@ -68,8 +79,9 @@ instruction_lab.tip_manager = {
         title.setAttribute('class', 'title');
         if(tip_template){
             if(tip_template.icon_url){
-                // TODO: html insertion. Parse for valid url.
-                icon.innerHTML = '<img src="'+tip_template.icon_url+'" />';
+                var icon_image = document.createElement('img');
+                icon_image.src = tip_template.icon_url;
+                icon.appendChild(icon_image);
             }
             if(tip_template.icon_color){
                 icon.style.background = tip_template.icon_color;

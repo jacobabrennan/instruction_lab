@@ -1,29 +1,40 @@
 var lab_configuration = {
 	title: 'Test Lab', // Used as the text for the html title.
 	urls: {
-		logo1: 'logo1.png',
-		logo2: 'logo2.png',
+		logo1: 'makelogo.svg',
+		logo2: 'beaglebone_logo.svg',
 		resource_background: 'resources/svg/ignite_embossed_logo.svg',
         time_stamp_play: 'play_button.svg'
 	},
 	tip_templates: {
 		video: {
             icon_color: '#058ef8',
-            icon_url: 'test_template_logo_1.png'
+            icon_url: 'video-x-generic.svg'
 		},
-		purchase: {
+		makershed: {
             icon_color: '#ffffff',
-            icon_url: 'test_template_logo_2.png'
+            icon_url: 'makershed.svg'
 		},
-        link:{
-            icon_color: '#ffffff',
-            icon_url: 'test_template_logo_2.png'
+        linux:{
+            icon_url: 'linux-tux.svg'
+        },
+        blog:{
+            icon_url: 'text-x-generic.svg'
+        },
+        github:{
+            icon_url: 'octocatvector.svg'
+        },
+        beaglebone:{
+            icon_url: 'beaglebone_icon.svg'
         },
 		code:{
-			icon_color: 'darkgreen',
-            icon_url: 'test_template_logo_3.png',
+			//icon_color: 'transparent',
+            icon_url: 'utilities-terminal.svg',
             display_instructions: function (tip_json){
 				// this = an html element; a tip.
+                var icon_image = this.getElementsByTagName('img')[0];
+                icon_image.style.width = 'auto';
+                icon_image.style.height = '100%';
 				this.className = this.className + ' double';
 				var content = this.getElementsByClassName('content')[0];
 				var expander = document.createElement('pre');
@@ -33,6 +44,9 @@ var lab_configuration = {
 			},
 			display_tip_area: function (tip_json){
 				// this = an html element; a tip.
+                var icon_image = this.getElementsByTagName('img')[0];
+                icon_image.style.width = 'auto';
+                icon_image.style.height = '100%';
 				var code_area = document.getElementById('code_display');
 				if(!code_area){
 					code_area = document.createElement('pre');
@@ -60,30 +74,130 @@ var lab_configuration = {
 		}
 	},
 	instructions: [
-		{title:'Optional Title! Optional Title!', unnumbered: true, logo_linked: true,
+		{title: undefined, unnumbered: true, logo_linked: true,
             notes: 'Instruction Notes',
             content: [
             ]
         },
-		{title:'Got the right hardware?', time_in: 2,
+		{title:'Got the right hardware?', short_title: 'Hardware', time_in: 2,
             notes: "Your bones don't break, mine do. That's clear. Your cells react to bacteria and viruses differently than mine. You don't get sick, I do. That's also clear. But for some reason, you and I react the exact same way to water. We swallow it too fast, we choke. We get some in our lungs, we drown. However unreal it may seem, we are connected, you and I. We're on the same curve, just on opposite ends.",
             content: [
                 {type: 'video', title: 'SuperSoaker13', time_offset: 1, content: {time: 330}},
-                {type: 'code', title: 'The DOOM bringer! Yeah man!', time_offset: 2, content: '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>\n<div class="crazy_idea" largeString=\'Hello\nThis is long!\'></div>\n<script type="text/javascript">\n    alert($(".crazy_idea").attr("largeString"));\n</script>'},
-                {type: 'link', title: "Yup, I'm still here.", time_offset: 3, content: {icon: 'http://penguin.png'}},
-                {type: 'link', title: "Gestures. Gestures. Gestures. Gestures. Gestures. Gestures. Gestures. Gestures. Gestures.", time_offset: 4, content: {icon: 'http://penguin.png'}},
-                {type: 'link', title: "Yup, I'm still here.", time_offset: 5, content: {icon: 'http://penguin.png'}},
-                {type: 'code', title: 'The DOOM bringer! Yeah man!', time_offset: 6, content: 'echo out > /sys/class/gyio/gpio38/direction'},
+                {type: 'code', title: 'The DOOM bringer!', time_offset: 2, content: '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>\n<div class="crazy_idea" largeString=\'Hello\nThis is long!\'></div>\n<script type="text/javascript">\n    alert($(".crazy_idea").attr("largeString"));\n</script>'},
+                {type: 'linux', title: "Yup, I'm still here.", time_offset: 3, content: {icon: 'http://penguin.png'}},
+                {type: 'blog', title: "Gestures. Gestures.", time_offset: 4, content: {icon: 'http://penguin.png'}},
+                {type: 'makershed', title: "Yup, I'm still here.", time_offset: 5, content: {icon: 'http://penguin.png'}},
+                {type: 'beaglebone', title: 'The DOOM bringer!', time_offset: 6, content: 'echo out > /sys/class/gyio/gpio38/direction'},
             ]
 		},
 		{title:'Another Step', time_in: 9,
             notes: 'Instruction Notes',
             content: [
-                {type: 'video', title: 'SuperSoaker13', time_offset: 1, content: {time: 330}},
-                {type: 'purchase', title: 'The DOOM bringer! Yeah man!', time_offset: 3, content: {price: '$3.30'}}
+                {type: 'github', title: 'SuperSoaker13', time_offset: 1, content: {time: 330}},
+                {type: 'beaglebone', title: 'The DOOM bringer! Yeah man!', time_offset: 3, content: {price: '$3.30'}}
             ]
         },
 		{title: 'Last', time_in: 13, 
+            notes: 'Instruction Notes',
+            content: [
+            ]
+        },
+		{title: 'Last', time_in: 13, 
+            notes: 'Instruction Notes',
+            content: [
+            ]
+        },
+		{title: 'Last', time_in: 13, 
+            notes: 'Instruction Notes',
+            content: [
+            ]
+        },
+		{title: 'Last', time_in: 13, 
+            notes: 'Instruction Notes',
+            content: [
+            ]
+        },
+		{title: 'Last', time_in: 13, 
+            notes: 'Instruction Notes',
+            content: [
+            ]
+        },
+		{title: 'Last', time_in: 13, 
+            notes: 'Instruction Notes',
+            content: [
+            ]
+        },
+		{title: 'Last', time_in: 13, 
+            notes: 'Instruction Notes',
+            content: [
+            ]
+        },
+		{title: 'Last', time_in: 13, 
+            notes: 'Instruction Notes',
+            content: [
+            ]
+        },
+		{title: 'Last', time_in: 13, 
+            notes: 'Instruction Notes',
+            content: [
+            ]
+        },
+		{title: 'Last', time_in: 13, 
+            notes: 'Instruction Notes',
+            content: [
+            ]
+        },
+		{title: 'Last', time_in: 13, 
+            notes: 'Instruction Notes',
+            content: [
+            ]
+        },
+		{title: 'Last', time_in: 13, 
+            notes: 'Instruction Notes',
+            content: [
+            ]
+        },
+		{title: 'Last', time_in: 13, 
+            notes: 'Instruction Notes',
+            content: [
+            ]
+        },
+		{title: 'Last', time_in: 13, 
+            notes: 'Instruction Notes',
+            content: [
+            ]
+        },
+		{title: 'Last', time_in: 13, 
+            notes: 'Instruction Notes',
+            content: [
+            ]
+        },
+		{title: 'Last', time_in: 13, 
+            notes: 'Instruction Notes',
+            content: [
+            ]
+        },
+		{title: 'Last', time_in: 13, 
+            notes: 'Instruction Notes',
+            content: [
+            ]
+        },
+		{title: 'Last', time_in: 13, 
+            notes: 'Instruction Notes',
+            content: [
+            ]
+        },
+		{title: 'Last', time_in: 13, 
+            notes: 'Instruction Notes',
+            content: [
+            ]
+        },
+		{title: 'Last', time_in: 13, 
+            notes: 'Instruction Notes',
+            content: [
+            ]
+        },
+		{title: 'Last', time_in: 15, 
             notes: 'Instruction Notes',
             content: [
             ]
