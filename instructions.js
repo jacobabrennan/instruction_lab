@@ -26,10 +26,7 @@ instruction_lab.instructions = {
             instruction_notes.setAttribute('class', 'notes');
             instruction_notes.textContent = instruction.notes;
             expander.appendChild(instruction_notes);
-            var display_title = instruction.short_title;
-            if(!display_title){
-                display_title = instruction.title;
-            }
+            var display_title = instruction.title;
             if(display_title){
                 title.innerHTML = display_title.toUpperCase();
             }

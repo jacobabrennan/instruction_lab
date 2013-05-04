@@ -143,7 +143,7 @@ body{
 }
 .icon{
 	display: inline-block;
-    /*background: #7f8184;*/
+    background: #058ef8;
     text-align: center;
 	border-radius: 0.2em;
 }
@@ -195,7 +195,7 @@ body{
     position: relative;
 	display: inline-block;
 	vertical-align: top;
-    background: #7f8184;
+    background: #058ef8;
     text-align: center;
 	border-radius: 0.2em;
     z-index: 0;
