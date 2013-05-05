@@ -18,78 +18,6 @@ instruction_lab = {
                 <source id="source_ogv" src="vids/make_beaglebone_480.ogv"></source>\
                 <source id="source_webm" src="vids/make_beaglebone_480.webm"></source>\
             </video>\
-            <div id="controls">\
-                <svg id="control_big_play" width="100" height="100" viewBox="0 0 100 100"\
-                    xmlns="http://www.w3.org/2000/svg"\
-                    xmlns:xlink="http://www.w3.org/1999/xlink"\
-                    xmlns:ev="http://www.w3.org/2001/xml-events">\
-                    <style>\
-                        #big_play{\
-                            fill: grey;\
-                        }\
-                        #big_play:hover{\
-                            fill: red;\
-                        }\
-                    </style>\
-                    <title>Play</title>\
-                    <path id="big_play" d="m10,10l80,40l-80,40l0,-80" />\
-                </svg>\
-                <div id="control_panel">\
-                    <svg id="control_play" width="100" height="100" viewBox="0 0 100 100"\
-                        xmlns="http://www.w3.org/2000/svg"\
-                        xmlns:xlink="http://www.w3.org/1999/xlink"\
-                        xmlns:ev="http://www.w3.org/2001/xml-events">\
-                        <title>Play / Pause</title>\
-                        <style>\
-                            #pause{\
-                                opacity: 0;\
-                            }\
-                            .icon:hover{\
-                                fill: red;\
-                            }\
-                        </style>\
-                        <g class="icon" stroke-linejoin="round" fill="rgb(102, 102, 102)" stroke="#000000" stroke-width="0">\
-                            <g id="play">\
-                                <path id="play" d="m5,5l81,45l-81,45l0,-90z" />\
-                            </g>\
-                            <g id="pause">\
-                                <path d="m12,86l0,-72l20,0l0,71.20879l-20,0.79121z" />\
-                                <path d="m45,86l0,-72l20,0l0,71.20879l-20,0.79121z" />\
-                            </g>\
-                        </g>\
-                    </svg>\
-                    <div id="control_progress">\
-                        <div id="control_buffered_time"></div>\
-                        <div id="control_elapsed_time"></div>\
-                    </div>\
-                    <svg id="control_mute" width="100" height="100" viewBox="0 0 100 100"\
-                        xmlns="http://www.w3.org/2000/svg"\
-                        xmlns:xlink="http://www.w3.org/1999/xlink"\
-                        xmlns:ev="http://www.w3.org/2001/xml-events">\
-                        <title>Mute / Unmute</title>\
-                        <style>\
-                            .icon:hover{\
-                                fill: red;\
-                            }\
-                        </style>\
-                        <g stroke="#000000" stroke-width="0" stroke-linejoin="round">\
-                            <path class="icon" d="m8,30l0,40l20,0l25,25l0,-90l-25,25l-20,0z" fill="rgb(102, 102, 102)" />\
-                            <g id="sound" fill="none" stroke="rgb(102, 102, 102)" stroke-width="8">\
-                                <path d="m65,20a50,50 0 0 10,60" id="svg_6"/>\
-                                <path d="m75,10a50,50 0 0 10,80" id="svg_7"/>\
-                            </g>\
-                        </g>\
-                    </svg>\
-                    <svg id="control_timer" width="300" height="100" viewBox="0 0 225 100"\
-                        xmlns="http://www.w3.org/2000/svg"\
-                        xmlns:xlink="http://www.w3.org/1999/xlink"\
-                        xmlns:ev="http://www.w3.org/2001/xml-events">\
-                        <title>Timer</title>\
-                        <text id="svg_timer" transform="matrix(2.0294, 0, 0, 2.0294, 4.73115, 22.9506)" text-anchor="left"\
-                            font-family="sans-serif" font-size="24" y="22" x="0" stroke="#000000"></text>\
-                    </svg>\
-                </div>\
-            </div>\
             <img id="logo1" alt="Make Logo" />\
             <img id="logo2" alt="Lab Specific Logo" />\
             ';
@@ -434,23 +362,3 @@ instruction_lab = {
         }
     }
 };
-instruction_lab.compatibility.check(true);
-if((instruction_lab.compatibility.status & instruction_lab.compatibility.EVENT)){
-    document.addEventListener("DOMContentLoaded", function (){
-        instruction_lab.compatibility.check();
-        var full_featured = (
-            instruction_lab.compatibility.CONTROLS |
-            instruction_lab.compatibility.CSS_TRANSITION |
-            instruction_lab.compatibility.DOM |
-            instruction_lab.compatibility.EVENT |
-            instruction_lab.compatibility.HTML5);
-        if(instruction_lab.compatibility.status != full_featured){
-            instruction_lab.compatibility.notify()
-        }
-        if(instruction_lab.compatibility.status & (instruction_lab.compatibility.DOM | instruction_lab.compatibility.HTML5)){
-            instruction_lab.setup(lab_configuration);
-        }
-    }, false);
-} else{
-    instruction_lab.compatibility.notify()
-}
