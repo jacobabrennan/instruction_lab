@@ -81,16 +81,22 @@ main_lab = {
             }, 1000);
         }
     },
-    create_player: function (){
+    create_player: function (media_type){
+        // media_type: video | audio
         var player = {
-            video: undefined,
+            media: undefined,
             popcorn: undefined,
             controls: undefined,
             current_duration: 0
         }
-        player.video = document.createElement('video');
-        player.popcorn = Popcorn(video);
+        console.log('trying')
+        if(media_type){
+            player.media = document.createElement(media_type);
+            console.log(typeof player.media.addEventListener)
+        }
+        player.popcorn = Popcorn(player.media);
         player.controls = this.create_controls(player);
+        return player;
     },
     create_controls: function (player){
         if(!(this.compatibility.status & this.compatibility.CONTROLS)){
@@ -147,7 +153,7 @@ main_lab = {
             </svg>\
         ';
         var progress = document.createElement('div');
-        control_progress.setAttribute('id', 'control_progress');
+        progress.setAttribute('id', 'control_progress');
         var buffered_time = document.createElement('div');
         var elapsed_time = document.createElement('div');
         buffered_time.setAttribute('id', 'control_buffered_time');
@@ -335,6 +341,7 @@ main_lab = {
         // Finished
     },
     register_lab: function (new_lab, configuration){
+        console.log('Main Lab: Register')
         this.lab = new_lab;
         new_lab.setup(configuration);
     },
@@ -574,7 +581,8 @@ if((main_lab.compatibility.status & main_lab.compatibility.EVENT)){
             console.log('Notify: '+main_lab.compatibility.status + ' | '+full_featured)
         }
         if(main_lab.compatibility.status & (main_lab.compatibility.DOM | main_lab.compatibility.HTML5)){
-            main_lab.setup(instruction_lab, lab_configuration);
+            main_lab.setup();
+            main_lab.register_lab(instruction_lab, lab_configuration);
         }
     }, false);
 } else{

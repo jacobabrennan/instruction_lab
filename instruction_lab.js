@@ -6,9 +6,9 @@ instruction_lab = {
     video_frame: undefined,
     instruction_frame: undefined,
     setup: function (configuration){
+        console.log("Instruction Lab: Seting up")
 		document.title = configuration.title;
         this.seeking = false;
-        this.popcorn = Popcorn("#lab_video");
         // Create Frames:
             // Create Middle Frame:
         var middle_frame_html = '\
@@ -36,6 +36,17 @@ instruction_lab = {
         this.logo1.src = configuration.urls.logo1;
         this.logo2 = document.getElementById("logo2");
         this.logo2.src = configuration.urls.logo2;
+        // Request Media Player
+        this.video_frame.player = main_lab.create_player('video');
+        var video_sources = configuration.urls.video;
+        for(var codex in video_sources){
+            var source = document.createElement('source');
+            source.setAttribute('src', video_sources[codex]);
+            this.video_frame.player.media.appendChild(source);
+        }
+        this.video_frame.appendChild(this.video_frame.player.media);
+        this.video_frame.appendChild(this.video_frame.player.controls);
+        /*
         // Configure Custom Controls:
         var controls = document.getElementById("controls");
         if(this.compatibility.status & this.compatibility.CONTROLS){
@@ -147,7 +158,12 @@ instruction_lab = {
         } else{
             this.popcorn.media.controls = "true";
             controls.style.display = "none";
-        }
+        }*/
+        
+        
+        
+        
+        
         // Setup frame slider:
         this.frame = document.getElementById("frame");
         this.slider = document.getElementById("slider");
@@ -170,6 +186,7 @@ instruction_lab = {
         this.instructions.setup(configuration);
         //
         this.resize();
+        /*
         this.popcorn.on("seeked", function (){
             instruction_lab.seeking = false;
             instruction_lab.tip_manager.populate(instruction_lab.popcorn.currentTime());
@@ -178,6 +195,7 @@ instruction_lab = {
             instruction_lab.seeking = true;
             instruction_lab.tip_manager.clear_tips();
         });
+        */
         // Finished
     },
     control_interface: {

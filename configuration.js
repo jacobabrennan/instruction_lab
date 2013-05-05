@@ -1,6 +1,11 @@
 var lab_configuration = {
 	title: 'Test Lab', // Used as the text for the html title.
 	urls: {
+        video: {
+            'mp4': 'vids/make_beaglebone_480.mp4',
+            'ogv': 'vids/make_beaglebone_480.ogv',
+            'webm': 'vids/make_beaglebone_480.webm'
+        },
 		logo1: 'makelogo.svg',
 		logo2: 'beaglebone_logo.svg',
 		resource_background: 'resources/svg/ignite_embossed_logo.svg',
