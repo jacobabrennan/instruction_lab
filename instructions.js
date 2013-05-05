@@ -58,7 +58,7 @@ instruction_lab.instructions = {
                     title.insertBefore(title_logo, title.firstChild);
                 }
             }
-            if(instruction.time_in){
+            if(instruction.time_in && !(instruction.unnumbered)){
                 var time_stamp = document.createElement('a');
                 var time_stamp_play = document.createElement('img');
                 time_stamp.setAttribute('class', 'time_stamp');
@@ -81,6 +81,10 @@ instruction_lab.instructions = {
                 var tip_template_id = tip_json.type;
                 var tip_template = configuration.tip_templates[tip_template_id];
                 var tip = document.createElement('a');
+                if(tip_json.content.url){
+                    tip.setAttribute('href', tip_json.content.url);
+                    tip.setAttribute('target', '_blank');
+                }
                 var icon = document.createElement('div');
                 var content = document.createElement('div');
                 var header = document.createElement('div');
@@ -119,7 +123,7 @@ instruction_lab.instructions = {
             }
             for(var tip_index = 0; tip_index < instruction.content.length; tip_index++){
                 var indexed_tip = instruction.content[tip_index];
-                if(indexed_tip){
+                if(indexed_tip && (indexed_tip.display_instructions !== false)){
                     var new_tip = create_tip(indexed_tip);
                     expander.appendChild(new_tip);
                 }
@@ -139,8 +143,10 @@ instruction_lab.instructions = {
 			var indexed_step = instructions_list[step_index];
 			if(!indexed_step.unnumbered){
 				step_number++;
-			}
-			display_step(indexed_step, step_index, step_number);
+                display_step(indexed_step, step_index, step_number);
+			} else{
+                display_step(indexed_step, step_index);
+            }
 			//setup_instruction(indexed_step);
             if(indexed_step.time_in){
                 for(var tip_index = 0; tip_index < indexed_step.content.length; tip_index++){
@@ -153,6 +159,15 @@ instruction_lab.instructions = {
                         };
                     };
                     instruction_lab.popcorn.cue(indexed_step.time_in + indexed_tip.time_offset, cue_function(indexed_tip));
+                    if(indexed_tip.time_out_offset){
+                        var cut_function = function (tip){
+                            return function (){
+                                var node = instruction_lab.tip_manager.find_tip(tip);
+                                instruction_lab.tip_manager.bump_tip(node, true);
+                            }
+                        }
+                        instruction_lab.popcorn.cue(indexed_step.time_in + indexed_tip.time_out_offset, cut_function(indexed_tip));
+                    }
                 }
                 instruction_lab.popcorn.cue(indexed_step.time_in-1, function (){
                     instruction_lab.tip_manager.clear_tips(true);
@@ -160,7 +175,9 @@ instruction_lab.instructions = {
                 instruction_lab.popcorn.cue(indexed_step.time_in, (function (loop_step, loop_index){
                     return function (){
                         var node = instruction_lab.tip_manager.create_step(loop_step, loop_index);
-                        instruction_lab.tip_manager.add_tip(node);
+                        if(node){
+                            instruction_lab.tip_manager.add_tip(node);
+                        }
                     }
                 })(indexed_step, step_index));
             }

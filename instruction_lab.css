@@ -6,6 +6,14 @@
     font-family: sohopro_ie;
     src: url('SohoPro-Condensed.eot');
 }
+@font-face{
+    font-family: sohopro_regular;
+    src: url('SohoPro-Regular.otf');
+}
+@font-face{
+    font-family: sohopro_regular_ie;
+    src: url('SohoPro-Regular.eot');
+}
 body{
     background: #2e3132;
 	/*background: white;*/
@@ -384,11 +392,12 @@ body{
 	-o-transition     : opacity 0.5s;
 }
 .instruction .notes{
+    font-family: sohopro_regular;
     margin: 0em 1em;
     margin-bottom: 1em;
     padding-bottom: 0.5em;
     border-bottom: dotted 1px grey;
-    font-size: smaller;
+    font-size: 0.7em;
 }
 #instructions_slider{
     background: white;
