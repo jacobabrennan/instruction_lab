@@ -89,13 +89,13 @@ body{
 #arrow_left{
     height: 18%;
     top: 42%;
-    left: 2%;
+    left: 0%;
 	opacity: 0;
 }
 #arrow_right{
     height: 18%;
     top: 42%;
-    right: 2%;
+    right: 0%;
 }
 #arrow_up{
     width: 10%;
