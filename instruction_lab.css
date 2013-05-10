@@ -306,22 +306,20 @@ body{
 }
 /* Left Div, Resource Link Area */
 #instructions_list{
+	position: absolute;
+	top: 0em;
+	height:  100%;
+	overflow: hidden;
 	display: block;
 	list-style: none;
-	position: relative;
 	margin: auto 5%;
-    padding-bottom: 3em;
     /* Padding gives the slider a margin of error.*/
-    top: 0em;
-	transition        : top 0.2s;
-	-moz-transition   : top 0.2s;
-	-webkit-transition: top 0.2s;
-	-o-transition     : top 0.2s;
 }
 .instruction{
     margin: 1em 0em;
     padding: 0em;
 }
+
 /*.instruction > .icon,*/
 .instruction > .content/*,
 .tip*/{

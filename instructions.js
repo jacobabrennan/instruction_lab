@@ -187,8 +187,8 @@ instruction_lab.instructions = {
         var handle_percent = this.scroll_bar.handle.offsetHeight / this.scroll_bar.bar.offsetHeight;
         percent = Math.min(1-handle_percent, Math.max(0, percent));
         this.scroll_percent = percent;
-        var inverse_screen_percent = instruction_lab.instructions.list_element.offsetHeight / instruction_lab.slider.offsetHeight;
-        instruction_lab.instructions.list_element.style.top = -(percent*inverse_screen_percent*100)+'%';
+        //var inverse_screen_percent = instruction_lab.instructions.list_element.scrollHeight / instruction_lab.slider.offsetHeight;
+        instruction_lab.instructions.list_element.scrollTop = (percent*instruction_lab.instructions.list_element.scrollHeight)//*inverse_screen_percent*100)+'%';
         this.scroll_bar.handle.style.top = (percent*100)+'%';
     },
     scroll_to: function (step_index){
@@ -196,18 +196,20 @@ instruction_lab.instructions = {
         var instruction = this.list[step_index];
         if(instruction && instruction.element){
             this.toggle_highlight(step_index, true);
-            var top_offset = instruction.element.offsetTop;
-            var offset_percent = top_offset / this.list_element.offsetHeight;
+            var top_offset = instruction.element.offsetTop-20;
+            var offset_percent = top_offset / this.list_element.scrollHeight;
             this.scroll(offset_percent);
             instruction_lab.transition('right');
         }
     },
     resize: function (){
-        var screen_percent = instruction_lab.slider.offsetHeight / instruction_lab.instructions.list_element.offsetHeight;
+        var screen_percent = instruction_lab.slider.offsetHeight / instruction_lab.instructions.list_element.scrollHeight;
         screen_percent = Math.max(0, Math.min(1, screen_percent));
         this.scroll_bar.handle.style.height = Math.floor(screen_percent*this.scroll_bar.bar.offsetHeight)+'px';
+		this.scroll(this.scroll_percent);
     },
     toggle_highlight: function (instruction_index, highlight_state){
+		var old_scroll_pos = this.list_element.scrollTop;
         var instruction = this.list[instruction_index];
         var instruction_element = instruction.element;
         var expander = instruction_element.getElementsByClassName('expander')[0];
@@ -233,8 +235,9 @@ instruction_lab.instructions = {
                 expander.style.opacity = 0;
             }, 1)
             this.resize();
-            this.scroll(this.scroll_percent);
         }
+		var scroll_percent = old_scroll_pos / instruction_lab.instructions.list_element.scrollHeight;
+		instruction_lab.instructions.scroll(scroll_percent);
     },
     setup_scrollbar: function (element_id){
         this.scroll_bar = {
@@ -254,12 +257,12 @@ instruction_lab.instructions = {
         this.scroll_bar.bar.appendChild(this.scroll_bar.handle);
         //
         this.scroll_bar.up_button.addEventListener('click', function (){
-            var screen_percent = instruction_lab.slider.offsetHeight / instruction_lab.instructions.list_element.offsetHeight;
+            var screen_percent = instruction_lab.slider.offsetHeight / instruction_lab.instructions.list_element.scrollHeight;
             var new_percent = instruction_lab.instructions.scroll_percent - screen_percent/2;
             instruction_lab.instructions.scroll(new_percent);
         });
         this.scroll_bar.down_button.addEventListener('click', function (){
-            var screen_percent = instruction_lab.slider.offsetHeight / instruction_lab.instructions.list_element.offsetHeight;
+            var screen_percent = instruction_lab.slider.offsetHeight / instruction_lab.instructions.list_element.scrollHeight;
             var new_percent = instruction_lab.instructions.scroll_percent + screen_percent/2;
             instruction_lab.instructions.scroll(new_percent);
         });
