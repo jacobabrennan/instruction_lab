@@ -275,29 +275,33 @@ instruction_lab.instructions = {
         this.scroll_bar.container.addEventListener('mousedown', function (){
             instruction_lab.right.className = 'no_select';
         }, false);
+        var find_offset = function (offset_object){
+            var parent_offset = (offset_object.offsetParent)? find_offset(offset_object.offsetParent) : 0
+            return offset_object.offsetTop + parent_offset;
+        }
         this.scroll_bar.handle.drag = function (e){
             //var active_x = e.pageX - instruction_lab.control_interface.last_click.offset_x;
             var active_y = e.pageY - instruction_lab.control_interface.last_click.offset_y;
             var scroll_bar = instruction_lab.instructions.scroll_bar;
-            var scroll_top_offset = scroll_bar.bar.offsetTop + scroll_bar.container.offsetTop;
+            var scroll_top_offset = find_offset(scroll_bar.bar);
             var scroll_percent = (active_y) / (scroll_bar.bar.offsetHeight);
             instruction_lab.instructions.scroll(scroll_percent);
         };
         this.scroll_bar.bar.addEventListener('mousedown', function (e){
-            this.drag(e)
-            /* Legacy
+            //this.drag(e)
+            /* Legacy*/
             if(e.target !== this){ return};
             var scroll_bar = instruction_lab.instructions.scroll_bar;
-            var scroll_top_offset = scroll_bar.bar.offsetTop + scroll_bar.container.offsetTop;
+            var scroll_top_offset = find_offset(scroll_bar.bar);
             var click_loc = e.pageY - scroll_top_offset;
             var scroll_percent = Math.floor(click_loc - scroll_bar.handle.offsetHeight/2) / scroll_bar.bar.offsetHeight;
             instruction_lab.instructions.scroll(scroll_percent);
-            */
+            /**/
         }, false);
             
         this.scroll_bar.bar.drag = function (e){
             var scroll_bar = instruction_lab.instructions.scroll_bar;
-            var current_y = e.pageY - (scroll_bar.bar.offsetTop+scroll_bar.container.offsetTop);
+            var current_y = e.pageY - find_offset(scroll_bar.bar);
             var scroll_percent = (current_y-Math.floor(scroll_bar.handle.offsetHeight/2)) / scroll_bar.bar.offsetHeight;
             instruction_lab.instructions.scroll(scroll_percent);
         };
