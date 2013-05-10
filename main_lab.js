@@ -89,16 +89,16 @@ main_lab = {
             controls: undefined,
             current_duration: 0
         }
-        console.log('trying')
         if(media_type){
             player.media = document.createElement(media_type);
-            console.log(typeof player.media.addEventListener)
+            player.media.setAttribute('id', 'lab_video');
         }
         player.popcorn = Popcorn(player.media);
         player.controls = this.create_controls(player);
         return player;
     },
     create_controls: function (player){
+        console.log('trying')
         if(!(this.compatibility.status & this.compatibility.CONTROLS)){
             player.popcorn.media.controls = "true";
             return undefined;
@@ -126,32 +126,15 @@ main_lab = {
         ';
         var panel = document.createElement('div');
         panel.setAttribute('id', 'control_panel');
-        var play = document.createElement('svg');
-        play.outerHTML = '\
-            <svg id="control_play" width="100" height="100" viewBox="0 0 100 100"\
-                xmlns="http://www.w3.org/2000/svg"\
-                xmlns:xlink="http://www.w3.org/1999/xlink"\
-                xmlns:ev="http://www.w3.org/2001/xml-events">\
-                <title>Play / Pause</title>\
-                <style>\
-                    #pause{\
-                        opacity: 0;\
-                    }\
-                    .icon:hover{\
-                        fill: red;\
-                    }\
-                </style>\
-                <g class="icon" stroke-linejoin="round" fill="rgb(102, 102, 102)" stroke="#000000" stroke-width="0">\
-                    <g id="play">\
-                        <path id="play" d="m5,5l81,45l-81,45l0,-90z" />\
-                    </g>\
-                    <g id="pause">\
-                        <path d="m12,86l0,-72l20,0l0,71.20879l-20,0.79121z" />\
-                        <path d="m45,86l0,-72l20,0l0,71.20879l-20,0.79121z" />\
-                    </g>\
-                </g>\
-            </svg>\
-        ';
+        console.log('trying')
+        var play = document.createElement('object');
+        play.style.background = 'green'
+        play.setAttribute('data', 'controls/control_play.svg');
+        play.setAttribute('type', 'image/svg+xml');
+        //var play = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        play.src = 'controls/control_play.svg';
+        play.setAttribute('id', 'control_play');
+        //play.outerHTML = ;
         var progress = document.createElement('div');
         progress.setAttribute('id', 'control_progress');
         var buffered_time = document.createElement('div');
@@ -211,7 +194,9 @@ main_lab = {
             player.popcorn.play();
         }, false)
         // Play/Pause Button
+        console.log('clicky')
         play.addEventListener("click", function (){
+            console.log('click')
             if(player.popcorn.currentTime() == player.popcorn.duration()){
                 player.popcorn.currentTime(0);
                 player.popcorn.play();
@@ -225,16 +210,17 @@ main_lab = {
             setTimeout(function (){
                 big_play.style.display = "none";
             }, 1000)
-            play.getElementById("play" ).style.opacity = "0";
-            play.getElementById("pause").style.opacity = "1";
+            console.log(play);
+            play.contentDocument.getElementById("play" ).style.opacity = "0";
+            play.contentDocumentgetElementById("pause").style.opacity = "1";
         });
         player.popcorn.on("pause", function (){
-            play.getElementById("play" ).style.opacity = "1";
-            play.getElementById("pause").style.opacity = "0";
+            play.contentDocumentgetElementById("play" ).style.opacity = "1";
+            play.contentDocumentgetElementById("pause").style.opacity = "0";
         });
         player.popcorn.on("ended", function (){
-            play.getElementById("play" ).style.opacity = "1";
-            play.getElementById("pause").style.opacity = "0";
+            play.contentDocumentgetElementById("play" ).style.opacity = "1";
+            play.contentDocumentgetElementById("pause").style.opacity = "0";
         });
         // Progress Bar and Timer
         progress.addEventListener("click", function (event){
@@ -341,7 +327,6 @@ main_lab = {
         // Finished
     },
     register_lab: function (new_lab, configuration){
-        console.log('Main Lab: Register')
         this.lab = new_lab;
         new_lab.setup(configuration);
     },
@@ -587,5 +572,4 @@ if((main_lab.compatibility.status & main_lab.compatibility.EVENT)){
     }, false);
 } else{
     main_lab.compatibility.notify()
-    console.log('notify: '+main_lab.compatibility.status)
 }

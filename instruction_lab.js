@@ -6,18 +6,12 @@ instruction_lab = {
     video_frame: undefined,
     instruction_frame: undefined,
     setup: function (configuration){
-        console.log("Instruction Lab: Seting up")
 		document.title = configuration.title;
         this.seeking = false;
         // Create Frames:
             // Create Middle Frame:
         var middle_frame_html = '\
             <div id="tip_area"></div>\
-            <video id="lab_video">\
-                <source id="source_mp4" src="vids/make_beaglebone_480.mp4"></source>\
-                <source id="source_ogv" src="vids/make_beaglebone_480.ogv"></source>\
-                <source id="source_webm" src="vids/make_beaglebone_480.webm"></source>\
-            </video>\
             <img id="logo1" alt="Make Logo" />\
             <img id="logo2" alt="Lab Specific Logo" />\
             ';
