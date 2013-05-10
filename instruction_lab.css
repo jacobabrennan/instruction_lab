@@ -309,10 +309,12 @@ body{
 	position: absolute;
 	top: 0em;
 	height:  100%;
-	overflow: hidden;
+    width: 100%;
+	overflow-x: hidden;
+    overflow-y: scroll;
 	display: block;
 	list-style: none;
-	margin: auto 5%;
+	margin-left: 5%;
     /* Padding gives the slider a margin of error.*/
 }
 .instruction{
@@ -400,6 +402,7 @@ body{
 #instructions_slider{
     background: white;
     position: absolute;
+    border: 1px solid black;
     top: 1em;
     right: 1em;
     width: 2em;

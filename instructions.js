@@ -182,14 +182,17 @@ instruction_lab.instructions = {
                 })(indexed_step, step_index));
             }
 		}
+        this.list_element.addEventListener('scroll', function (){
+            instruction_lab.instructions.scroll_percent = instruction_lab.instructions.list_element.scrollTop / instruction_lab.instructions.list_element.scrollHeight;
+            instruction_lab.instructions.scroll_bar.reposition()
+        });
     },
     scroll: function (percent){
         var handle_percent = this.scroll_bar.handle.offsetHeight / this.scroll_bar.bar.offsetHeight;
         percent = Math.min(1-handle_percent, Math.max(0, percent));
         this.scroll_percent = percent;
-        //var inverse_screen_percent = instruction_lab.instructions.list_element.scrollHeight / instruction_lab.slider.offsetHeight;
-        instruction_lab.instructions.list_element.scrollTop = (percent*instruction_lab.instructions.list_element.scrollHeight)//*inverse_screen_percent*100)+'%';
         this.scroll_bar.handle.style.top = (percent*100)+'%';
+        instruction_lab.instructions.list_element.scrollTop = (percent*instruction_lab.instructions.list_element.scrollHeight);
     },
     scroll_to: function (step_index){
         // Step index may not be the same as a step's number, do to unnumbered steps.
@@ -245,7 +248,10 @@ instruction_lab.instructions = {
             up_button: document.createElement('div'),
             down_button: document.createElement('div'),
             bar: document.createElement('div'),
-            handle: document.createElement('div')
+            handle: document.createElement('div'),
+            reposition: function (){
+                this.handle.style.top = (instruction_lab.instructions.scroll_percent*100)+'%';
+            }
         }
         this.scroll_bar.up_button.setAttribute('class', 'scroll_up');
         this.scroll_bar.container.appendChild(this.scroll_bar.up_button);
