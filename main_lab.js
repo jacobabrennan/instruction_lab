@@ -2,7 +2,8 @@
  * This code written in whole by Jacob A Brennan.
  *
  */
-lab = {
+main_lab = {
+    lab: undefined,
     // Define compatibility flags. This may be expanded in the future.
     compatibility: {
         EVENT: 1,
@@ -80,123 +81,220 @@ lab = {
             }, 1000);
         }
     },
-    /*setup_popcorn: function (configuration){
-        this.popcorn = Popcorn("#lab_video");  
-    },
-    setup_controls: function (configuration){
-        var self = this;
-        var controls = document.getElementById("controls");
-        if(this.compatibility.status & this.compatibility.CONTROLS){
-            // Capture standard play events.
-            this.popcorn.media.addEventListener("click", function (){
-                if(self.popcorn.paused()){
-                    self.popcorn.play()
-                } else{
-                    self.popcorn.pause();
-                }
-            }, false);
-            // Big Play Button
-            document.getElementById("control_big_play").addEventListener("click", function (){
-                self.popcorn.play();
-            }, false)
-            // Play/Pause Button
-            var play_button = document.getElementById("control_play")
-            play_button.addEventListener("click", function (){
-                if(self.popcorn.currentTime() == self.popcorn.duration()){
-                    self.popcorn.currentTime(0);
-                    self.popcorn.play();
-                    return;
-                }
-                if(self.popcorn.paused()){ self.popcorn.play();}
-                else{self.popcorn.pause();}
-            }, false);
-            this.popcorn.on("playing", function (){
-                document.getElementById("control_big_play").style.opacity = "0";
-                setTimeout(function (){
-                    document.getElementById("control_big_play").style.display = "none";
-                }, 1000)
-                play_button.getElementById("play" ).style.opacity = "0";
-                play_button.getElementById("pause").style.opacity = "1";
-            });
-            this.popcorn.on("pause", function (){
-                var play_button = document.getElementById("control_play")
-                play_button.getElementById("play" ).style.opacity = "1";
-                play_button.getElementById("pause").style.opacity = "0";
-            });
-            this.popcorn.on("ended", function (){
-                var play_button = document.getElementById("control_play")
-                play_button.getElementById("play" ).style.opacity = "1";
-                play_button.getElementById("pause").style.opacity = "0";
-            });
-            // Progress Bar and Timer
-            var progress_bar = document.getElementById("control_progress");
-            var buffered_bar = document.getElementById("control_buffered_time");
-            var elapsed_bar = document.getElementById("control_elapsed_time");
-            var timer = document.getElementById("control_timer");
-            progress_bar.addEventListener("click", function (event){
-                var duration = self.popcorn.duration();
-                if(!duration){ return;}
-                var resized_width = progress_bar.clientWidth;
-                var actual_left = 0;
-                var offset_element = progress_bar;
-                while(offset_element){
-                    actual_left += offset_element.offsetLeft;
-                    offset_element = offset_element.offsetParent;
-                }
-                var click_percent = (event.clientX-actual_left) / resized_width;
-                var seek_time = duration * click_percent;
-                elapsed_bar.style.width = ""+(click_percent*100)+"%";
-                self.popcorn.currentTime(seek_time);
-            });
-            this.popcorn.on("timeupdate", function (){
-                var duration = self.popcorn.duration();
-                if(!duration){ return;}
-                var current_time = self.popcorn.currentTime();
-                var elapsed_percent = current_time / duration;
-                elapsed_bar.style.width = ""+(elapsed_percent*100)+"%";
-                var extra_0 = ((current_time%60) < 10)? "0" : "";
-                current_time = ""+Math.floor(current_time/60)+":"+extra_0+Math.floor(current_time%60);
-                var timer_text = timer.getElementById("svg_timer");
-                if(self.current_duration){
-                    timer_text.textContent = ""+current_time+"/"+self.current_duration;
-                } else{
-                    timer_text.textContent = ""+current_time;
-                }
-            });
-            this.popcorn.on("progress", function (){
-                self.current_duration = self.popcorn.duration();
-                if(!self.current_duration){ return;}
-                var buffered_range = self.popcorn.buffered();
-                var buffer_end = buffered_range.end(0);
-                if(!buffer_end){ buffer_end = 0}
-                buffered_bar.style.width = ""+((buffer_end/self.current_duration)*100)+"%";
-                var current_time = self.popcorn.currentTime()
-                var extra_0 = ((current_time%60) < 10)? "0" : "";
-                current_time = ""+Math.floor(current_time/60)+":"+extra_0+Math.floor(current_time%60);
-                self.current_duration = ""+Math.floor(self.current_duration/60)+":"+Math.floor(self.current_duration%60);
-                var timer_text = timer.getElementById("svg_timer");
-                if(self.current_duration){
-                    timer_text.textContent = ""+current_time+"/"+self.current_duration;
-                } else{
-                    timer_text.textContent = ""+current_time;
-                }
-            });
-            // Volume:
-            var mute_button = document.getElementById("control_mute");
-            mute_button.addEventListener("click", function (){
-                if(self.popcorn.muted()){
-                    self.popcorn.unmute();
-                    mute_button.getElementById("sound" ).style.opacity = "1";
-                } else{
-                    self.popcorn.muted(true);
-                    mute_button.getElementById("sound" ).style.opacity = "0";
-                }
-            }, false);
-        } else{
-            this.popcorn.media.controls = "true";
-            controls.style.display = "none";
+    create_player: function (media_type){
+        // media_type: video | audio
+        var player = {
+            media: undefined,
+            popcorn: undefined,
+            controls: undefined,
+            current_duration: 0
         }
-    },*/
+        console.log('trying')
+        if(media_type){
+            player.media = document.createElement(media_type);
+            console.log(typeof player.media.addEventListener)
+        }
+        player.popcorn = Popcorn(player.media);
+        player.controls = this.create_controls(player);
+        return player;
+    },
+    create_controls: function (player){
+        if(!(this.compatibility.status & this.compatibility.CONTROLS)){
+            player.popcorn.media.controls = "true";
+            return undefined;
+        }
+        var self = this;
+        var controls = document.createElement('div');
+        controls.setAttribute('id', 'controls');
+        var big_play = document.createElement('svg');
+        big_play.outerHTML = '\
+            <svg id="control_big_play" width="100" height="100" viewBox="0 0 100 100"\
+                xmlns="http://www.w3.org/2000/svg"\
+                xmlns:xlink="http://www.w3.org/1999/xlink"\
+                xmlns:ev="http://www.w3.org/2001/xml-events">\
+                <style>\
+                    #big_play{\
+                        fill: grey;\
+                    }\
+                    #big_play:hover{\
+                        fill: red;\
+                    }\
+                </style>\
+                <title>Play</title>\
+                <path id="big_play" d="m10,10l80,40l-80,40l0,-80" />\
+            </svg>\
+        ';
+        var panel = document.createElement('div');
+        panel.setAttribute('id', 'control_panel');
+        var play = document.createElement('svg');
+        play.outerHTML = '\
+            <svg id="control_play" width="100" height="100" viewBox="0 0 100 100"\
+                xmlns="http://www.w3.org/2000/svg"\
+                xmlns:xlink="http://www.w3.org/1999/xlink"\
+                xmlns:ev="http://www.w3.org/2001/xml-events">\
+                <title>Play / Pause</title>\
+                <style>\
+                    #pause{\
+                        opacity: 0;\
+                    }\
+                    .icon:hover{\
+                        fill: red;\
+                    }\
+                </style>\
+                <g class="icon" stroke-linejoin="round" fill="rgb(102, 102, 102)" stroke="#000000" stroke-width="0">\
+                    <g id="play">\
+                        <path id="play" d="m5,5l81,45l-81,45l0,-90z" />\
+                    </g>\
+                    <g id="pause">\
+                        <path d="m12,86l0,-72l20,0l0,71.20879l-20,0.79121z" />\
+                        <path d="m45,86l0,-72l20,0l0,71.20879l-20,0.79121z" />\
+                    </g>\
+                </g>\
+            </svg>\
+        ';
+        var progress = document.createElement('div');
+        progress.setAttribute('id', 'control_progress');
+        var buffered_time = document.createElement('div');
+        var elapsed_time = document.createElement('div');
+        buffered_time.setAttribute('id', 'control_buffered_time');
+        elapsed_time.setAttribute('id', 'control_elapsed_time');
+        progress.appendChild(buffered_time);
+        progress.appendChild(elapsed_time);
+        var mute = document.createElement('svg');
+        mute.outerHTML = '\
+            <svg id="control_mute" width="100" height="100" viewBox="0 0 100 100"\
+                xmlns="http://www.w3.org/2000/svg"\
+                xmlns:xlink="http://www.w3.org/1999/xlink"\
+                xmlns:ev="http://www.w3.org/2001/xml-events">\
+                <title>Mute / Unmute</title>\
+                <style>\
+                    .icon:hover{\
+                        fill: red;\
+                    }\
+                </style>\
+                <g stroke="#000000" stroke-width="0" stroke-linejoin="round">\
+                    <path class="icon" d="m8,30l0,40l20,0l25,25l0,-90l-25,25l-20,0z" fill="rgb(102, 102, 102)" />\
+                    <g id="sound" fill="none" stroke="rgb(102, 102, 102)" stroke-width="8">\
+                        <path d="m65,20a50,50 0 0 10,60" id="svg_6"/>\
+                        <path d="m75,10a50,50 0 0 10,80" id="svg_7"/>\
+                    </g>\
+                </g>\
+            </svg>\
+        ';
+        var timer = document.createElement('svg');
+        timer.outerHTML = '\
+            <svg id="control_timer" width="300" height="100" viewBox="0 0 225 100"\
+                xmlns="http://www.w3.org/2000/svg"\
+                xmlns:xlink="http://www.w3.org/1999/xlink"\
+                xmlns:ev="http://www.w3.org/2001/xml-events">\
+                <title>Timer</title>\
+                <text id="svg_timer" transform="matrix(2.0294, 0, 0, 2.0294, 4.73115, 22.9506)" text-anchor="left"\
+                    font-family="sans-serif" font-size="24" y="22" x="0" stroke="#000000"></text>\
+            </svg>\
+        ';
+        panel.appendChild(play);
+        panel.appendChild(progress);
+        panel.appendChild(timer);
+        panel.appendChild(mute);
+        controls.appendChild(big_play);
+        controls.appendChild(panel);
+        // Capture standard play events.
+        player.popcorn.media.addEventListener("click", function (){
+            if(player.popcorn.paused()){
+                player.popcorn.play()
+            } else{
+                player.popcorn.pause();
+            }
+        }, false);
+        // Big Play Button
+        big_play.addEventListener("click", function (){
+            player.popcorn.play();
+        }, false)
+        // Play/Pause Button
+        play.addEventListener("click", function (){
+            if(player.popcorn.currentTime() == player.popcorn.duration()){
+                player.popcorn.currentTime(0);
+                player.popcorn.play();
+                return;
+            }
+            if(player.popcorn.paused()){ player.popcorn.play();}
+            else{player.popcorn.pause();}
+        }, false);
+        player.popcorn.on("playing", function (){
+            big_play.style.opacity = "0";
+            setTimeout(function (){
+                big_play.style.display = "none";
+            }, 1000)
+            play.getElementById("play" ).style.opacity = "0";
+            play.getElementById("pause").style.opacity = "1";
+        });
+        player.popcorn.on("pause", function (){
+            play.getElementById("play" ).style.opacity = "1";
+            play.getElementById("pause").style.opacity = "0";
+        });
+        player.popcorn.on("ended", function (){
+            play.getElementById("play" ).style.opacity = "1";
+            play.getElementById("pause").style.opacity = "0";
+        });
+        // Progress Bar and Timer
+        progress.addEventListener("click", function (event){
+            var duration = player.popcorn.duration();
+            if(!duration){ return;}
+            var resized_width = progress.clientWidth;
+            var actual_left = 0;
+            var offset_element = progress;
+            while(offset_element){
+                actual_left += offset_element.offsetLeft;
+                offset_element = offset_element.offsetParent;
+            }
+            var click_percent = (event.clientX-actual_left) / resized_width;
+            var seek_time = duration * click_percent;
+            elapsed_time.style.width = ""+(click_percent*100)+"%";
+            player.popcorn.currentTime(seek_time);
+        });
+        player.popcorn.on("timeupdate", function (){
+            var duration = player.popcorn.duration();
+            if(!duration){ return;}
+            var current_time = player.popcorn.currentTime();
+            var elapsed_percent = current_time / duration;
+            elapsed_time.style.width = ""+(elapsed_percent*100)+"%";
+            var extra_0 = ((current_time%60) < 10)? "0" : "";
+            current_time = ""+Math.floor(current_time/60)+":"+extra_0+Math.floor(current_time%60);
+            if(player.current_duration){
+                timer.textContent = ""+current_time+"/"+self.current_duration;
+            } else{
+                timer.textContent = ""+current_time;
+            }
+        });
+        player.popcorn.on("progress", function (){
+            player.current_duration = player.popcorn.duration();
+            if(!player.current_duration){ return;}
+            var buffered_range = player.popcorn.buffered();
+            var buffer_end = buffered_range.end(0);
+            if(!buffer_end){ buffer_end = 0}
+            buffered_time.style.width = ""+((buffer_end/player.current_duration)*100)+"%";
+            var current_time = player.popcorn.currentTime()
+            var extra_0 = ((current_time%60) < 10)? "0" : "";
+            current_time = ""+Math.floor(current_time/60)+":"+extra_0+Math.floor(current_time%60);
+            player.current_duration = ""+Math.floor(player.current_duration/60)+":"+Math.floor(player.current_duration%60);
+            if(player.current_duration){
+                timer.textContent = ""+current_time+"/"+player.current_duration;
+            } else{
+                timer.textContent = ""+current_time;
+            }
+        });
+        // Volume:
+        mute.addEventListener("click", function (){
+            if(player.popcorn.muted()){
+                player.popcorn.unmute();
+                mute.getElementById("sound" ).style.opacity = "1";
+            } else{
+                player.popcorn.muted(true);
+                mute.getElementById("sound" ).style.opacity = "0";
+            }
+        }, false);
+        return controls;
+    },
     setup: function (){
         var self = this;
 		//document.title = configuration.title;
@@ -220,10 +318,10 @@ lab = {
         this.arrow_left  = document.getElementById("arrow_left" );
         this.arrow_right = document.getElementById("arrow_right");
         this.arrow_left.addEventListener("click", function (){
-            lab.transition("left");
+            main_lab.transition("left");
         }, false)
         this.arrow_right.addEventListener("click", function (){
-            lab.transition("right");
+            main_lab.transition("right");
         }, false)
         /*// Setup Instructions + Tips Sections:
         this.tip_manager.setup(configuration);
@@ -242,8 +340,43 @@ lab = {
         */
         // Finished
     },
-    configure: function (lab, configuration){
-        
+    register_lab: function (new_lab, configuration){
+        console.log('Main Lab: Register')
+        this.lab = new_lab;
+        new_lab.setup(configuration);
+    },
+    frame_left: undefined,
+    frame_middle: undefined,
+    frame_right: undefined,
+    register_frame: function (frame_loc, new_frame){
+        var container_element;
+        switch(frame_loc){
+            case 'left': {
+                if(this.frame_left){
+                    this.left.removeChild(this.frame_left);
+                }
+                this.frame_left = new_frame;
+                container_element = this.left;
+                break;
+            }
+            case 'middle': {
+                if(this.frame_middle){
+                    this.middle.removeChild(this.frame_middle);
+                }
+                this.frame_middle = new_frame;
+                container_element = this.middle;
+                break;
+            }
+            case 'right': {
+                if(this.frame_right){
+                    this.right.removeChild(this.frame_right);
+                }
+                this.frame_right = new_frame;
+                container_element = this.right;
+                break;
+            }
+        }
+        return container_element.appendChild(new_frame);
     },
     control_interface: {
         focus: undefined,
@@ -257,19 +390,19 @@ lab = {
             }
             switch(key_code){
                 case 37:{
-                    lab.transition("left");
+                    main_lab.transition("left");
                     break;
                 }
                 case 39:{
-                    lab.transition("right");
+                    main_lab.transition("right");
                     break;
                 }/*
                 case 38:{
-                    lab.scroll("up");
+                    main_lab.scroll("up");
                     break;
                 }
                 case 40:{
-                    lab.scroll("down");
+                    main_lab.scroll("down");
                     break;
                 }*/
             }
@@ -290,7 +423,7 @@ lab = {
                 case 'blur':
                 case 'mouseup':{
                     this.dragged_element = undefined;
-                    lab.right.className = '';
+                    main_lab.right.className = '';
                     break;
                 }
                 case 'mousemove':{
@@ -428,30 +561,31 @@ lab = {
         }
     }
 };
-lab.compatibility.check(true);
-if((lab.compatibility.status & lab.compatibility.EVENT)){
+main_lab.compatibility.check(true);
+if((main_lab.compatibility.status & main_lab.compatibility.EVENT)){
     document.addEventListener("DOMContentLoaded", function (){
-        lab.compatibility.check();
+        main_lab.compatibility.check();
         var full_featured = (
-            lab.compatibility.CONTROLS |
-            lab.compatibility.CSS_TRANSITION |
-            lab.compatibility.DOM |
-            lab.compatibility.EVENT |
-            lab.compatibility.HTML5);
-        if(lab.compatibility.status != full_featured){
-            lab.compatibility.notify()
-            console.log(lab.compatibility.CONTROLS)
-            console.log(lab.compatibility.CSS_TRANSITION)
-            console.log(lab.compatibility.DOM)
-            console.log(lab.compatibility.EVENT)
-            console.log(lab.compatibility.HTML5)
-            console.log('Notify: '+lab.compatibility.status + ' | '+full_featured)
+            main_lab.compatibility.CONTROLS |
+            main_lab.compatibility.CSS_TRANSITION |
+            main_lab.compatibility.DOM |
+            main_lab.compatibility.EVENT |
+            main_lab.compatibility.HTML5);
+        if(main_lab.compatibility.status != full_featured){
+            main_lab.compatibility.notify()
+            console.log(main_lab.compatibility.CONTROLS)
+            console.log(main_lab.compatibility.CSS_TRANSITION)
+            console.log(main_lab.compatibility.DOM)
+            console.log(main_lab.compatibility.EVENT)
+            console.log(main_lab.compatibility.HTML5)
+            console.log('Notify: '+main_lab.compatibility.status + ' | '+full_featured)
         }
-        if(lab.compatibility.status & (lab.compatibility.DOM | lab.compatibility.HTML5)){
-            lab.setup(/*lab_configuration*/);
+        if(main_lab.compatibility.status & (main_lab.compatibility.DOM | main_lab.compatibility.HTML5)){
+            main_lab.setup();
+            main_lab.register_lab(instruction_lab, lab_configuration);
         }
     }, false);
 } else{
-    lab.compatibility.notify()
-    console.log('notify: '+lab.compatibility.status)
+    main_lab.compatibility.notify()
+    console.log('notify: '+main_lab.compatibility.status)
 }

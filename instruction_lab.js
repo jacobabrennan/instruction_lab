@@ -3,94 +3,50 @@
  *
  */
 instruction_lab = {
-    // Define compatibility flags. This may be expanded in the future.
-    compatibility: {
-        EVENT: 1,
-        DOM: 2,
-        HTML5: 4,
-        CONTROLS: 8,
-        CSS_TRANSITION: 16,
-        status: 0, // Not undefined, so that bitwise operations will work.
-        check: function (dom_content_event){
-            // First check if the event DOMContentLoaded can be listened for and will be fired.
-            if(dom_content_event){
-                // Test for the ability to listen for events.
-                if(document.addEventListener){
-                    this.status |= this.EVENT;
-                }
-            } else{
-                // Test for HTML5 video support by testing for the existence of the main video.
-                    // Note: Assumes document.getElementById. Support charts show support back to IE6.
-				var video_test = document.getElementById('lab_video');
-				if(video_test && video_test.canPlayType){
-					this.status |= this.HTML5;
-				}
-                // Test for progress bar click support, which requires clientWidth.
-                    // Note: event.clientX is not tested here, but support charts show near universal compatibility.
-                var progress_bar = document.getElementById('control_progress')
-                if((progress_bar.clientWidth !== undefined) && (progress_bar.offsetLeft !== undefined) && progress_bar.offsetParent){
-                    this.status |= this.CONTROLS;
-                }
-                // Test for DOM manipulation.
-                if(document.createElement && document.appendChild){
-                    var test_element = document.createElement('div');
-                    var test_contents = document.createElement('span');
-                    test_contents.innerHTML = 'textContent check';
-                    test_element.appendChild(test_contents)
-                    if(test_element.setAttribute || test_element.innerHTML){
-                        this.status |= this.DOM;
-                    }
-                    // textContent is used by the svg DOM in the custom controls.
-                    if(!test_contents.textContent){
-                        this.status &= ~this.CONTROLS;
-                    }
-                    var test_style = test_element.style;
-                    if( 'transition'       in test_style ||
-                        'MozTransition'    in test_style ||
-                        'WebkitTransition' in test_style ||
-                        'OTransition'      in test_style){
-                        this.status |= this.CSS_TRANSITION;
-                    }
-                }
-                /* Remaining Tests:
-                 * mp4 || webm || theora.ogv
-                 * inline SVG
-                 * Embedded fonts
-                 */
-            }
-            return this.status;
-        },
-        notify: function (){
-            /* Function must be delayed to allow for page loading,
-             * particularly the support_message div.
-             */
-            setTimeout(function (){
-                document.getElementById("support_message").style.display = "block";
-                if(!(instruction_lab.compatibility.status & (instruction_lab.compatibility.EVENT | instruction_lab.compatibility.DOM | instruction_lab.compatibility.HTML5))){
-                    document.getElementById("support_none").style.display = "block";
-                } else if(!(instruction_lab.compatibility.status & instruction_lab.compatibility.CSS_TRANSITION && instruction_lab.compatibility.status & instruction_lab.compatibility.CONTROLS)){
-                    document.getElementById("support_limited").style.display = "block";
-                    document.getElementById("support_button").addEventListener("click", function (){
-                        document.getElementById("support_message").style.display = "none";
-                    }, false);
-                }
-            }, 1000);
-        }
-    },
+    video_frame: undefined,
+    instruction_frame: undefined,
     setup: function (configuration){
+        console.log("Instruction Lab: Seting up")
 		document.title = configuration.title;
         this.seeking = false;
-        this.popcorn = Popcorn("#lab_video");
-        window.addEventListener("resize", function (e){ instruction_lab.resize()}, false);
-        window.addEventListener("keydown", function (e){ instruction_lab.control_interface.key_down(e);}, false);
-        window.addEventListener('mousemove', function (e){ instruction_lab.control_interface.mouse_control(e);}, false);
-        window.addEventListener('mousedown', function (e){ instruction_lab.control_interface.mouse_control(e);}, false);
-        window.addEventListener('mouseup', function (e){ instruction_lab.control_interface.mouse_control(e);}, false);
+        // Create Frames:
+            // Create Middle Frame:
+        var middle_frame_html = '\
+            <div id="tip_area"></div>\
+            <video id="lab_video">\
+                <source id="source_mp4" src="vids/make_beaglebone_480.mp4"></source>\
+                <source id="source_ogv" src="vids/make_beaglebone_480.ogv"></source>\
+                <source id="source_webm" src="vids/make_beaglebone_480.webm"></source>\
+            </video>\
+            <img id="logo1" alt="Make Logo" />\
+            <img id="logo2" alt="Lab Specific Logo" />\
+            ';
+        this.video_frame = document.createElement('div');
+        this.video_frame.innerHTML = middle_frame_html;
+        var success = main_lab.register_frame('middle', this.video_frame);
+        var right_frame_html = '\
+            <div id="instructions_list"></div>\
+            <div id="instructions_slider"></div>\
+            ';
+        this.instruction_frame = document.createElement('div');
+        this.instruction_frame.innerHTML = right_frame_html;
+        success = main_lab.register_frame('right', this.instruction_frame);
         // Configure html urls:
         this.logo1 = document.getElementById("logo1");
         this.logo1.src = configuration.urls.logo1;
         this.logo2 = document.getElementById("logo2");
         this.logo2.src = configuration.urls.logo2;
+        // Request Media Player
+        this.video_frame.player = main_lab.create_player('video');
+        var video_sources = configuration.urls.video;
+        for(var codex in video_sources){
+            var source = document.createElement('source');
+            source.setAttribute('src', video_sources[codex]);
+            this.video_frame.player.media.appendChild(source);
+        }
+        this.video_frame.appendChild(this.video_frame.player.media);
+        this.video_frame.appendChild(this.video_frame.player.controls);
+        /*
         // Configure Custom Controls:
         var controls = document.getElementById("controls");
         if(this.compatibility.status & this.compatibility.CONTROLS){
@@ -202,7 +158,12 @@ instruction_lab = {
         } else{
             this.popcorn.media.controls = "true";
             controls.style.display = "none";
-        }
+        }*/
+        
+        
+        
+        
+        
         // Setup frame slider:
         this.frame = document.getElementById("frame");
         this.slider = document.getElementById("slider");
@@ -225,6 +186,7 @@ instruction_lab = {
         this.instructions.setup(configuration);
         //
         this.resize();
+        /*
         this.popcorn.on("seeked", function (){
             instruction_lab.seeking = false;
             instruction_lab.tip_manager.populate(instruction_lab.popcorn.currentTime());
@@ -233,6 +195,7 @@ instruction_lab = {
             instruction_lab.seeking = true;
             instruction_lab.tip_manager.clear_tips();
         });
+        */
         // Finished
     },
     control_interface: {
@@ -417,23 +380,3 @@ instruction_lab = {
         }
     }
 };
-instruction_lab.compatibility.check(true);
-if((instruction_lab.compatibility.status & instruction_lab.compatibility.EVENT)){
-    document.addEventListener("DOMContentLoaded", function (){
-        instruction_lab.compatibility.check();
-        var full_featured = (
-            instruction_lab.compatibility.CONTROLS |
-            instruction_lab.compatibility.CSS_TRANSITION |
-            instruction_lab.compatibility.DOM |
-            instruction_lab.compatibility.EVENT |
-            instruction_lab.compatibility.HTML5);
-        if(instruction_lab.compatibility.status != full_featured){
-            instruction_lab.compatibility.notify()
-        }
-        if(instruction_lab.compatibility.status & (instruction_lab.compatibility.DOM | instruction_lab.compatibility.HTML5)){
-            instruction_lab.setup(lab_configuration);
-        }
-    }, false);
-} else{
-    instruction_lab.compatibility.notify()
-}
