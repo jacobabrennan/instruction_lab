@@ -106,7 +106,14 @@ main_lab = {
         var self = this;
         var controls = document.createElement('div');
         controls.setAttribute('id', 'controls');
-        var big_play = document.createElement('svg');
+		var svg_ns = 'http://www.w3.org/2000/svg';
+		var control_panel = document.createElementNS(svg_ns, 'svg');
+		control_panel.setAttribute('id', 'control_panel');
+		control_panel.setAttribute('viewBox', '0 0 128 9');
+		/*control_panel.setAttributeNS(null, 'xmlns:xlink', 'http://www.w3.org/1999/xlink');
+		control_panel.setAttributeNS(null, 'xmlns:ev', 'http://www.w3.org/2001/xml-events');*/
+        //var big_play = document.createElement('svg');
+		/*
         big_play.outerHTML = '\
             <svg id="control_big_play" width="100" height="100" viewBox="0 0 100 100"\
                 xmlns="http://www.w3.org/2000/svg"\
@@ -123,35 +130,39 @@ main_lab = {
                 <title>Play</title>\
                 <path id="big_play" d="m10,10l80,40l-80,40l0,-80" />\
             </svg>\
-        ';
-        var panel = document.createElement('div');
-        panel.setAttribute('id', 'control_panel');
-        var play = document.createElement('svg');
-        play.outerHTML = '\
-            <svg id="control_play" width="100" height="100" viewBox="0 0 100 100"\
-                xmlns="http://www.w3.org/2000/svg"\
-                xmlns:xlink="http://www.w3.org/1999/xlink"\
-                xmlns:ev="http://www.w3.org/2001/xml-events">\
-                <title>Play / Pause</title>\
-                <style>\
-                    #pause{\
-                        opacity: 0;\
-                    }\
-                    .icon:hover{\
-                        fill: red;\
-                    }\
-                </style>\
-                <g class="icon" stroke-linejoin="round" fill="rgb(102, 102, 102)" stroke="#000000" stroke-width="0">\
-                    <g id="play">\
-                        <path id="play" d="m5,5l81,45l-81,45l0,-90z" />\
-                    </g>\
-                    <g id="pause">\
-                        <path d="m12,86l0,-72l20,0l0,71.20879l-20,0.79121z" />\
-                        <path d="m45,86l0,-72l20,0l0,71.20879l-20,0.79121z" />\
-                    </g>\
-                </g>\
-            </svg>\
-        ';
+        ';*/
+        var play_pause = document.createElementNS(svg_ns, 'svg');
+		play_pause.setAttribute('class', 'icon');
+		play_pause.setAttribute('id', 'toggle_play');
+		//play_pause.setAttribute('stroke-linejoin', 'round');
+		play_pause.setAttribute('fill', 'rgb(102,102,102)');
+		play_pause.setAttribute('stroke', '#000000');
+		play_pause.setAttribute('stroke-width', '1');
+		play_pause.setAttribute('x', '7');
+		play_pause.setAttribute('y', '1');
+		play_pause.setAttribute('width', '7');
+		play_pause.setAttribute('height', '7');
+		play_pause.setAttribute('viewBox', '0 0 100 100');
+		var play = document.createElementNS(svg_ns, 'path');
+		play.setAttribute('id', 'play');
+		play.setAttribute('d', 'm5,5l81,45l-81,45l0,-90z');
+		var pause = document.createElementNS(svg_ns, 'path');
+		pause.setAttribute('id', 'pause');
+		pause.setAttribute('d', 'm12,86 l0,-72 l20,0 l0,71.20879 l-20,0.79121 M45,86 l0,-72 l20,0 l0,71.20879 l-20,0.79121z');
+		play_pause.appendChild(play);
+		play_pause.appendChild(pause);
+		control_panel.appendChild(play_pause);
+		/*
+			<style>\
+				#pause{\
+					opacity: 0;\
+				}\
+				.icon:hover{\
+					fill: red;\
+				}\
+			</style>\
+		*/
+		/*
         var progress = document.createElement('div');
         progress.setAttribute('id', 'control_progress');
         var buffered_time = document.createElement('div');
@@ -160,44 +171,50 @@ main_lab = {
         elapsed_time.setAttribute('id', 'control_elapsed_time');
         progress.appendChild(buffered_time);
         progress.appendChild(elapsed_time);
-        var mute = document.createElement('svg');
-        mute.outerHTML = '\
-            <svg id="control_mute" width="100" height="100" viewBox="0 0 100 100"\
-                xmlns="http://www.w3.org/2000/svg"\
-                xmlns:xlink="http://www.w3.org/1999/xlink"\
-                xmlns:ev="http://www.w3.org/2001/xml-events">\
-                <title>Mute / Unmute</title>\
-                <style>\
-                    .icon:hover{\
-                        fill: red;\
-                    }\
-                </style>\
-                <g stroke="#000000" stroke-width="0" stroke-linejoin="round">\
-                    <path class="icon" d="m8,30l0,40l20,0l25,25l0,-90l-25,25l-20,0z" fill="rgb(102, 102, 102)" />\
-                    <g id="sound" fill="none" stroke="rgb(102, 102, 102)" stroke-width="8">\
-                        <path d="m65,20a50,50 0 0 10,60" id="svg_6"/>\
-                        <path d="m75,10a50,50 0 0 10,80" id="svg_7"/>\
-                    </g>\
-                </g>\
-            </svg>\
-        ';
-        var timer = document.createElement('svg');
-        timer.outerHTML = '\
-            <svg id="control_timer" width="300" height="100" viewBox="0 0 225 100"\
-                xmlns="http://www.w3.org/2000/svg"\
-                xmlns:xlink="http://www.w3.org/1999/xlink"\
-                xmlns:ev="http://www.w3.org/2001/xml-events">\
-                <title>Timer</title>\
-                <text id="svg_timer" transform="matrix(2.0294, 0, 0, 2.0294, 4.73115, 22.9506)" text-anchor="left"\
-                    font-family="sans-serif" font-size="24" y="22" x="0" stroke="#000000"></text>\
-            </svg>\
-        ';
-        panel.appendChild(play);
+        */
+        var mute = document.createElementNS(svg_ns, 'svg');
+		mute.setAttribute('class', 'icon');
+		mute.setAttribute('id', 'mute');
+		mute.setAttribute('stroke-linejoin', 'round');
+		mute.setAttribute('fill', 'rgb(102,102,102)');
+		mute.setAttribute('stroke', '#000000');
+		mute.setAttribute('stroke-width', '0');
+		mute.setAttribute('x', '114');
+		mute.setAttribute('y', '1');
+		mute.setAttribute('width', '7');
+		mute.setAttribute('height', '7');
+		mute.setAttribute('viewBox', '0 0 100 100');
+		var mute_speaker = document.createElementNS(svg_ns, 'path');
+		var mute_sound = document.createElementNS(svg_ns, 'path');
+		mute_speaker.setAttribute('id', 'mute_speaker');
+		mute_speaker.setAttribute('d', 'm8,30l0,40l20,0l25,25l0,-90l-25,25l-20,0z');
+		mute_sound.setAttribute('id', 'mute_sound');
+		mute_sound.setAttribute('d', 'm65,20a50,50 0 0 10,60 M75,10a50,50 0 0 10,80');
+		mute.appendChild(mute_speaker);
+		mute.appendChild(mute_sound);
+        control_panel.appendChild(mute);
+        var timer = document.createElementNS(svg_ns, 'svg');
+		timer.setAttribute('id', 'mute');
+		timer.setAttribute('x', '93');
+		timer.setAttribute('y', '1');
+		timer.setAttribute('width', '21');
+		timer.setAttribute('height', '7');
+		timer.setAttribute('viewBox', '0 0 225 100');
+		var time_text = document.createElementNS(svg_ns, 'text');
+		time_text.setAttribute('id', 'time_text');
+		time_text.setAttribute('text-anchor', 'left');
+		time_text.setAttribute('font-family', 'sans-serif');
+		time_text.setAttribute('font-size', '24');
+		time_text.setAttribute('y', '22');
+		time_text.setAttribute('x', '0');
+		time_text.setAttribute('stroke', '#000000');
+		time_text.setAttribute('transform', 'matrix(2.0294, 0, 0, 2.0294, 4.73115, 22.9506)');
+		timer.appendChild(time_text);
+		control_panel.appendChild(timer);
+		/*
         panel.appendChild(progress);
-        panel.appendChild(timer);
-        panel.appendChild(mute);
         controls.appendChild(big_play);
-        controls.appendChild(panel);
+        */
         // Capture standard play events.
         player.popcorn.media.addEventListener("click", function (){
             if(player.popcorn.paused()){
@@ -206,12 +223,14 @@ main_lab = {
                 player.popcorn.pause();
             }
         }, false);
+		/*
         // Big Play Button
         big_play.addEventListener("click", function (){
             player.popcorn.play();
         }, false)
+        */
         // Play/Pause Button
-        play.addEventListener("click", function (){
+        play_pause.addEventListener("click", function (){
             if(player.popcorn.currentTime() == player.popcorn.duration()){
                 player.popcorn.currentTime(0);
                 player.popcorn.play();
@@ -221,21 +240,22 @@ main_lab = {
             else{player.popcorn.pause();}
         }, false);
         player.popcorn.on("playing", function (){
-            big_play.style.opacity = "0";
+            /*big_play.style.opacity = "0";
             setTimeout(function (){
                 big_play.style.display = "none";
-            }, 1000)
-            play.getElementById("play" ).style.opacity = "0";
-            play.getElementById("pause").style.opacity = "1";
+            }, 1000)*/
+            play.style.opacity = "0";
+            pause.style.opacity = "1";
         });
         player.popcorn.on("pause", function (){
-            play.getElementById("play" ).style.opacity = "1";
-            play.getElementById("pause").style.opacity = "0";
+            play.style.opacity = "1";
+            pause.style.opacity = "0";
         });
         player.popcorn.on("ended", function (){
-            play.getElementById("play" ).style.opacity = "1";
-            play.getElementById("pause").style.opacity = "0";
+            play.style.opacity = "1";
+            pause.style.opacity = "0";
         });
+		/*
         // Progress Bar and Timer
         progress.addEventListener("click", function (event){
             var duration = player.popcorn.duration();
@@ -252,48 +272,51 @@ main_lab = {
             elapsed_time.style.width = ""+(click_percent*100)+"%";
             player.popcorn.currentTime(seek_time);
         });
+        */
         player.popcorn.on("timeupdate", function (){
             var duration = player.popcorn.duration();
             if(!duration){ return;}
             var current_time = player.popcorn.currentTime();
             var elapsed_percent = current_time / duration;
-            elapsed_time.style.width = ""+(elapsed_percent*100)+"%";
+            //elapsed_time.style.width = ""+(elapsed_percent*100)+"%";
             var extra_0 = ((current_time%60) < 10)? "0" : "";
             current_time = ""+Math.floor(current_time/60)+":"+extra_0+Math.floor(current_time%60);
-            if(player.current_duration){
-                timer.textContent = ""+current_time+"/"+self.current_duration;
+            if(player.current_duration !== undefined){
+                time_text.textContent = ""+current_time+"/"+player.current_duration;
             } else{
-                timer.textContent = ""+current_time;
+                time_text.textContent = ""+current_time;
             }
         });
         player.popcorn.on("progress", function (){
             player.current_duration = player.popcorn.duration();
             if(!player.current_duration){ return;}
+			/*
             var buffered_range = player.popcorn.buffered();
             var buffer_end = buffered_range.end(0);
             if(!buffer_end){ buffer_end = 0}
             buffered_time.style.width = ""+((buffer_end/player.current_duration)*100)+"%";
+            */
             var current_time = player.popcorn.currentTime()
             var extra_0 = ((current_time%60) < 10)? "0" : "";
             current_time = ""+Math.floor(current_time/60)+":"+extra_0+Math.floor(current_time%60);
             player.current_duration = ""+Math.floor(player.current_duration/60)+":"+Math.floor(player.current_duration%60);
             if(player.current_duration){
-                timer.textContent = ""+current_time+"/"+player.current_duration;
+                time_text.textContent = ""+current_time+"/"+player.current_duration;
             } else{
-                timer.textContent = ""+current_time;
+                time_text.textContent = ""+current_time;
             }
         });
         // Volume:
         mute.addEventListener("click", function (){
             if(player.popcorn.muted()){
                 player.popcorn.unmute();
-                mute.getElementById("sound" ).style.opacity = "1";
+                mute_sound.style.opacity = "1";
             } else{
                 player.popcorn.muted(true);
-                mute.getElementById("sound" ).style.opacity = "0";
+                mute_sound.style.opacity = "0";
             }
         }, false);
-        return controls;
+		return control_panel;
     },
     setup: function (){
         var self = this;

@@ -472,7 +472,6 @@ body{
     z-index: 2;
 }
 #control_panel:hover{
-	opacity: 1;
 }
 #control_big_play{
     cursor: pointer;
