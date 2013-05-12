@@ -493,31 +493,14 @@ body{
 	height: 67%;
 	width: 4.92%; /* 70% of 10% = what% of 80%; w = 8.75; a = 16:9 */
 }
-#control_progress{
-    cursor: pointer;
-	position: absolute;
-	top: 29%;
-	left: 14%;
-	height: 40%;
-	width: 60%;
+#progress_bar{
 	overflow: hidden;
 	background: rgb(102, 102, 102);
-	z-index: 3;
 }
-#control_elapsed_time{
-	position: absolute;
-	top: 0%;
-	left: 0%;
-	height: 100%;
-	width: 0%;
+#elapsed{
 	background: rgb(153, 153, 153);
 }
-#control_buffered_time{
-	position: absolute;
-	top: 0%;
-	left: 0%;
-	height: 100%;
-	width: 0%;
+#buffered{
 	background: rgb(51, 51, 51);
 }
 #control_progress:hover #control_elapsed_time{

@@ -134,10 +134,10 @@ main_lab = {
         var play_pause = document.createElementNS(svg_ns, 'svg');
 		play_pause.setAttribute('class', 'icon');
 		play_pause.setAttribute('id', 'toggle_play');
-		//play_pause.setAttribute('stroke-linejoin', 'round');
+		play_pause.setAttribute('stroke-linejoin', 'round');
 		play_pause.setAttribute('fill', 'rgb(102,102,102)');
 		play_pause.setAttribute('stroke', '#000000');
-		play_pause.setAttribute('stroke-width', '1');
+		play_pause.setAttribute('stroke-width', '0');
 		play_pause.setAttribute('x', '7');
 		play_pause.setAttribute('y', '1');
 		play_pause.setAttribute('width', '7');
@@ -162,16 +162,24 @@ main_lab = {
 				}\
 			</style>\
 		*/
-		/*
-        var progress = document.createElement('div');
-        progress.setAttribute('id', 'control_progress');
-        var buffered_time = document.createElement('div');
-        var elapsed_time = document.createElement('div');
-        buffered_time.setAttribute('id', 'control_buffered_time');
-        elapsed_time.setAttribute('id', 'control_elapsed_time');
-        progress.appendChild(buffered_time);
-        progress.appendChild(elapsed_time);
-        */
+        var progress_bar = document.createElementNS(svg_ns, 'svg');
+        progress_bar.setAttribute('id', 'progress_bar');
+		progress_bar.setAttribute('x', '17');
+		progress_bar.setAttribute('y', '3');
+		progress_bar.setAttribute('width', '75');
+		progress_bar.setAttribute('height', '3');
+		progress_bar.setAttribute('viewBox', '0 0 100 100');
+        var buffered = document.createElementNS(svg_ns, 'rect');
+        buffered.setAttribute('id', 'buffered');
+		buffered.setAttribute('width', '0');
+		buffered.setAttribute('height', '100');
+		progress_bar.appendChild(buffered);
+        var elapsed = document.createElementNS(svg_ns, 'rect');
+        elapsed.setAttribute('id', 'elapsed');
+		elapsed.setAttribute('width', '0');
+		elapsed.setAttribute('height', '100');
+		progress_bar.appendChild(elapsed);
+		control_panel.appendChild(progress_bar);
         var mute = document.createElementNS(svg_ns, 'svg');
 		mute.setAttribute('class', 'icon');
 		mute.setAttribute('id', 'mute');
@@ -212,7 +220,6 @@ main_lab = {
 		timer.appendChild(time_text);
 		control_panel.appendChild(timer);
 		/*
-        panel.appendChild(progress);
         controls.appendChild(big_play);
         */
         // Capture standard play events.
@@ -255,13 +262,12 @@ main_lab = {
             play.style.opacity = "1";
             pause.style.opacity = "0";
         });
-		/*
         // Progress Bar and Timer
-        progress.addEventListener("click", function (event){
+        progress_bar.addEventListener("click", function (event){
             var duration = player.popcorn.duration();
             if(!duration){ return;}
-            var resized_width = progress.clientWidth;
-            var actual_left = 0;
+            //var resized_width = progress_bar.clientWidth;
+            /*var actual_left = 0;
             var offset_element = progress;
             while(offset_element){
                 actual_left += offset_element.offsetLeft;
@@ -271,14 +277,15 @@ main_lab = {
             var seek_time = duration * click_percent;
             elapsed_time.style.width = ""+(click_percent*100)+"%";
             player.popcorn.currentTime(seek_time);
+            */
+			console.log(event)
         });
-        */
         player.popcorn.on("timeupdate", function (){
             var duration = player.popcorn.duration();
             if(!duration){ return;}
             var current_time = player.popcorn.currentTime();
             var elapsed_percent = current_time / duration;
-            //elapsed_time.style.width = ""+(elapsed_percent*100)+"%";
+            elapsed.setAttribute('width', ''+(elapsed_percent*100));
             var extra_0 = ((current_time%60) < 10)? "0" : "";
             current_time = ""+Math.floor(current_time/60)+":"+extra_0+Math.floor(current_time%60);
             if(player.current_duration !== undefined){
@@ -290,12 +297,10 @@ main_lab = {
         player.popcorn.on("progress", function (){
             player.current_duration = player.popcorn.duration();
             if(!player.current_duration){ return;}
-			/*
             var buffered_range = player.popcorn.buffered();
             var buffer_end = buffered_range.end(0);
             if(!buffer_end){ buffer_end = 0}
-            buffered_time.style.width = ""+((buffer_end/player.current_duration)*100)+"%";
-            */
+            buffered.setAttribute('width', ''+((buffer_end/player.current_duration)*100));
             var current_time = player.popcorn.currentTime()
             var extra_0 = ((current_time%60) < 10)? "0" : "";
             current_time = ""+Math.floor(current_time/60)+":"+extra_0+Math.floor(current_time%60);
