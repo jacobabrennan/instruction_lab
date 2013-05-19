@@ -6,7 +6,6 @@ instruction_lab = {
     video_frame: undefined,
     instruction_frame: undefined,
     setup: function (configuration){
-        console.log("Instruction Lab: Seting up")
 		document.title = configuration.title;
         this.seeking = false;
         // Create Frames:

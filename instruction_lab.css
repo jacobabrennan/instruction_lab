@@ -461,7 +461,7 @@ body{
 }
 
 /* Custom video controls. */
-#control_panel{
+.control_panel{
 	position: absolute;
 	bottom: 0%;
 	left: 10%;
@@ -471,9 +471,9 @@ body{
     border-radius: 0.2em 0.2em 0% 0%;
     z-index: 2;
 }
-#control_panel:hover{
+.control_panel:hover{
 }
-#control_big_play{
+.control_big_play{
     cursor: pointer;
     position: absolute;
     top: 40%;
@@ -485,40 +485,30 @@ body{
 	-webkit-transition: opacity 0.5s;
 	-o-transition: opacity 0.5s;
 }
-#control_play{
+.toggle_play{
     cursor: pointer;
-	position: absolute;
-	top: 15%;
-	left: 7%;
-	height: 67%;
-	width: 4.92%; /* 70% of 10% = what% of 80%; w = 8.75; a = 16:9 */
 }
-#progress_bar{
+.progress_bar{
 	overflow: hidden;
-	background: rgb(102, 102, 102);
+	fill: rgb(102, 102, 102);
 }
-#elapsed{
-	background: rgb(153, 153, 153);
+.elapsed{
+	fill: rgb(153, 153, 153);
 }
-#buffered{
-	background: rgb(51, 51, 51);
+.elapsed .hover{
+	fill: red;
+	opacity:  0;
+	width: 3;
 }
-#control_progress:hover #control_elapsed_time{
+.buffered{
+	fill: rgb(51, 51, 51);
+}
+.progress_bar:hover .elapsed{
 	background: red;
 }
-#control_timer{
-	position: absolute;
-	top: 0%;
-	left: 75%;
-	height: 100%;
-	width: 13%;
+.timer{
 	z-index: 1;
 }
-#control_mute{
+.mute{
     cursor: pointer;
-	position: absolute;
-	top: 15%;
-	left: 88%;
-	height: 70%;
-	width: 4.92%;
 }

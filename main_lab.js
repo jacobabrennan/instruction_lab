@@ -89,10 +89,8 @@ main_lab = {
             controls: undefined,
             current_duration: 0
         }
-        console.log('trying')
         if(media_type){
             player.media = document.createElement(media_type);
-            console.log(typeof player.media.addEventListener)
         }
         player.popcorn = Popcorn(player.media);
         player.controls = this.create_controls(player);
@@ -105,10 +103,10 @@ main_lab = {
         }
         var self = this;
         var controls = document.createElement('div');
-        controls.setAttribute('id', 'controls');
+        controls.setAttribute('class', 'controls');
 		var svg_ns = 'http://www.w3.org/2000/svg';
 		var control_panel = document.createElementNS(svg_ns, 'svg');
-		control_panel.setAttribute('id', 'control_panel');
+		control_panel.setAttribute('class', 'control_panel');
 		control_panel.setAttribute('viewBox', '0 0 128 9');
 		/*control_panel.setAttributeNS(null, 'xmlns:xlink', 'http://www.w3.org/1999/xlink');
 		control_panel.setAttributeNS(null, 'xmlns:ev', 'http://www.w3.org/2001/xml-events');*/
@@ -132,8 +130,7 @@ main_lab = {
             </svg>\
         ';*/
         var play_pause = document.createElementNS(svg_ns, 'svg');
-		play_pause.setAttribute('class', 'icon');
-		play_pause.setAttribute('id', 'toggle_play');
+		play_pause.setAttribute('class', 'icon toggle_play');
 		play_pause.setAttribute('stroke-linejoin', 'round');
 		play_pause.setAttribute('fill', 'rgb(102,102,102)');
 		play_pause.setAttribute('stroke', '#000000');
@@ -144,11 +141,12 @@ main_lab = {
 		play_pause.setAttribute('height', '7');
 		play_pause.setAttribute('viewBox', '0 0 100 100');
 		var play = document.createElementNS(svg_ns, 'path');
-		play.setAttribute('id', 'play');
+		play.setAttribute('class', 'play');
 		play.setAttribute('d', 'm5,5l81,45l-81,45l0,-90z');
 		var pause = document.createElementNS(svg_ns, 'path');
-		pause.setAttribute('id', 'pause');
+		pause.setAttribute('class', 'pause');
 		pause.setAttribute('d', 'm12,86 l0,-72 l20,0 l0,71.20879 l-20,0.79121 M45,86 l0,-72 l20,0 l0,71.20879 l-20,0.79121z');
+		pause.style.opacity = '0';
 		play_pause.appendChild(play);
 		play_pause.appendChild(pause);
 		control_panel.appendChild(play_pause);
@@ -162,27 +160,22 @@ main_lab = {
 				}\
 			</style>\
 		*/
-        var progress_bar = document.createElementNS(svg_ns, 'svg');
-        progress_bar.setAttribute('id', 'progress_bar');
-		progress_bar.setAttribute('x', '17');
-		progress_bar.setAttribute('y', '3');
+        var progress_bar = document.createElementNS(svg_ns, 'g');
+        progress_bar.setAttribute('class', 'progress_bar');
+		progress_bar.setAttribute('transform', 'translate(17,3)');
 		progress_bar.setAttribute('width', '75');
 		progress_bar.setAttribute('height', '3');
-		progress_bar.setAttribute('viewBox', '0 0 100 100');
         var buffered = document.createElementNS(svg_ns, 'rect');
-        buffered.setAttribute('id', 'buffered');
-		buffered.setAttribute('width', '0');
-		buffered.setAttribute('height', '100');
+        buffered.setAttribute('class', 'buffered');
+		buffered.setAttribute('height', '3');
 		progress_bar.appendChild(buffered);
         var elapsed = document.createElementNS(svg_ns, 'rect');
-        elapsed.setAttribute('id', 'elapsed');
-		elapsed.setAttribute('width', '0');
-		elapsed.setAttribute('height', '100');
+        elapsed.setAttribute('class', 'elapsed');
+		elapsed.setAttribute('height', '3');
 		progress_bar.appendChild(elapsed);
 		control_panel.appendChild(progress_bar);
         var mute = document.createElementNS(svg_ns, 'svg');
-		mute.setAttribute('class', 'icon');
-		mute.setAttribute('id', 'mute');
+		mute.setAttribute('class', 'icon mute');
 		mute.setAttribute('stroke-linejoin', 'round');
 		mute.setAttribute('fill', 'rgb(102,102,102)');
 		mute.setAttribute('stroke', '#000000');
@@ -194,22 +187,22 @@ main_lab = {
 		mute.setAttribute('viewBox', '0 0 100 100');
 		var mute_speaker = document.createElementNS(svg_ns, 'path');
 		var mute_sound = document.createElementNS(svg_ns, 'path');
-		mute_speaker.setAttribute('id', 'mute_speaker');
+		mute_speaker.setAttribute('class', 'mute_speaker');
 		mute_speaker.setAttribute('d', 'm8,30l0,40l20,0l25,25l0,-90l-25,25l-20,0z');
-		mute_sound.setAttribute('id', 'mute_sound');
+		mute_sound.setAttribute('class', 'mute_sound');
 		mute_sound.setAttribute('d', 'm65,20a50,50 0 0 10,60 M75,10a50,50 0 0 10,80');
 		mute.appendChild(mute_speaker);
 		mute.appendChild(mute_sound);
         control_panel.appendChild(mute);
         var timer = document.createElementNS(svg_ns, 'svg');
-		timer.setAttribute('id', 'mute');
+		timer.setAttribute('class', 'timer');
 		timer.setAttribute('x', '93');
 		timer.setAttribute('y', '1');
 		timer.setAttribute('width', '21');
 		timer.setAttribute('height', '7');
 		timer.setAttribute('viewBox', '0 0 225 100');
 		var time_text = document.createElementNS(svg_ns, 'text');
-		time_text.setAttribute('id', 'time_text');
+		time_text.setAttribute('class', 'time_text');
 		time_text.setAttribute('text-anchor', 'left');
 		time_text.setAttribute('font-family', 'sans-serif');
 		time_text.setAttribute('font-size', '24');
@@ -266,26 +259,32 @@ main_lab = {
         progress_bar.addEventListener("click", function (event){
             var duration = player.popcorn.duration();
             if(!duration){ return;}
-            //var resized_width = progress_bar.clientWidth;
-            /*var actual_left = 0;
-            var offset_element = progress;
+			var svg_width = parseInt(control_panel.getAttribute('viewBox').split(' ')[2]);
+			var svg_coord_scale = svg_width / control_panel.clientWidth;
+			for(var key in control_panel){
+				if(!(typeof control_panel[key] === 'number')){ continue};
+				console.log(key+': '+control_panel[key])
+			}
+			console.log(control_panel.clientWidth)
+			var actual_left = parseInt(progress_bar.getAttribute('x'))*svg_coord_scale;
+            var offset_element = control_panel;
             while(offset_element){
                 actual_left += offset_element.offsetLeft;
                 offset_element = offset_element.offsetParent;
             }
+            var resized_width = parseInt(progress_bar.getAttribute('width'));
             var click_percent = (event.clientX-actual_left) / resized_width;
             var seek_time = duration * click_percent;
-            elapsed_time.style.width = ""+(click_percent*100)+"%";
+            elapsed.style.width = ''+(click_percent*100)+'%';
             player.popcorn.currentTime(seek_time);
-            */
-			console.log(event)
         });
+		var max_bar_width = parseInt(progress_bar.getAttribute('width'));
         player.popcorn.on("timeupdate", function (){
             var duration = player.popcorn.duration();
             if(!duration){ return;}
             var current_time = player.popcorn.currentTime();
             var elapsed_percent = current_time / duration;
-            elapsed.setAttribute('width', ''+(elapsed_percent*100));
+            elapsed.setAttribute('width', ''+(elapsed_percent*max_bar_width));
             var extra_0 = ((current_time%60) < 10)? "0" : "";
             current_time = ""+Math.floor(current_time/60)+":"+extra_0+Math.floor(current_time%60);
             if(player.current_duration !== undefined){
@@ -300,7 +299,7 @@ main_lab = {
             var buffered_range = player.popcorn.buffered();
             var buffer_end = buffered_range.end(0);
             if(!buffer_end){ buffer_end = 0}
-            buffered.setAttribute('width', ''+((buffer_end/player.current_duration)*100));
+            buffered.setAttribute('width', ''+((buffer_end/player.current_duration)*max_bar_width));
             var current_time = player.popcorn.currentTime()
             var extra_0 = ((current_time%60) < 10)? "0" : "";
             current_time = ""+Math.floor(current_time/60)+":"+extra_0+Math.floor(current_time%60);
@@ -369,7 +368,6 @@ main_lab = {
         // Finished
     },
     register_lab: function (new_lab, configuration){
-        console.log('Main Lab: Register')
         this.lab = new_lab;
         new_lab.setup(configuration);
     },
