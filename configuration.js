@@ -40,7 +40,7 @@ var lab_configuration = {
         },
 		code:{
 			icon_color: 'transparent',
-            icon_url: 'utilities-terminal.svg',
+            icon_url: 'utilities-terminal.svg'/*,
             display_instructions: function (tip_json){
 				// this = an html element; a tip.
                 var icon_image = this.getElementsByTagName('img')[0];
@@ -88,7 +88,56 @@ var lab_configuration = {
 					if(code_area.tip != self){ return}
 					code_area.parentNode.removeChild(code_area);
 				}, 900);
-			}
+			}*/
+			/*
+            displayInstructions: function (tipJSON, element){
+				// this = labInstance.instructions
+                var iconImage = element.getElementsByTagName('img')[0];
+                iconImage.style.width = 'auto';
+                iconImage.style.height = '100%';
+				this.className = element.className + ' double';
+				var content = element.getElementsByClassName('content')[0];
+				var expander = document.createElement('pre');
+                expander.setAttribute('class', 'code');
+				expander.textContent = tipJSON.content;
+				content.appendChild(expander);
+			},
+			displayTipArea: function (tipJSON, element){
+				// this = labInstance.tip_manager
+                var lastTip = this.current_tips[this.current_tips.length-1];
+                if(lastTip && lastTip.json && lastTip.json.title == tipJSON.title){
+                    if(lastTip.json.type === tipJSON.type){
+                        last_Tip.dispose = undefined;
+                        this.remove_tip(lastTip);
+                    }
+                }
+                var iconImage = element.getElementsByTagName('img')[0];
+                iconImage.style.width = 'auto';
+                iconImage.style.height = '100%';
+				var codeArea = document.getElementById('code_display');
+				if(!codeArea){
+					codeArea = document.createElement('pre');
+					codeArea.setAttribute('id', 'code_display');
+					codeArea.setAttribute('class', 'hidden');
+					middle.appendChild(codeArea);
+				}
+				setTimeout(function (){
+					codeArea.setAttribute('class', 'displayed');
+				}, 100);
+				codeArea.tip = element;
+				codeArea.textContent = '\n'+tipJSON.content+'\n\n';
+			},
+			dispose: function (){
+				// this = an html element; a tip.
+				var self = this;
+				var code_area = document.getElementById('code_display');
+				if((!code_area) || (code_area.tip != self)){ return}
+				code_area.setAttribute('class', 'hidden');
+				setTimeout(function (){
+					if(code_area.tip != self){ return}
+					code_area.parentNode.removeChild(code_area);
+				}, 900);
+			}*/
 		}
 	},
 	instructions: [

@@ -61,6 +61,19 @@ var instructionLab = {
         */
         // Finished
     },
+	dispose: function (){
+		mainLab.cancelFrame(this.video_frame);
+		mainLab.cancelFrame(this.instruction_frame);
+        this.video_frame.player.dispose()
+        this.video_frame = null;
+        this.instruction_frame = null;
+        this.logo1 = null;
+        this.logo2 = null;
+        this.tip_manager.dispose();
+        this.instructions.dispose();
+		this.tip_manager.tempInstructionLab = null;
+		this.instructions.tempInstructionLab = null;
+	},
 	instructions: {
 		tempInstructionLab: undefined,
 		list: undefined,
@@ -202,7 +215,7 @@ var instructionLab = {
 				icon.addEventListener('click', expander_function, false);
 				title.addEventListener('click', expander_function, false);
 			};
-			self.tempInstructionLab.tip_manager.tip_area = document.getElementById('tip_area');
+			this.tempInstructionLab.tip_manager.tip_area = document.getElementById('tip_area');
 			var step_number = 0;
 			for(var step_index = 0; step_index < instructions_list.length; step_index++){
 				var indexed_step = instructions_list[step_index];
@@ -252,6 +265,16 @@ var instructionLab = {
 				self.scroll_percent = self.list_element.scrollTop / self.list_element.scrollHeight;
 				self.scroll_bar.reposition()
 			});
+		},
+		dispose: function (){
+			/* Further disposing?
+			 * this.list = configuration.instructions; // 
+			 * this.setup_scrollbar('instructions_slider');
+			 */
+			this.list = null;
+			this.scroll_bar.dispose();
+			this.list_element = null;
+			this.tempInstructionLab.tip_manager.tip_area = null;
 		},
 		scroll: function (percent){
 			var handle_percent = this.scroll_bar.handle.offsetHeight / this.scroll_bar.bar.offsetHeight;
@@ -318,6 +341,13 @@ var instructionLab = {
 				handle: document.createElement('div'),
 				reposition: function (){
 					this.handle.style.top = (self.scroll_percent*100)+'%';
+				},
+				dispose: function (){
+					this.container = null;
+					this.up_button = null;
+					this.down_button = null;
+					this.bar = null;
+					this.handle = null;
 				}
 			}
 			this.scroll_bar.up_button.setAttribute('class', 'scroll_up');
@@ -381,6 +411,9 @@ var instructionLab = {
 		tip_templates: undefined,
 		setup: function (configuration){
 			this.tip_templates = configuration.tip_templates;
+		},
+		dispose: function (){
+			this.tip_templates = null;
 		},
 		add_tip: function (tip){
 			this.tip_area.appendChild(tip);

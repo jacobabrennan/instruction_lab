@@ -1,8 +1,5 @@
-/*
- * This code written in whole by Jacob A Brennan.
- *
- */
-mainLab = {
+/* This code written in whole by Jacob A Brennan. */
+var mainLab = {
     lab: undefined,
     // Define compatibility flags. This may be expanded in the future.
     compatibility: {
@@ -87,7 +84,14 @@ mainLab = {
             media: undefined,
             popcorn: undefined,
             controls: undefined,
-            currentDuration: 0
+            currentDuration: 0,
+			dispose: function (){
+				this.media = null;
+				Popcorn.destroy(this.popcorn);
+				this.popcorn = null;
+				//this.controls.distroy();
+				this.controls = null;
+			}
         }
         if(media_type){
             player.media = document.createElement(media_type);
@@ -359,6 +363,10 @@ mainLab = {
         this.lab = Object.create(labType);
         this.lab.setup(configuration);
     },
+	cancelLab: function (oldLab){
+		this.lab = null;
+		oldLab.dispose();
+	},
     frame_left: undefined,
     frame_middle: undefined,
     frame_right: undefined,
@@ -390,7 +398,29 @@ mainLab = {
                 break;
             }
         }
-        return container_element.appendChild(new_frame);
+		if(!container_element){
+			return null;
+		} else{
+			return container_element.appendChild(new_frame);
+		}
+    },
+    cancelFrame: function (oldFrame){
+        var container_element;
+		if(oldFrame == this.frame_left){
+			this.frame_left = null;
+            container_element = this.left;
+        }
+		if(oldFrame == this.frame_middle){
+			this.frame_middle = null;
+            container_element = this.middle;
+        }
+		if(oldFrame == this.frame_right){
+			this.frame_right = null;
+            container_element = this.right;
+        }
+		if(container_element){
+			container_element.removeChild(oldFrame);
+		}
     },
     control_interface: {
         focus: undefined,
@@ -573,8 +603,9 @@ mainLab = {
                 break;
             }
         }
-    }
+    },
 };
+
 mainLab.compatibility.check(true);
 if((mainLab.compatibility.status & mainLab.compatibility.EVENT)){
     document.addEventListener("DOMContentLoaded", function (){
@@ -603,3 +634,14 @@ if((mainLab.compatibility.status & mainLab.compatibility.EVENT)){
     mainLab.compatibility.notify()
     console.log('notify: '+mainLab.compatibility.status)
 }
+setTimeout(function (){
+	console.log('Canceling')
+	mainLab.cancelLab(mainLab.lab);
+	console.log('Canceled')
+}, 3000);
+setTimeout(function (){
+	console.log('Registering');
+	mainLab.registerLab(instructionLab, lab_configuration);
+	console.log('Registered');
+	console.log('Test Complete');
+}, 5000);
