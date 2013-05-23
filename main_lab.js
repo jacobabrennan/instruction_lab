@@ -30,8 +30,8 @@ main_lab = {
                 /
                 // Test for progress bar click support, which requires clientWidth.
                     // Note: event.clientX is not tested here, but support charts show near universal compatibility.
-                var progress_bar = document.getElementById('control_progress')
-                if((progress_bar.clientWidth !== undefined) && (progress_bar.offsetLeft !== undefined) && progress_bar.offsetParent){
+                var progressBar = document.getElementById('control_progress')
+                if((progressBar.clientWidth !== undefined) && (progressBar.offsetLeft !== undefined) && progressBar.offsetParent){
                     */this.status |= this.CONTROLS;/*
                 }*/
                 // Test for DOM manipulation.
@@ -87,7 +87,7 @@ main_lab = {
             media: undefined,
             popcorn: undefined,
             controls: undefined,
-            current_duration: 0
+            currentDuration: 0
         }
         if(media_type){
             player.media = document.createElement(media_type);
@@ -104,10 +104,10 @@ main_lab = {
         var self = this;
         var controls = document.createElement('div');
         controls.setAttribute('class', 'controls');
-		var svg_ns = 'http://www.w3.org/2000/svg';
-		var control_panel = document.createElementNS(svg_ns, 'svg');
-		control_panel.setAttribute('class', 'control_panel');
-		control_panel.setAttribute('viewBox', '0 0 128 9');
+		var svgNs = 'http://www.w3.org/2000/svg';
+		var controlPanel = document.createElementNS(svgNs, 'svg');
+		controlPanel.setAttribute('class', 'control_panel');
+		controlPanel.setAttribute('viewBox', '0 0 128 9');
 		/*control_panel.setAttributeNS(null, 'xmlns:xlink', 'http://www.w3.org/1999/xlink');
 		control_panel.setAttributeNS(null, 'xmlns:ev', 'http://www.w3.org/2001/xml-events');*/
         //var big_play = document.createElement('svg');
@@ -129,27 +129,27 @@ main_lab = {
                 <path id="big_play" d="m10,10l80,40l-80,40l0,-80" />\
             </svg>\
         ';*/
-        var play_pause = document.createElementNS(svg_ns, 'svg');
-		play_pause.setAttribute('class', 'icon toggle_play');
-		play_pause.setAttribute('stroke-linejoin', 'round');
-		play_pause.setAttribute('fill', 'rgb(102,102,102)');
-		play_pause.setAttribute('stroke', '#000000');
-		play_pause.setAttribute('stroke-width', '0');
-		play_pause.setAttribute('x', '7');
-		play_pause.setAttribute('y', '1');
-		play_pause.setAttribute('width', '7');
-		play_pause.setAttribute('height', '7');
-		play_pause.setAttribute('viewBox', '0 0 100 100');
-		var play = document.createElementNS(svg_ns, 'path');
+        var playPause = document.createElementNS(svgNs, 'svg');
+		playPause.setAttribute('class', 'icon toggle_play');
+		playPause.setAttribute('stroke-linejoin', 'round');
+		playPause.setAttribute('fill', 'rgb(102,102,102)');
+		playPause.setAttribute('stroke', '#000000');
+		playPause.setAttribute('stroke-width', '0');
+		playPause.setAttribute('x', '7');
+		playPause.setAttribute('y', '1');
+		playPause.setAttribute('width', '7');
+		playPause.setAttribute('height', '7');
+		playPause.setAttribute('viewBox', '0 0 100 100');
+		var play = document.createElementNS(svgNs, 'path');
 		play.setAttribute('class', 'play');
 		play.setAttribute('d', 'm5,5l81,45l-81,45l0,-90z');
-		var pause = document.createElementNS(svg_ns, 'path');
+		var pause = document.createElementNS(svgNs, 'path');
 		pause.setAttribute('class', 'pause');
 		pause.setAttribute('d', 'm12,86 l0,-72 l20,0 l0,71.20879 l-20,0.79121 M45,86 l0,-72 l20,0 l0,71.20879 l-20,0.79121z');
 		pause.style.opacity = '0';
-		play_pause.appendChild(play);
-		play_pause.appendChild(pause);
-		control_panel.appendChild(play_pause);
+		playPause.appendChild(play);
+		playPause.appendChild(pause);
+		controlPanel.appendChild(playPause);
 		/*
 			<style>\
 				#pause{\
@@ -160,21 +160,21 @@ main_lab = {
 				}\
 			</style>\
 		*/
-        var progress_bar = document.createElementNS(svg_ns, 'g');
-        progress_bar.setAttribute('class', 'progress_bar');
-		progress_bar.setAttribute('transform', 'translate(17,3)');
-		progress_bar.setAttribute('width', '75');
-		progress_bar.setAttribute('height', '3');
-        var buffered = document.createElementNS(svg_ns, 'rect');
+        var progressBar = document.createElementNS(svgNs, 'g');
+        progressBar.setAttribute('class', 'progress_bar');
+		progressBar.setAttribute('transform', 'translate(17,3)');
+		progressBar.setAttribute('width', '75');
+		progressBar.setAttribute('height', '3');
+        var buffered = document.createElementNS(svgNs, 'rect');
         buffered.setAttribute('class', 'buffered');
 		buffered.setAttribute('height', '3');
-		progress_bar.appendChild(buffered);
-        var elapsed = document.createElementNS(svg_ns, 'rect');
+		progressBar.appendChild(buffered);
+        var elapsed = document.createElementNS(svgNs, 'rect');
         elapsed.setAttribute('class', 'elapsed');
 		elapsed.setAttribute('height', '3');
-		progress_bar.appendChild(elapsed);
-		control_panel.appendChild(progress_bar);
-        var mute = document.createElementNS(svg_ns, 'svg');
+		progressBar.appendChild(elapsed);
+		controlPanel.appendChild(progressBar);
+        var mute = document.createElementNS(svgNs, 'svg');
 		mute.setAttribute('class', 'icon mute');
 		mute.setAttribute('stroke-linejoin', 'round');
 		mute.setAttribute('fill', 'rgb(102,102,102)');
@@ -185,33 +185,33 @@ main_lab = {
 		mute.setAttribute('width', '7');
 		mute.setAttribute('height', '7');
 		mute.setAttribute('viewBox', '0 0 100 100');
-		var mute_speaker = document.createElementNS(svg_ns, 'path');
-		var mute_sound = document.createElementNS(svg_ns, 'path');
-		mute_speaker.setAttribute('class', 'mute_speaker');
-		mute_speaker.setAttribute('d', 'm8,30l0,40l20,0l25,25l0,-90l-25,25l-20,0z');
-		mute_sound.setAttribute('class', 'mute_sound');
-		mute_sound.setAttribute('d', 'm65,20a50,50 0 0 10,60 M75,10a50,50 0 0 10,80');
-		mute.appendChild(mute_speaker);
-		mute.appendChild(mute_sound);
-        control_panel.appendChild(mute);
-        var timer = document.createElementNS(svg_ns, 'svg');
+		var muteSpeaker = document.createElementNS(svgNs, 'path');
+		var muteSound = document.createElementNS(svgNs, 'path');
+		muteSpeaker.setAttribute('class', 'mute_speaker');
+		muteSpeaker.setAttribute('d', 'm8,30l0,40l20,0l25,25l0,-90l-25,25l-20,0z');
+		muteSound.setAttribute('class', 'mute_sound');
+		muteSound.setAttribute('d', 'm65,20a50,50 0 0 10,60 M75,10a50,50 0 0 10,80');
+		mute.appendChild(muteSpeaker);
+		mute.appendChild(muteSound);
+        controlPanel.appendChild(mute);
+        var timer = document.createElementNS(svgNs, 'svg');
 		timer.setAttribute('class', 'timer');
 		timer.setAttribute('x', '93');
 		timer.setAttribute('y', '1');
 		timer.setAttribute('width', '21');
 		timer.setAttribute('height', '7');
 		timer.setAttribute('viewBox', '0 0 225 100');
-		var time_text = document.createElementNS(svg_ns, 'text');
-		time_text.setAttribute('class', 'time_text');
-		time_text.setAttribute('text-anchor', 'left');
-		time_text.setAttribute('font-family', 'sans-serif');
-		time_text.setAttribute('font-size', '24');
-		time_text.setAttribute('y', '22');
-		time_text.setAttribute('x', '0');
-		time_text.setAttribute('stroke', '#000000');
-		time_text.setAttribute('transform', 'matrix(2.0294, 0, 0, 2.0294, 4.73115, 22.9506)');
-		timer.appendChild(time_text);
-		control_panel.appendChild(timer);
+		var timeText = document.createElementNS(svgNs, 'text');
+		timeText.setAttribute('class', 'time_text');
+		timeText.setAttribute('text-anchor', 'left');
+		timeText.setAttribute('font-family', 'sans-serif');
+		timeText.setAttribute('font-size', '24');
+		timeText.setAttribute('y', '22');
+		timeText.setAttribute('x', '0');
+		timeText.setAttribute('stroke', '#000000');
+		timeText.setAttribute('transform', 'matrix(2.0294, 0, 0, 2.0294, 4.73115, 22.9506)');
+		timer.appendChild(timeText);
+		controlPanel.appendChild(timer);
 		/*
         controls.appendChild(big_play);
         */
@@ -230,7 +230,7 @@ main_lab = {
         }, false)
         */
         // Play/Pause Button
-        play_pause.addEventListener("click", function (){
+        playPause.addEventListener("click", function (){
             if(player.popcorn.currentTime() == player.popcorn.duration()){
                 player.popcorn.currentTime(0);
                 player.popcorn.play();
@@ -256,71 +256,60 @@ main_lab = {
             pause.style.opacity = "0";
         });
         // Progress Bar and Timer
-        progress_bar.addEventListener("click", function (event){
+        progressBar.addEventListener('click', function (event){
             var duration = player.popcorn.duration();
             if(!duration){ return;}
-			var svg_width = parseInt(control_panel.getAttribute('viewBox').split(' ')[2]);
-			var svg_coord_scale = svg_width / control_panel.clientWidth;
-			for(var key in control_panel){
-				if(!(typeof control_panel[key] === 'number')){ continue};
-				console.log(key+': '+control_panel[key])
-			}
-			console.log(control_panel.clientWidth)
-			var actual_left = parseInt(progress_bar.getAttribute('x'))*svg_coord_scale;
-            var offset_element = control_panel;
-            while(offset_element){
-                actual_left += offset_element.offsetLeft;
-                offset_element = offset_element.offsetParent;
-            }
-            var resized_width = parseInt(progress_bar.getAttribute('width'));
-            var click_percent = (event.clientX-actual_left) / resized_width;
-            var seek_time = duration * click_percent;
-            elapsed.style.width = ''+(click_percent*100)+'%';
-            player.popcorn.currentTime(seek_time);
+			var progressRect = progressBar.getBoundingClientRect();
+			var progressWidth = progressRect.right - progressRect.left;
+			var offsetX = event.pageX - progressRect.left;
+			var offsetPercent = offsetX / progressWidth;
+            var seekTime = duration * offsetPercent;
+            elapsed.style.width = ''+(offsetPercent*100)+'%';
+            player.popcorn.currentTime(seekTime);
         });
-		var max_bar_width = parseInt(progress_bar.getAttribute('width'));
+		var maxBarMidth = parseInt(progressBar.getAttribute('width'));
         player.popcorn.on("timeupdate", function (){
             var duration = player.popcorn.duration();
             if(!duration){ return;}
-            var current_time = player.popcorn.currentTime();
-            var elapsed_percent = current_time / duration;
-            elapsed.setAttribute('width', ''+(elapsed_percent*max_bar_width));
-            var extra_0 = ((current_time%60) < 10)? "0" : "";
-            current_time = ""+Math.floor(current_time/60)+":"+extra_0+Math.floor(current_time%60);
-            if(player.current_duration !== undefined){
-                time_text.textContent = ""+current_time+"/"+player.current_duration;
+            var currentTime = player.popcorn.currentTime();
+            var elapsedPercent = currentTime / duration;
+            elapsed.setAttribute('width', ''+(elapsedPercent*maxBarMidth));
+            var extra0 = ((currentTime%60) < 10)? "0" : "";
+            currentTime = ""+Math.floor(currentTime/60)+":"+extra0+Math.floor(currentTime%60);
+            if(player.currentDuration !== undefined){
+                timeText.textContent = ""+currentTime+"/"+player.currentDuration;
             } else{
-                time_text.textContent = ""+current_time;
+                timeText.textContent = ""+currentTime;
             }
         });
         player.popcorn.on("progress", function (){
-            player.current_duration = player.popcorn.duration();
-            if(!player.current_duration){ return;}
-            var buffered_range = player.popcorn.buffered();
-            var buffer_end = buffered_range.end(0);
-            if(!buffer_end){ buffer_end = 0}
-            buffered.setAttribute('width', ''+((buffer_end/player.current_duration)*max_bar_width));
-            var current_time = player.popcorn.currentTime()
-            var extra_0 = ((current_time%60) < 10)? "0" : "";
-            current_time = ""+Math.floor(current_time/60)+":"+extra_0+Math.floor(current_time%60);
-            player.current_duration = ""+Math.floor(player.current_duration/60)+":"+Math.floor(player.current_duration%60);
-            if(player.current_duration){
-                time_text.textContent = ""+current_time+"/"+player.current_duration;
+            player.currentDuration = player.popcorn.duration();
+            if(!player.currentDuration){ return;}
+            var bufferedRange = player.popcorn.buffered();
+            var bufferEnd = bufferedRange.end(0);
+            if(!bufferEnd){ bufferEnd = 0}
+            buffered.setAttribute('width', ''+((bufferEnd/player.currentDuration)*maxBarMidth));
+            var currentTime = player.popcorn.currentTime()
+            var extra0 = ((currentTime%60) < 10)? "0" : "";
+            currentTime = ""+Math.floor(currentTime/60)+":"+extra0+Math.floor(currentTime%60);
+            player.currentDuration = ""+Math.floor(player.currentDuration/60)+":"+Math.floor(player.currentDuration%60);
+            if(player.currentDuration){
+                timeText.textContent = ""+currentTime+"/"+player.currentDuration;
             } else{
-                time_text.textContent = ""+current_time;
+                timeText.textContent = ""+currentTime;
             }
         });
         // Volume:
         mute.addEventListener("click", function (){
             if(player.popcorn.muted()){
                 player.popcorn.unmute();
-                mute_sound.style.opacity = "1";
+                muteSound.style.opacity = "1";
             } else{
                 player.popcorn.muted(true);
-                mute_sound.style.opacity = "0";
+                muteSound.style.opacity = "0";
             }
         }, false);
-		return control_panel;
+		return controlPanel;
     },
     setup: function (){
         var self = this;

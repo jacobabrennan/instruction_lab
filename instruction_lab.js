@@ -116,26 +116,26 @@ instruction_lab = {
                 var extra_0 = ((current_time%60) < 10)? "0" : "";
                 current_time = ""+Math.floor(current_time/60)+":"+extra_0+Math.floor(current_time%60);
                 var timer_text = timer.getElementById("svg_timer");
-                if(instruction_lab.current_duration){
-                    timer_text.textContent = ""+current_time+"/"+instruction_lab.current_duration;
+                if(instruction_lab.currentDuration){
+                    timer_text.textContent = ""+current_time+"/"+instruction_lab.currentDuration;
                 } else{
                     timer_text.textContent = ""+current_time;
                 }
             });
             this.popcorn.on("progress", function (){
-                instruction_lab.current_duration = instruction_lab.popcorn.duration();
-                if(!instruction_lab.current_duration){ return;}
+                instruction_lab.currentDuration = instruction_lab.popcorn.duration();
+                if(!instruction_lab.currentDuration){ return;}
                 var buffered_range = instruction_lab.popcorn.buffered();
                 var buffer_end = buffered_range.end(0);
                 if(!buffer_end){ buffer_end = 0}
-                buffered_bar.style.width = ""+((buffer_end/instruction_lab.current_duration)*100)+"%";
+                buffered_bar.style.width = ""+((buffer_end/instruction_lab.currentDuration)*100)+"%";
                 var current_time = instruction_lab.popcorn.currentTime()
                 var extra_0 = ((current_time%60) < 10)? "0" : "";
                 current_time = ""+Math.floor(current_time/60)+":"+extra_0+Math.floor(current_time%60);
-                instruction_lab.current_duration = ""+Math.floor(instruction_lab.current_duration/60)+":"+Math.floor(instruction_lab.current_duration%60);
+                instruction_lab.currentDuration = ""+Math.floor(instruction_lab.currentDuration/60)+":"+Math.floor(instruction_lab.currentDuration%60);
                 var timer_text = timer.getElementById("svg_timer");
-                if(instruction_lab.current_duration){
-                    timer_text.textContent = ""+current_time+"/"+instruction_lab.current_duration;
+                if(instruction_lab.currentDuration){
+                    timer_text.textContent = ""+current_time+"/"+instruction_lab.currentDuration;
                 } else{
                     timer_text.textContent = ""+current_time;
                 }
