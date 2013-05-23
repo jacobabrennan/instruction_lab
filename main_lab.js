@@ -2,7 +2,7 @@
  * This code written in whole by Jacob A Brennan.
  *
  */
-main_lab = {
+mainLab = {
     lab: undefined,
     // Define compatibility flags. This may be expanded in the future.
     compatibility: {
@@ -322,7 +322,6 @@ main_lab = {
         window.addEventListener('mousedown', function (e){ self.control_interface.mouse_control(e);}, false);
         window.addEventListener('mouseup', function (e){ self.control_interface.mouse_control(e);}, false);
         // Setup frame slider:
-        //this.setup_controls(configuration);
         this.frame = document.getElementById("frame");
         this.slider = document.getElementById("slider");
         this.middle = document.getElementById("frame_middle");
@@ -334,10 +333,10 @@ main_lab = {
         this.arrow_left  = document.getElementById("arrow_left" );
         this.arrow_right = document.getElementById("arrow_right");
         this.arrow_left.addEventListener("click", function (){
-            main_lab.transition("left");
+            mainLab.transition("left");
         }, false)
         this.arrow_right.addEventListener("click", function (){
-            main_lab.transition("right");
+            mainLab.transition("right");
         }, false)
         /*// Setup Instructions + Tips Sections:
         this.tip_manager.setup(configuration);
@@ -356,14 +355,14 @@ main_lab = {
         */
         // Finished
     },
-    register_lab: function (new_lab, configuration){
-        this.lab = new_lab;
-        new_lab.setup(configuration);
+    registerLab: function (labType, configuration){
+        this.lab = Object.create(labType);
+        this.lab.setup(configuration);
     },
     frame_left: undefined,
     frame_middle: undefined,
     frame_right: undefined,
-    register_frame: function (frame_loc, new_frame){
+    registerFrame: function (frame_loc, new_frame){
         var container_element;
         switch(frame_loc){
             case 'left': {
@@ -405,19 +404,19 @@ main_lab = {
             }
             switch(key_code){
                 case 37:{
-                    main_lab.transition("left");
+                    mainLab.transition("left");
                     break;
                 }
                 case 39:{
-                    main_lab.transition("right");
+                    mainLab.transition("right");
                     break;
                 }/*
                 case 38:{
-                    main_lab.scroll("up");
+                    mainLab.scroll("up");
                     break;
                 }
                 case 40:{
-                    main_lab.scroll("down");
+                    mainLab.scroll("down");
                     break;
                 }*/
             }
@@ -438,7 +437,7 @@ main_lab = {
                 case 'blur':
                 case 'mouseup':{
                     this.dragged_element = undefined;
-                    main_lab.right.className = '';
+                    mainLab.right.className = '';
                     break;
                 }
                 case 'mousemove':{
@@ -576,31 +575,31 @@ main_lab = {
         }
     }
 };
-main_lab.compatibility.check(true);
-if((main_lab.compatibility.status & main_lab.compatibility.EVENT)){
+mainLab.compatibility.check(true);
+if((mainLab.compatibility.status & mainLab.compatibility.EVENT)){
     document.addEventListener("DOMContentLoaded", function (){
-        main_lab.compatibility.check();
+        mainLab.compatibility.check();
         var full_featured = (
-            main_lab.compatibility.CONTROLS |
-            main_lab.compatibility.CSS_TRANSITION |
-            main_lab.compatibility.DOM |
-            main_lab.compatibility.EVENT |
-            main_lab.compatibility.HTML5);
-        if(main_lab.compatibility.status != full_featured){
-            main_lab.compatibility.notify()
-            console.log(main_lab.compatibility.CONTROLS)
-            console.log(main_lab.compatibility.CSS_TRANSITION)
-            console.log(main_lab.compatibility.DOM)
-            console.log(main_lab.compatibility.EVENT)
-            console.log(main_lab.compatibility.HTML5)
-            console.log('Notify: '+main_lab.compatibility.status + ' | '+full_featured)
+            mainLab.compatibility.CONTROLS |
+            mainLab.compatibility.CSS_TRANSITION |
+            mainLab.compatibility.DOM |
+            mainLab.compatibility.EVENT |
+            mainLab.compatibility.HTML5);
+        if(mainLab.compatibility.status != full_featured){
+            mainLab.compatibility.notify()
+            console.log(mainLab.compatibility.CONTROLS)
+            console.log(mainLab.compatibility.CSS_TRANSITION)
+            console.log(mainLab.compatibility.DOM)
+            console.log(mainLab.compatibility.EVENT)
+            console.log(mainLab.compatibility.HTML5)
+            console.log('Notify: '+mainLab.compatibility.status + ' | '+full_featured)
         }
-        if(main_lab.compatibility.status & (main_lab.compatibility.DOM | main_lab.compatibility.HTML5)){
-            main_lab.setup();
-            main_lab.register_lab(instruction_lab, lab_configuration);
+        if(mainLab.compatibility.status & (mainLab.compatibility.DOM | mainLab.compatibility.HTML5)){
+            mainLab.setup();
+            mainLab.registerLab(instructionLab, lab_configuration);
         }
     }, false);
 } else{
-    main_lab.compatibility.notify()
-    console.log('notify: '+main_lab.compatibility.status)
+    mainLab.compatibility.notify()
+    console.log('notify: '+mainLab.compatibility.status)
 }
