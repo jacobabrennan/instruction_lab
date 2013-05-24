@@ -398,6 +398,7 @@ var mainLab = {
                 break;
             }
         }
+		this.transition(null, true);
 		if(!container_element){
 			return null;
 		} else{
@@ -421,6 +422,7 @@ var mainLab = {
 		if(container_element){
 			container_element.removeChild(oldFrame);
 		}
+		this.transition(null, true);
     },
     control_interface: {
         focus: undefined,
@@ -549,16 +551,16 @@ var mainLab = {
         this.slider.style.MozTransition    = "left 1s";
         this.slider.style.WebkitTransition = "left 1s";
         this.slider.style.OTransition      = "left 1s";
+		var destinationFrame = this.slider_state;
         switch(direction){
             case "left":{
                 switch(this.slider_state){
                     case "middle":{
-						break;/*
-                        this.slider_state = "left";
-                        break;*/
+						destinationFrame = 'left';
+						break;
                     }
                     case "right":{
-                        this.slider_state = "middle";
+						destinationFrame = 'middle';
                         break;
                     }
                 }
@@ -567,38 +569,77 @@ var mainLab = {
             case "right":{
                 switch(this.slider_state){
                     case "middle":{
-                        this.slider_state = "right";
+                        destinationFrame = "right";
                         break;
                     }
                     case "left":{
-                        this.slider_state = "middle";
+                        destinationFrame = "middle";
                         break;
                     }
                 }
                 break;
             }
         }
+		switch(destinationFrame){
+			case 'left':{
+				if(this.frame_left){
+					this.slider_state = destinationFrame;
+				}
+				break;
+			}
+			case 'middle':{
+				if(this.frame_middle){
+					this.slider_state = destinationFrame;
+				}
+				break;
+			}
+			case 'right':{
+				if(this.frame_right){
+					this.slider_state = destinationFrame;
+				}
+				break;
+			}
+		}
+		if(destinationFrame){
+			this.slider_state = destinationFrame;
+		}
         switch(this.slider_state){
             case "left":{
                 //this.tip_manager.clear_tips();
                 this.slider.style.left = "0%";
                 this.arrow_left.style.opacity = "0";
-                this.arrow_right.style.opacity = "1";
+				if(this.frame_middle){
+					this.arrow_right.style.opacity = "1";
+				} else{
+					this.arrow_right.style.opacity = "0";
+				}
                 //this.popcorn.pause()
                 break;
             }
             case "middle":{
                 this.slider.style.left = "-100%";
-                this.arrow_left.style.opacity = "0";
-                this.arrow_right.style.opacity = "1";
+				if(this.frame_left){
+					this.arrow_left.style.opacity = "1";
+				} else{
+					this.arrow_left.style.opacity = "0";
+				}
+				if(this.frame_right){
+					this.arrow_right.style.opacity = "1";
+				} else{
+					this.arrow_right.style.opacity = "0";
+				}
                 //this.tip_manager.populate();
                 break;
             }
             case "right":{
                 //this.tip_manager.clear_tips();
                 this.slider.style.left = "-200%";
-                this.arrow_left.style.opacity = "1";
                 this.arrow_right.style.opacity = "0";
+				if(this.frame_middle){
+					this.arrow_left.style.opacity = "1";
+				} else{
+					this.arrow_left.style.opacity = "0";
+				}
                 //this.popcorn.pause()
                 break;
             }
@@ -635,13 +676,8 @@ if((mainLab.compatibility.status & mainLab.compatibility.EVENT)){
     console.log('notify: '+mainLab.compatibility.status)
 }
 setTimeout(function (){
-	console.log('Canceling')
 	mainLab.cancelLab(mainLab.lab);
-	console.log('Canceled')
 }, 3000);
 setTimeout(function (){
-	console.log('Registering');
 	mainLab.registerLab(instructionLab, lab_configuration);
-	console.log('Registered');
-	console.log('Test Complete');
 }, 5000);
