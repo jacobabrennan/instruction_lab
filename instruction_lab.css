@@ -6,6 +6,14 @@
     font-family: sohopro_ie;
     src: url('SohoPro-Condensed.eot');
 }
+@font-face{
+    font-family: sohopro_regular;
+    src: url('SohoPro-Regular.otf');
+}
+@font-face{
+    font-family: sohopro_regular_ie;
+    src: url('SohoPro-Regular.eot');
+}
 body{
     background: #2e3132;
 	/*background: white;*/
@@ -69,6 +77,7 @@ body{
 	right: 1em;
 }
 .slider_arrow{
+	opacity: 0;
     position: absolute;
     width: auto;
     /* The above line overrides the size declared on the svg element,
@@ -81,13 +90,12 @@ body{
 #arrow_left{
     height: 18%;
     top: 42%;
-    left: 2%;
-	opacity: 0;
+    left: 0%;
 }
 #arrow_right{
     height: 18%;
     top: 42%;
-    right: 2%;
+    right: 0%;
 }
 #arrow_up{
     width: 10%;
@@ -298,22 +306,22 @@ body{
 }
 /* Left Div, Resource Link Area */
 #instructions_list{
+	position: absolute;
+	top: 0em;
+	height:  100%;
+    width: 100%;
+	overflow-x: hidden;
+    overflow-y: scroll;
 	display: block;
 	list-style: none;
-	position: relative;
-	margin: auto 5%;
-    padding-bottom: 3em;
+	margin-left: 5%;
     /* Padding gives the slider a margin of error.*/
-    top: 0em;
-	transition        : top 0.2s;
-	-moz-transition   : top 0.2s;
-	-webkit-transition: top 0.2s;
-	-o-transition     : top 0.2s;
 }
 .instruction{
     margin: 1em 0em;
     padding: 0em;
 }
+
 /*.instruction > .icon,*/
 .instruction > .content/*,
 .tip*/{
@@ -384,15 +392,17 @@ body{
 	-o-transition     : opacity 0.5s;
 }
 .instruction .notes{
+    font-family: sohopro_regular;
     margin: 0em 1em;
     margin-bottom: 1em;
     padding-bottom: 0.5em;
     border-bottom: dotted 1px grey;
-    font-size: smaller;
+    font-size: 0.7em;
 }
 #instructions_slider{
     background: white;
     position: absolute;
+    border: 1px solid black;
     top: 1em;
     right: 1em;
     width: 2em;
@@ -451,7 +461,7 @@ body{
 }
 
 /* Custom video controls. */
-#control_panel{
+.control_panel{
 	position: absolute;
 	bottom: 0%;
 	left: 10%;
@@ -461,10 +471,9 @@ body{
     border-radius: 0.2em 0.2em 0% 0%;
     z-index: 2;
 }
-#control_panel:hover{
-	opacity: 1;
+.control_panel:hover{
 }
-#control_big_play{
+.control_big_play{
     cursor: pointer;
     position: absolute;
     top: 40%;
@@ -476,57 +485,30 @@ body{
 	-webkit-transition: opacity 0.5s;
 	-o-transition: opacity 0.5s;
 }
-#control_play{
+.toggle_play{
     cursor: pointer;
-	position: absolute;
-	top: 15%;
-	left: 7%;
-	height: 67%;
-	width: 4.92%; /* 70% of 10% = what% of 80%; w = 8.75; a = 16:9 */
 }
-#control_progress{
-    cursor: pointer;
-	position: absolute;
-	top: 29%;
-	left: 14%;
-	height: 40%;
-	width: 60%;
+.progress_bar{
 	overflow: hidden;
-	background: rgb(102, 102, 102);
-	z-index: 3;
+	fill: rgb(102, 102, 102);
 }
-#control_elapsed_time{
-	position: absolute;
-	top: 0%;
-	left: 0%;
-	height: 100%;
-	width: 0%;
-	background: rgb(153, 153, 153);
+.elapsed{
+	fill: rgb(153, 153, 153);
 }
-#control_buffered_time{
-	position: absolute;
-	top: 0%;
-	left: 0%;
-	height: 100%;
-	width: 0%;
-	background: rgb(51, 51, 51);
+.elapsed .hover{
+	fill: red;
+	opacity:  0;
+	width: 3;
 }
-#control_progress:hover #control_elapsed_time{
+.buffered{
+	fill: rgb(51, 51, 51);
+}
+.progress_bar:hover .elapsed{
 	background: red;
 }
-#control_timer{
-	position: absolute;
-	top: 0%;
-	left: 75%;
-	height: 100%;
-	width: 13%;
+.timer{
 	z-index: 1;
 }
-#control_mute{
+.mute{
     cursor: pointer;
-	position: absolute;
-	top: 15%;
-	left: 88%;
-	height: 70%;
-	width: 4.92%;
 }

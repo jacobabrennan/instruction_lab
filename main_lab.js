@@ -1,8 +1,5 @@
-/*
- * This code written in whole by Jacob A Brennan.
- *
- */
-main_lab = {
+/* This code written in whole by Jacob A Brennan. */
+var mainLab = {
     lab: undefined,
     // Define compatibility flags. This may be expanded in the future.
     compatibility: {
@@ -30,8 +27,8 @@ main_lab = {
                 /
                 // Test for progress bar click support, which requires clientWidth.
                     // Note: event.clientX is not tested here, but support charts show near universal compatibility.
-                var progress_bar = document.getElementById('control_progress')
-                if((progress_bar.clientWidth !== undefined) && (progress_bar.offsetLeft !== undefined) && progress_bar.offsetParent){
+                var progressBar = document.getElementById('control_progress')
+                if((progressBar.clientWidth !== undefined) && (progressBar.offsetLeft !== undefined) && progressBar.offsetParent){
                     */this.status |= this.CONTROLS;/*
                 }*/
                 // Test for DOM manipulation.
@@ -87,11 +84,17 @@ main_lab = {
             media: undefined,
             popcorn: undefined,
             controls: undefined,
-            current_duration: 0
+            currentDuration: 0,
+			dispose: function (){
+				this.media = null;
+				Popcorn.destroy(this.popcorn);
+				this.popcorn = null;
+				//this.controls.distroy();
+				this.controls = null;
+			}
         }
         if(media_type){
             player.media = document.createElement(media_type);
-            player.media.setAttribute('id', 'lab_video');
         }
         player.popcorn = Popcorn(player.media);
         player.controls = this.create_controls(player);
@@ -105,8 +108,15 @@ main_lab = {
         }
         var self = this;
         var controls = document.createElement('div');
-        controls.setAttribute('id', 'controls');
-        var big_play = document.createElement('svg');
+        controls.setAttribute('class', 'controls');
+		var svgNs = 'http://www.w3.org/2000/svg';
+		var controlPanel = document.createElementNS(svgNs, 'svg');
+		controlPanel.setAttribute('class', 'control_panel');
+		controlPanel.setAttribute('viewBox', '0 0 128 9');
+		/*control_panel.setAttributeNS(null, 'xmlns:xlink', 'http://www.w3.org/1999/xlink');
+		control_panel.setAttributeNS(null, 'xmlns:ev', 'http://www.w3.org/2001/xml-events');*/
+        //var big_play = document.createElement('svg');
+		/*
         big_play.outerHTML = '\
             <svg id="control_big_play" width="100" height="100" viewBox="0 0 100 100"\
                 xmlns="http://www.w3.org/2000/svg"\
@@ -123,6 +133,7 @@ main_lab = {
                 <title>Play</title>\
                 <path id="big_play" d="m10,10l80,40l-80,40l0,-80" />\
             </svg>\
+<<<<<<< HEAD
         ';
         var panel = document.createElement('div');
         panel.setAttribute('id', 'control_panel');
@@ -179,8 +190,95 @@ main_lab = {
         panel.appendChild(progress);
         panel.appendChild(timer);
         panel.appendChild(mute);
+=======
+        ';*/
+        var playPause = document.createElementNS(svgNs, 'svg');
+		playPause.setAttribute('class', 'icon toggle_play');
+		playPause.setAttribute('stroke-linejoin', 'round');
+		playPause.setAttribute('fill', 'rgb(102,102,102)');
+		playPause.setAttribute('stroke', '#000000');
+		playPause.setAttribute('stroke-width', '0');
+		playPause.setAttribute('x', '7');
+		playPause.setAttribute('y', '1');
+		playPause.setAttribute('width', '7');
+		playPause.setAttribute('height', '7');
+		playPause.setAttribute('viewBox', '0 0 100 100');
+		var play = document.createElementNS(svgNs, 'path');
+		play.setAttribute('class', 'play');
+		play.setAttribute('d', 'm5,5l81,45l-81,45l0,-90z');
+		var pause = document.createElementNS(svgNs, 'path');
+		pause.setAttribute('class', 'pause');
+		pause.setAttribute('d', 'm12,86 l0,-72 l20,0 l0,71.20879 l-20,0.79121 M45,86 l0,-72 l20,0 l0,71.20879 l-20,0.79121z');
+		pause.style.opacity = '0';
+		playPause.appendChild(play);
+		playPause.appendChild(pause);
+		controlPanel.appendChild(playPause);
+		/*
+			<style>\
+				#pause{\
+					opacity: 0;\
+				}\
+				.icon:hover{\
+					fill: red;\
+				}\
+			</style>\
+		*/
+        var progressBar = document.createElementNS(svgNs, 'g');
+        progressBar.setAttribute('class', 'progress_bar');
+		progressBar.setAttribute('transform', 'translate(17,3)');
+		progressBar.setAttribute('width', '75');
+		progressBar.setAttribute('height', '3');
+        var buffered = document.createElementNS(svgNs, 'rect');
+        buffered.setAttribute('class', 'buffered');
+		buffered.setAttribute('height', '3');
+		progressBar.appendChild(buffered);
+        var elapsed = document.createElementNS(svgNs, 'rect');
+        elapsed.setAttribute('class', 'elapsed');
+		elapsed.setAttribute('height', '3');
+		progressBar.appendChild(elapsed);
+		controlPanel.appendChild(progressBar);
+        var mute = document.createElementNS(svgNs, 'svg');
+		mute.setAttribute('class', 'icon mute');
+		mute.setAttribute('stroke-linejoin', 'round');
+		mute.setAttribute('fill', 'rgb(102,102,102)');
+		mute.setAttribute('stroke', '#000000');
+		mute.setAttribute('stroke-width', '0');
+		mute.setAttribute('x', '114');
+		mute.setAttribute('y', '1');
+		mute.setAttribute('width', '7');
+		mute.setAttribute('height', '7');
+		mute.setAttribute('viewBox', '0 0 100 100');
+		var muteSpeaker = document.createElementNS(svgNs, 'path');
+		var muteSound = document.createElementNS(svgNs, 'path');
+		muteSpeaker.setAttribute('class', 'mute_speaker');
+		muteSpeaker.setAttribute('d', 'm8,30l0,40l20,0l25,25l0,-90l-25,25l-20,0z');
+		muteSound.setAttribute('class', 'mute_sound');
+		muteSound.setAttribute('d', 'm65,20a50,50 0 0 10,60 M75,10a50,50 0 0 10,80');
+		mute.appendChild(muteSpeaker);
+		mute.appendChild(muteSound);
+        controlPanel.appendChild(mute);
+        var timer = document.createElementNS(svgNs, 'svg');
+		timer.setAttribute('class', 'timer');
+		timer.setAttribute('x', '93');
+		timer.setAttribute('y', '1');
+		timer.setAttribute('width', '21');
+		timer.setAttribute('height', '7');
+		timer.setAttribute('viewBox', '0 0 225 100');
+		var timeText = document.createElementNS(svgNs, 'text');
+		timeText.setAttribute('class', 'time_text');
+		timeText.setAttribute('text-anchor', 'left');
+		timeText.setAttribute('font-family', 'sans-serif');
+		timeText.setAttribute('font-size', '24');
+		timeText.setAttribute('y', '22');
+		timeText.setAttribute('x', '0');
+		timeText.setAttribute('stroke', '#000000');
+		timeText.setAttribute('transform', 'matrix(2.0294, 0, 0, 2.0294, 4.73115, 22.9506)');
+		timer.appendChild(timeText);
+		controlPanel.appendChild(timer);
+		/*
+>>>>>>> b1b2034c7a7269237c57989b95b67ae1320f8181
         controls.appendChild(big_play);
-        controls.appendChild(panel);
+        */
         // Capture standard play events.
         player.popcorn.media.addEventListener("click", function (){
             if(player.popcorn.paused()){
@@ -189,14 +287,20 @@ main_lab = {
                 player.popcorn.pause();
             }
         }, false);
+		/*
         // Big Play Button
         big_play.addEventListener("click", function (){
             player.popcorn.play();
         }, false)
+        */
         // Play/Pause Button
+<<<<<<< HEAD
         console.log('clicky')
         play.addEventListener("click", function (){
             console.log('click')
+=======
+        playPause.addEventListener("click", function (){
+>>>>>>> b1b2034c7a7269237c57989b95b67ae1320f8181
             if(player.popcorn.currentTime() == player.popcorn.duration()){
                 player.popcorn.currentTime(0);
                 player.popcorn.play();
@@ -206,9 +310,10 @@ main_lab = {
             else{player.popcorn.pause();}
         }, false);
         player.popcorn.on("playing", function (){
-            big_play.style.opacity = "0";
+            /*big_play.style.opacity = "0";
             setTimeout(function (){
                 big_play.style.display = "none";
+<<<<<<< HEAD
             }, 1000)
             console.log(play);
             play.contentDocument.getElementById("play" ).style.opacity = "0";
@@ -221,65 +326,75 @@ main_lab = {
         player.popcorn.on("ended", function (){
             play.contentDocumentgetElementById("play" ).style.opacity = "1";
             play.contentDocumentgetElementById("pause").style.opacity = "0";
+=======
+            }, 1000)*/
+            play.style.opacity = "0";
+            pause.style.opacity = "1";
+        });
+        player.popcorn.on("pause", function (){
+            play.style.opacity = "1";
+            pause.style.opacity = "0";
+        });
+        player.popcorn.on("ended", function (){
+            play.style.opacity = "1";
+            pause.style.opacity = "0";
+>>>>>>> b1b2034c7a7269237c57989b95b67ae1320f8181
         });
         // Progress Bar and Timer
-        progress.addEventListener("click", function (event){
+        progressBar.addEventListener('click', function (event){
             var duration = player.popcorn.duration();
             if(!duration){ return;}
-            var resized_width = progress.clientWidth;
-            var actual_left = 0;
-            var offset_element = progress;
-            while(offset_element){
-                actual_left += offset_element.offsetLeft;
-                offset_element = offset_element.offsetParent;
-            }
-            var click_percent = (event.clientX-actual_left) / resized_width;
-            var seek_time = duration * click_percent;
-            elapsed_time.style.width = ""+(click_percent*100)+"%";
-            player.popcorn.currentTime(seek_time);
+			var progressRect = progressBar.getBoundingClientRect();
+			var progressWidth = progressRect.right - progressRect.left;
+			var offsetX = event.pageX - progressRect.left;
+			var offsetPercent = offsetX / progressWidth;
+            var seekTime = duration * offsetPercent;
+            elapsed.style.width = ''+(offsetPercent*100)+'%';
+            player.popcorn.currentTime(seekTime);
         });
+		var maxBarMidth = parseInt(progressBar.getAttribute('width'));
         player.popcorn.on("timeupdate", function (){
             var duration = player.popcorn.duration();
             if(!duration){ return;}
-            var current_time = player.popcorn.currentTime();
-            var elapsed_percent = current_time / duration;
-            elapsed_time.style.width = ""+(elapsed_percent*100)+"%";
-            var extra_0 = ((current_time%60) < 10)? "0" : "";
-            current_time = ""+Math.floor(current_time/60)+":"+extra_0+Math.floor(current_time%60);
-            if(player.current_duration){
-                timer.textContent = ""+current_time+"/"+self.current_duration;
+            var currentTime = player.popcorn.currentTime();
+            var elapsedPercent = currentTime / duration;
+            elapsed.setAttribute('width', ''+(elapsedPercent*maxBarMidth));
+            var extra0 = ((currentTime%60) < 10)? "0" : "";
+            currentTime = ""+Math.floor(currentTime/60)+":"+extra0+Math.floor(currentTime%60);
+            if(player.currentDuration !== undefined){
+                timeText.textContent = ""+currentTime+"/"+player.currentDuration;
             } else{
-                timer.textContent = ""+current_time;
+                timeText.textContent = ""+currentTime;
             }
         });
         player.popcorn.on("progress", function (){
-            player.current_duration = player.popcorn.duration();
-            if(!player.current_duration){ return;}
-            var buffered_range = player.popcorn.buffered();
-            var buffer_end = buffered_range.end(0);
-            if(!buffer_end){ buffer_end = 0}
-            buffered_time.style.width = ""+((buffer_end/player.current_duration)*100)+"%";
-            var current_time = player.popcorn.currentTime()
-            var extra_0 = ((current_time%60) < 10)? "0" : "";
-            current_time = ""+Math.floor(current_time/60)+":"+extra_0+Math.floor(current_time%60);
-            player.current_duration = ""+Math.floor(player.current_duration/60)+":"+Math.floor(player.current_duration%60);
-            if(player.current_duration){
-                timer.textContent = ""+current_time+"/"+player.current_duration;
+            player.currentDuration = player.popcorn.duration();
+            if(!player.currentDuration){ return;}
+            var bufferedRange = player.popcorn.buffered();
+            var bufferEnd = bufferedRange.end(0);
+            if(!bufferEnd){ bufferEnd = 0}
+            buffered.setAttribute('width', ''+((bufferEnd/player.currentDuration)*maxBarMidth));
+            var currentTime = player.popcorn.currentTime()
+            var extra0 = ((currentTime%60) < 10)? "0" : "";
+            currentTime = ""+Math.floor(currentTime/60)+":"+extra0+Math.floor(currentTime%60);
+            player.currentDuration = ""+Math.floor(player.currentDuration/60)+":"+Math.floor(player.currentDuration%60);
+            if(player.currentDuration){
+                timeText.textContent = ""+currentTime+"/"+player.currentDuration;
             } else{
-                timer.textContent = ""+current_time;
+                timeText.textContent = ""+currentTime;
             }
         });
         // Volume:
         mute.addEventListener("click", function (){
             if(player.popcorn.muted()){
                 player.popcorn.unmute();
-                mute.getElementById("sound" ).style.opacity = "1";
+                muteSound.style.opacity = "1";
             } else{
                 player.popcorn.muted(true);
-                mute.getElementById("sound" ).style.opacity = "0";
+                muteSound.style.opacity = "0";
             }
         }, false);
-        return controls;
+		return controlPanel;
     },
     setup: function (){
         var self = this;
@@ -292,7 +407,6 @@ main_lab = {
         window.addEventListener('mousedown', function (e){ self.control_interface.mouse_control(e);}, false);
         window.addEventListener('mouseup', function (e){ self.control_interface.mouse_control(e);}, false);
         // Setup frame slider:
-        //this.setup_controls(configuration);
         this.frame = document.getElementById("frame");
         this.slider = document.getElementById("slider");
         this.middle = document.getElementById("frame_middle");
@@ -304,10 +418,10 @@ main_lab = {
         this.arrow_left  = document.getElementById("arrow_left" );
         this.arrow_right = document.getElementById("arrow_right");
         this.arrow_left.addEventListener("click", function (){
-            main_lab.transition("left");
+            mainLab.transition("left");
         }, false)
         this.arrow_right.addEventListener("click", function (){
-            main_lab.transition("right");
+            mainLab.transition("right");
         }, false)
         /*// Setup Instructions + Tips Sections:
         this.tip_manager.setup(configuration);
@@ -326,14 +440,24 @@ main_lab = {
         */
         // Finished
     },
+<<<<<<< HEAD
     register_lab: function (new_lab, configuration){
         this.lab = new_lab;
         new_lab.setup(configuration);
+=======
+    registerLab: function (labType, configuration){
+        this.lab = Object.create(labType);
+        this.lab.setup(configuration);
+>>>>>>> b1b2034c7a7269237c57989b95b67ae1320f8181
     },
+	cancelLab: function (oldLab){
+		this.lab = null;
+		oldLab.dispose();
+	},
     frame_left: undefined,
     frame_middle: undefined,
     frame_right: undefined,
-    register_frame: function (frame_loc, new_frame){
+    registerFrame: function (frame_loc, new_frame){
         var container_element;
         switch(frame_loc){
             case 'left': {
@@ -361,7 +485,31 @@ main_lab = {
                 break;
             }
         }
-        return container_element.appendChild(new_frame);
+		this.transition(null, true);
+		if(!container_element){
+			return null;
+		} else{
+			return container_element.appendChild(new_frame);
+		}
+    },
+    cancelFrame: function (oldFrame){
+        var container_element;
+		if(oldFrame == this.frame_left){
+			this.frame_left = null;
+            container_element = this.left;
+        }
+		if(oldFrame == this.frame_middle){
+			this.frame_middle = null;
+            container_element = this.middle;
+        }
+		if(oldFrame == this.frame_right){
+			this.frame_right = null;
+            container_element = this.right;
+        }
+		if(container_element){
+			container_element.removeChild(oldFrame);
+		}
+		this.transition(null, true);
     },
     control_interface: {
         focus: undefined,
@@ -375,19 +523,19 @@ main_lab = {
             }
             switch(key_code){
                 case 37:{
-                    main_lab.transition("left");
+                    mainLab.transition("left");
                     break;
                 }
                 case 39:{
-                    main_lab.transition("right");
+                    mainLab.transition("right");
                     break;
                 }/*
                 case 38:{
-                    main_lab.scroll("up");
+                    mainLab.scroll("up");
                     break;
                 }
                 case 40:{
-                    main_lab.scroll("down");
+                    mainLab.scroll("down");
                     break;
                 }*/
             }
@@ -408,7 +556,7 @@ main_lab = {
                 case 'blur':
                 case 'mouseup':{
                     this.dragged_element = undefined;
-                    main_lab.right.className = '';
+                    mainLab.right.className = '';
                     break;
                 }
                 case 'mousemove':{
@@ -482,94 +630,147 @@ main_lab = {
         this.left.style.height    = modified_height+"px";
         this.right.style.height   = modified_height+"px";
         this.slider.style.height  = modified_height+"px";
-        //this.instructions.resize();
+		if(this.lab && ((typeof this.lab.resize) === 'function')){
+			this.lab.resize();
+		}
     },
     transition: function (direction, force){
         var self = this;
-        this.slider.style.transition       = "left 1s";
-        this.slider.style.MozTransition    = "left 1s";
-        this.slider.style.WebkitTransition = "left 1s";
-        this.slider.style.OTransition      = "left 1s";
-        switch(direction){
-            case "left":{
-                switch(this.slider_state){
-                    case "middle":{
-						break;/*
-                        this.slider_state = "left";
-                        break;*/
-                    }
-                    case "right":{
-                        this.slider_state = "middle";
-                        break;
-                    }
-                }
-                break;
-            }
-            case "right":{
-                switch(this.slider_state){
-                    case "middle":{
-                        this.slider_state = "right";
-                        break;
-                    }
-                    case "left":{
-                        this.slider_state = "middle";
-                        break;
-                    }
-                }
-                break;
-            }
-        }
+		if(direction){
+			this.slider.style.transition       = "left 1s";
+			this.slider.style.MozTransition    = "left 1s";
+			this.slider.style.WebkitTransition = "left 1s";
+			this.slider.style.OTransition      = "left 1s";
+			var destinationFrame = this.slider_state;
+			switch(direction){
+				case "left":{
+					switch(this.slider_state){
+						case "middle":{
+							destinationFrame = 'left';
+							break;
+						}
+						case "right":{
+							destinationFrame = 'middle';
+							break;
+						}
+					}
+					break;
+				}
+				case "right":{
+					switch(this.slider_state){
+						case "middle":{
+							destinationFrame = "right";
+							break;
+						}
+						case "left":{
+							destinationFrame = "middle";
+							break;
+						}
+					}
+					break;
+				}
+			}
+			switch(destinationFrame){
+				case 'left':{
+					if(this.frame_left){
+						this.slider_state = destinationFrame;
+					}
+					break;
+				}
+				case 'middle':{
+					if(this.frame_middle){
+						this.slider_state = destinationFrame;
+					}
+					break;
+				}
+				case 'right':{
+					if(this.frame_right){
+						this.slider_state = destinationFrame;
+					}
+					break;
+				}
+			}
+		}
         switch(this.slider_state){
             case "left":{
                 //this.tip_manager.clear_tips();
                 this.slider.style.left = "0%";
                 this.arrow_left.style.opacity = "0";
-                this.arrow_right.style.opacity = "1";
+				if(this.frame_middle){
+					this.arrow_right.style.opacity = "1";
+				} else{
+					this.arrow_right.style.opacity = "0";
+				}
                 //this.popcorn.pause()
                 break;
             }
             case "middle":{
                 this.slider.style.left = "-100%";
-                this.arrow_left.style.opacity = "0";
-                this.arrow_right.style.opacity = "1";
+				if(this.frame_left){
+					this.arrow_left.style.opacity = "1";
+				} else{
+					this.arrow_left.style.opacity = "0";
+				}
+				if(this.frame_right){
+					this.arrow_right.style.opacity = "1";
+				} else{
+					this.arrow_right.style.opacity = "0";
+				}
                 //this.tip_manager.populate();
                 break;
             }
             case "right":{
                 //this.tip_manager.clear_tips();
                 this.slider.style.left = "-200%";
-                this.arrow_left.style.opacity = "1";
                 this.arrow_right.style.opacity = "0";
+				if(this.frame_middle){
+					this.arrow_left.style.opacity = "1";
+				} else{
+					this.arrow_left.style.opacity = "0";
+				}
                 //this.popcorn.pause()
                 break;
             }
         }
-    }
+    },
 };
-main_lab.compatibility.check(true);
-if((main_lab.compatibility.status & main_lab.compatibility.EVENT)){
+
+mainLab.compatibility.check(true);
+if((mainLab.compatibility.status & mainLab.compatibility.EVENT)){
     document.addEventListener("DOMContentLoaded", function (){
-        main_lab.compatibility.check();
+        mainLab.compatibility.check();
         var full_featured = (
-            main_lab.compatibility.CONTROLS |
-            main_lab.compatibility.CSS_TRANSITION |
-            main_lab.compatibility.DOM |
-            main_lab.compatibility.EVENT |
-            main_lab.compatibility.HTML5);
-        if(main_lab.compatibility.status != full_featured){
-            main_lab.compatibility.notify()
-            console.log(main_lab.compatibility.CONTROLS)
-            console.log(main_lab.compatibility.CSS_TRANSITION)
-            console.log(main_lab.compatibility.DOM)
-            console.log(main_lab.compatibility.EVENT)
-            console.log(main_lab.compatibility.HTML5)
-            console.log('Notify: '+main_lab.compatibility.status + ' | '+full_featured)
+            mainLab.compatibility.CONTROLS |
+            mainLab.compatibility.CSS_TRANSITION |
+            mainLab.compatibility.DOM |
+            mainLab.compatibility.EVENT |
+            mainLab.compatibility.HTML5);
+        if(mainLab.compatibility.status != full_featured){
+            mainLab.compatibility.notify()
+            console.log(mainLab.compatibility.CONTROLS)
+            console.log(mainLab.compatibility.CSS_TRANSITION)
+            console.log(mainLab.compatibility.DOM)
+            console.log(mainLab.compatibility.EVENT)
+            console.log(mainLab.compatibility.HTML5)
+            console.log('Notify: '+mainLab.compatibility.status + ' | '+full_featured)
         }
-        if(main_lab.compatibility.status & (main_lab.compatibility.DOM | main_lab.compatibility.HTML5)){
-            main_lab.setup();
-            main_lab.register_lab(instruction_lab, lab_configuration);
+        if(mainLab.compatibility.status & (mainLab.compatibility.DOM | mainLab.compatibility.HTML5)){
+            mainLab.setup();
+            mainLab.registerLab(instructionLab, lab_configuration);
         }
     }, false);
 } else{
+<<<<<<< HEAD
     main_lab.compatibility.notify()
 }
+=======
+    mainLab.compatibility.notify()
+    console.log('notify: '+mainLab.compatibility.status)
+}
+setTimeout(function (){
+	mainLab.cancelLab(mainLab.lab);
+}, 3000);
+setTimeout(function (){
+	mainLab.registerLab(instructionLab, lab_configuration);
+}, 5000);
+>>>>>>> b1b2034c7a7269237c57989b95b67ae1320f8181
