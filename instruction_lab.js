@@ -10,9 +10,6 @@ var instructionLab = {
         this.seeking = false;
         // Create Frames:
             // Create Middle Frame:
-		var testLeftFrame = document.createElement('div');
-		testLeftFrame.innerHTML = '<p style="width: 50%; height: 50%; background: rgba(0,0,255,0.3); display: block;">Hello world!</p>';
-		mainLab.registerFrame('left', testLeftFrame);
         var middle_frame_html = '\
             <div id="tip_area"></div>\
             <img id="logo1" alt="Make Logo" />\
@@ -76,6 +73,10 @@ var instructionLab = {
         this.instructions.dispose();
 		this.tip_manager.tempInstructionLab = null;
 		this.instructions.tempInstructionLab = null;
+	},
+	resize: function (){
+		this.instructions.resize();
+		this.tip_manager.resize();
 	},
 	instructions: {
 		tempInstructionLab: undefined,
@@ -417,6 +418,9 @@ var instructionLab = {
 		},
 		dispose: function (){
 			this.tip_templates = null;
+		},
+		resize: function (){
+			
 		},
 		add_tip: function (tip){
 			this.tip_area.appendChild(tip);

@@ -543,65 +543,66 @@ var mainLab = {
         this.left.style.height    = modified_height+"px";
         this.right.style.height   = modified_height+"px";
         this.slider.style.height  = modified_height+"px";
-        //this.instructions.resize();
+		if(this.lab && ((typeof this.lab.resize) === 'function')){
+			this.lab.resize();
+		}
     },
     transition: function (direction, force){
         var self = this;
-        this.slider.style.transition       = "left 1s";
-        this.slider.style.MozTransition    = "left 1s";
-        this.slider.style.WebkitTransition = "left 1s";
-        this.slider.style.OTransition      = "left 1s";
-		var destinationFrame = this.slider_state;
-        switch(direction){
-            case "left":{
-                switch(this.slider_state){
-                    case "middle":{
-						destinationFrame = 'left';
-						break;
-                    }
-                    case "right":{
-						destinationFrame = 'middle';
-                        break;
-                    }
-                }
-                break;
-            }
-            case "right":{
-                switch(this.slider_state){
-                    case "middle":{
-                        destinationFrame = "right";
-                        break;
-                    }
-                    case "left":{
-                        destinationFrame = "middle";
-                        break;
-                    }
-                }
-                break;
-            }
-        }
-		switch(destinationFrame){
-			case 'left':{
-				if(this.frame_left){
-					this.slider_state = destinationFrame;
+		if(direction){
+			this.slider.style.transition       = "left 1s";
+			this.slider.style.MozTransition    = "left 1s";
+			this.slider.style.WebkitTransition = "left 1s";
+			this.slider.style.OTransition      = "left 1s";
+			var destinationFrame = this.slider_state;
+			switch(direction){
+				case "left":{
+					switch(this.slider_state){
+						case "middle":{
+							destinationFrame = 'left';
+							break;
+						}
+						case "right":{
+							destinationFrame = 'middle';
+							break;
+						}
+					}
+					break;
 				}
-				break;
-			}
-			case 'middle':{
-				if(this.frame_middle){
-					this.slider_state = destinationFrame;
+				case "right":{
+					switch(this.slider_state){
+						case "middle":{
+							destinationFrame = "right";
+							break;
+						}
+						case "left":{
+							destinationFrame = "middle";
+							break;
+						}
+					}
+					break;
 				}
-				break;
 			}
-			case 'right':{
-				if(this.frame_right){
-					this.slider_state = destinationFrame;
+			switch(destinationFrame){
+				case 'left':{
+					if(this.frame_left){
+						this.slider_state = destinationFrame;
+					}
+					break;
 				}
-				break;
+				case 'middle':{
+					if(this.frame_middle){
+						this.slider_state = destinationFrame;
+					}
+					break;
+				}
+				case 'right':{
+					if(this.frame_right){
+						this.slider_state = destinationFrame;
+					}
+					break;
+				}
 			}
-		}
-		if(destinationFrame){
-			this.slider_state = destinationFrame;
 		}
         switch(this.slider_state){
             case "left":{
