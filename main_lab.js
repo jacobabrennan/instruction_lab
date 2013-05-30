@@ -101,7 +101,6 @@ var mainLab = {
         return player;
     },
     create_controls: function (player){
-        console.log('trying')
         if(!(this.compatibility.status & this.compatibility.CONTROLS)){
             player.popcorn.media.controls = "true";
             return undefined;
@@ -343,21 +342,7 @@ var mainLab = {
         this.arrow_right.addEventListener("click", function (){
             mainLab.transition("right");
         }, false)
-        /*// Setup Instructions + Tips Sections:
-        this.tip_manager.setup(configuration);
-        this.instructions.setup(configuration);
-        //*/
         this.resize();
-        /*
-        this.popcorn.on("seeked", function (){
-            self.seeking = false;
-            self.tip_manager.populate(self.popcorn.currentTime());
-        });
-        this.popcorn.on("seeking", function (){
-            self.seeking = true;
-            self.tip_manager.clear_tips();
-        });
-        */
         // Finished
     },
     registerLab: function (labType, configuration){
@@ -677,9 +662,9 @@ if((mainLab.compatibility.status & mainLab.compatibility.EVENT)){
     mainLab.compatibility.notify()
     console.log('notify: '+mainLab.compatibility.status)
 }
-setTimeout(function (){
+/*setTimeout(function (){
     mainLab.cancelLab(mainLab.lab);
 }, 3000);
 setTimeout(function (){
     mainLab.registerLab(instructionLab, lab_configuration);
-}, 5000);
+}, 5000);*/

@@ -6,6 +6,7 @@ var instructionLab = {
     video_frame: undefined,
     instruction_frame: undefined,
     setup: function (configuration){
+        var self = this;
         document.title = configuration.title;
         this.seeking = false;
         // Create Frames:
@@ -16,6 +17,9 @@ var instructionLab = {
             <img id="logo2" alt="Lab Specific Logo" />\
             ';
         this.video_frame = document.createElement('div');
+        /*setInterval(function (){
+            console.log('Video('+Math.floor(Math.random()*9.999)+'): '+self.video_frame)
+        }, 500);*/
         this.video_frame.innerHTML = middle_frame_html;
         var success = mainLab.registerFrame('middle', this.video_frame);
         var right_frame_html = '\
@@ -49,16 +53,14 @@ var instructionLab = {
         this.instructions.tempInstructionLab = this;
         this.tip_manager.setup(configuration);
         this.instructions.setup(configuration);
-        /*
-        this.popcorn.on("seeked", function (){
-            instructionLab.seeking = false;
-            instructionLab.tip_manager.populate(instructionLab.video_frame.player.popcorn.currentTime());
+        this.video_frame.player.popcorn.on("seeked", function (){
+            self.seeking = false;
+            self.tip_manager.populate(self.video_frame.player.popcorn.currentTime());
         });
-        this.popcorn.on("seeking", function (){
-            instructionLab.seeking = true;
-            instructionLab.tip_manager.clear_tips();
+        this.video_frame.player.popcorn.on("seeking", function (){
+            self.seeking = true;
+            self.tip_manager.clear_tips();
         });
-        */
         // Finished
     },
     dispose: function (){
@@ -196,8 +198,19 @@ var instructionLab = {
                         if(tip_template.icon_color){
                             icon.style.background = tip_template.icon_color;
                         }
-                        if(tip_template.display_instructions){
-                            tip.display = tip_template.display_instructions;
+                        if(tip_template.code_display){
+                            tip.display = function (tip_json){
+                                // this = an html element; a tip.
+                                var icon_image = this.getElementsByTagName('img')[0];
+                                icon_image.style.width = 'auto';
+                                icon_image.style.height = '100%';
+                                this.className = this.className + ' double';
+                                var content = this.getElementsByClassName('content')[0];
+                                var expander = document.createElement('pre');
+                                expander.setAttribute('class', 'code');
+                                expander.textContent = tip_json.content;
+                                content.appendChild(expander);
+                            }
                             tip.display(tip_json);
                         }
                     }
@@ -451,11 +464,13 @@ var instructionLab = {
             if(!tip){
                 tip = this.current_tips[1]
             }
-            tip.style.visibility = "hidden";
-            tip.style.height = "0%";
-            tip.style.margin_bottom = "0em";
-            tip.style.margin = "0em"
-            this.remove_tip(tip, true);
+            if(tip){
+                tip.style.visibility = "hidden";
+                tip.style.height = "0%";
+                tip.style.margin_bottom = "0em";
+                tip.style.margin = "0em"
+                this.remove_tip(tip, true);
+            }
         },
         create_step: function (tip_json, step_index){
             var self = this;
@@ -473,6 +488,7 @@ var instructionLab = {
             return tip;
         },
         create_tip: function (tip_json){
+            var self = this;
             var tip_template_id = tip_json.type;
             var tip_template = this.tip_templates[tip_template_id];
             var tip = document.createElement('a');
@@ -509,11 +525,43 @@ var instructionLab = {
                 if(tip_template.icon_color){
                     icon.style.background = tip_template.icon_color;
                 }
-                if(tip_template.display_tip_area){
-                    tip.display = tip_template.display_tip_area;
-                }
-                if(tip_template.dispose){
-                    tip.dispose = tip_template.dispose;
+                if(tip_template.code_display){
+                    tip.display = function (tip_json){
+                        // this = an html element; a tip.
+                        var last_tip = self.current_tips[self.current_tips.length-1];
+                        if(last_tip && last_tip.json && last_tip.json.title == tip_json.title){
+                            if(last_tip.json.type === tip_json.type){
+                                last_tip.dispose = undefined;
+                                self.remove_tip(last_tip);
+                            }
+                        }
+                        var icon_image = this.getElementsByTagName('img')[0];
+                        icon_image.style.width = 'auto';
+                        icon_image.style.height = '100%';
+                        var code_area = document.getElementById('code_display');
+                        if(!code_area){
+                            code_area = document.createElement('pre');
+                            code_area.setAttribute('id', 'code_display');
+                            code_area.setAttribute('class', 'hidden');
+                            self.tempInstructionLab.video_frame.appendChild(code_area);
+                        }
+                        setTimeout(function (){
+                            code_area.setAttribute('class', 'displayed');
+                        }, 100);
+                        code_area.tip = this;
+                        code_area.textContent = '\n'+tip_json.content+'\n\n';
+                    };
+                    tip.dispose = function (){
+                        // this = an html element; a tip.
+                        var html_tip = this;
+                        var code_area = document.getElementById('code_display');
+                        if((!code_area) || (code_area.tip != html_tip)){ return}
+                        code_area.setAttribute('class', 'hidden');
+                        setTimeout(function (){
+                            if(code_area.tip != html_tip){ return}
+                            code_area.parentNode.removeChild(code_area);
+                        }, 900);
+                    }
                 }
             }
             if(tip.display){

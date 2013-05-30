@@ -1,3 +1,4 @@
+
 var lab_configuration = {
     title: 'Test Lab', // Used as the text for the html title.
     urls: {
@@ -40,7 +41,9 @@ var lab_configuration = {
         },
         code:{
             icon_color: 'transparent',
-            icon_url: 'utilities-terminal.svg'/*,
+            icon_url: 'utilities-terminal.svg',
+            code_display: true
+            /*
             display_instructions: function (tip_json){
                 // this = an html element; a tip.
                 var icon_image = this.getElementsByTagName('img')[0];
@@ -54,6 +57,7 @@ var lab_configuration = {
                 content.appendChild(expander);
             },
             display_tip_area: function (tip_json){
+                console.log(instructionLab.video_frame)
                 // this = an html element; a tip.
                 var last_tip = instructionLab.tip_manager.current_tips[instructionLab.tip_manager.current_tips.length-1];
                 if(last_tip && last_tip.json && last_tip.json.title == tip_json.title){
@@ -70,7 +74,8 @@ var lab_configuration = {
                     code_area = document.createElement('pre');
                     code_area.setAttribute('id', 'code_display');
                     code_area.setAttribute('class', 'hidden');
-                    instructionLab.middle.appendChild(code_area);
+                    console.log(instructionLab)
+                    instructionLab.video_frame.appendChild(code_area);
                 }
                 setTimeout(function (){
                     code_area.setAttribute('class', 'displayed');
@@ -88,8 +93,7 @@ var lab_configuration = {
                     if(code_area.tip != self){ return}
                     code_area.parentNode.removeChild(code_area);
                 }, 900);
-            }*/
-            /*
+            },
             displayInstructions: function (tipJSON, element){
                 // this = labInstance.instructions
                 var iconImage = element.getElementsByTagName('img')[0];
