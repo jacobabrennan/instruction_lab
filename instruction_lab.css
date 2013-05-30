@@ -16,7 +16,7 @@
 }
 body{
     background: #2e3132;
-	/*background: white;*/
+    /*background: white;*/
     font-family: "SohoPro-Condensed", sohopro, sohopro_ie, serif;
     margin: 0;
 }
@@ -46,8 +46,8 @@ body{
     left: 0px;
     top: 0px;
     overflow: hidden;
-	background-image: url('background.png');
-	background-size: 100% 100%;
+    background-image: url('background.png');
+    background-size: 100% 100%;
 }
 #frame a:link, #frame a:visited{
     color: black;
@@ -55,37 +55,37 @@ body{
 }
 #lab_video{
     position:absolute;
-	left: 4%;
-	top: 22%;
+    left: 4%;
+    top: 22%;
     width: 57%;
     height: 57%;
-	border-style: solid;
-	border-color: #999;
-	border-width: 0.35em;
-	box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
+    border-style: solid;
+    border-color: #999;
+    border-width: 0.35em;
+    box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
 }
 #logo1{
-	height: 13%;
+    height: 13%;
     position: absolute;
-	top: 1em;
-	left: 1em;
+    top: 1em;
+    left: 1em;
 }
 #logo2{
-	height: 13%;
+    height: 13%;
     position: absolute;
-	top: 1em;
-	right: 1em;
+    top: 1em;
+    right: 1em;
 }
 .slider_arrow{
-	opacity: 0;
+    opacity: 0;
     position: absolute;
     width: auto;
     /* The above line overrides the size declared on the svg element,
      * and makes the width scale to fit the height at the proper aspect ratio. */
-	transition: opacity 1s;
-	-moz-transition: opacity 1s;
-	-webkit-transition: opacity 1s;
-	-o-transition: opacity 1s;
+    transition: opacity 1s;
+    -moz-transition: opacity 1s;
+    -webkit-transition: opacity 1s;
+    -o-transition: opacity 1s;
 }
 #arrow_left{
     height: 18%;
@@ -116,44 +116,44 @@ body{
 }
 #frame_left{
     position: absolute;
-	overflow: hidden;
+    overflow: hidden;
 }
 #frame_right{
     position: absolute;
-	overflow: hidden;
+    overflow: hidden;
 }
 #code_display{
-	z-index: 1;
+    z-index: 1;
     background: white;
     position: absolute;
     font-family: monospace;
     font-size: 0.5em;
     padding: 0% 1%;
-	left: 6%;
+    left: 6%;
     width: 51%;
     max-height: 57%;
     min-height: 3em;
-	border-style: solid;
-	border-color: #999;
-	border-width: 0.70em;
-	box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
-	transition        : height 1s, width 1s, left 1s, bottom 1s;
-	-moz-transition   : height 1s, width 1s, left 1s, bottom 1s;
-	-webkit-transition: height 1s, width 1s, left 1s, bottom 1s;
-	-o-transition     : height 1s, width 1s, left 1s, bottom 1s;
+    border-style: solid;
+    border-color: #999;
+    border-width: 0.70em;
+    box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
+    transition        : height 1s, width 1s, left 1s, bottom 1s;
+    -moz-transition   : height 1s, width 1s, left 1s, bottom 1s;
+    -webkit-transition: height 1s, width 1s, left 1s, bottom 1s;
+    -o-transition     : height 1s, width 1s, left 1s, bottom 1s;
     overflow: auto;
 }
 #code_display.hidden{
-	bottom: -65%;
+    bottom: -65%;
 }
 #code_display.displayed{
-	bottom: 12%;
+    bottom: 12%;
 }
 .icon{
-	display: inline-block;
+    display: inline-block;
     background: #058ef8;
     text-align: center;
-	border-radius: 0.2em;
+    border-radius: 0.2em;
 }
 .icon .number{
     vertical-align: middle;
@@ -162,13 +162,13 @@ body{
 }
 .tip{
     cursor: pointer;
-	border-radius: 0.2em;
+    border-radius: 0.2em;
 }
 .tip div.content{
     position: relative;
     background: white;
     display: inline-block;
-	vertical-align: top;
+    vertical-align: top;
     overflow: hidden;
 }
 .tip .content pre.code{
@@ -201,11 +201,11 @@ body{
 }
 .tip div.icon{
     position: relative;
-	display: inline-block;
-	vertical-align: top;
+    display: inline-block;
+    vertical-align: top;
     background: #058ef8;
     text-align: center;
-	border-radius: 0.2em;
+    border-radius: 0.2em;
     z-index: 0;
 }
 .tip div.icon img{
@@ -218,25 +218,25 @@ body{
     font-size: 2em;
 }
 #tip_area{
-	position: absolute;
-	right: 6%;
-	top: 19%;
-	height: 13em;
-	width: 10em;
+    position: absolute;
+    right: 6%;
+    top: 19%;
+    height: 13em;
+    width: 10em;
 }
 #tip_area .tip{
     display: block;
-	position: relative;
-	padding: 0px;
+    position: relative;
+    padding: 0px;
     width: 10em;
     height: 2.5em;
-	margin-bottom: 1em;
+    margin-bottom: 1em;
     opacity: 0;
-	box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
-	transition        : opacity 1s, height 1s, width 1s, left 1s, margin 1s, margin-bottom 1s;
-	-moz-transition   : opacity 1s, height 1s, width 1s, left 1s, margin 1s, margin-bottom 1s;
-	-webkit-transition: opacity 1s, height 1s, width 1s, left 1s, margin 1s, margin-bottom 1s;
-	-o-transition     : opacity 1s, height 1s, width 1s, left 1s, margin 1s, margin-bottom 1s;
+    box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
+    transition        : opacity 1s, height 1s, width 1s, left 1s, margin 1s, margin-bottom 1s;
+    -moz-transition   : opacity 1s, height 1s, width 1s, left 1s, margin 1s, margin-bottom 1s;
+    -webkit-transition: opacity 1s, height 1s, width 1s, left 1s, margin 1s, margin-bottom 1s;
+    -o-transition     : opacity 1s, height 1s, width 1s, left 1s, margin 1s, margin-bottom 1s;
 }
 #tip_area .tip div.content,
 #tip_area .tip div.header,
@@ -271,7 +271,7 @@ body{
 }
 .expander .tip div.content,
 .expander .tip div.icon{
-	box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
+    box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
     border-radius: 0.2em;
 }
 .expander .tip{
@@ -286,7 +286,7 @@ body{
     width: 9em;
 }
 .expander .tip.double{
-	width: 23em;
+    width: 23em;
 }
 .expander .tip.double div.content{
     width: 21em;
@@ -306,15 +306,15 @@ body{
 }
 /* Left Div, Resource Link Area */
 #instructions_list{
-	position: absolute;
-	top: 0em;
-	height:  100%;
+    position: absolute;
+    top: 0em;
+    height:  100%;
     width: 100%;
-	overflow-x: hidden;
+    overflow-x: hidden;
     overflow-y: scroll;
-	display: block;
-	list-style: none;
-	margin-left: 5%;
+    display: block;
+    list-style: none;
+    margin-left: 5%;
     /* Padding gives the slider a margin of error.*/
 }
 .instruction{
@@ -328,12 +328,12 @@ body{
     border: 1px solid black;
 }
 .instruction > .icon{
-	background: red;
-	display: inline-block;
-	width: 3em;
-	height: 3em;
+    background: red;
+    display: inline-block;
+    width: 3em;
+    height: 3em;
     border-radius: 0.2em;
-	box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
+    box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
     vertical-align: top;
     cursor: pointer;
 }
@@ -341,12 +341,12 @@ body{
     font-size: 2.5em;
 }
 .instruction > .content{
-	background: white;
-	display: inline-block;
+    background: white;
+    display: inline-block;
     border-radius: 0.2em;
     width: 26em;
     min-height: 3em;
-	box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
+    box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
 }
 .instruction > .content > .header{
     height: 3em;
@@ -386,10 +386,10 @@ body{
     display: none;
     opacity: 0;
     padding: 0em;
-	transition        : opacity 0.5s;
-	-moz-transition   : opacity 0.5s;
-	-webkit-transition: opacity 0.5s;
-	-o-transition     : opacity 0.5s;
+    transition        : opacity 0.5s;
+    -moz-transition   : opacity 0.5s;
+    -webkit-transition: opacity 0.5s;
+    -o-transition     : opacity 0.5s;
 }
 .instruction .notes{
     font-family: sohopro_regular;
@@ -408,7 +408,7 @@ body{
     width: 2em;
     height: 17.5em;
     border-radius: 0.2em;
-	box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
+    box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
     z-index: 3; /* Above the nav arrows.*/
 }
 #instructions_slider *{
@@ -462,12 +462,12 @@ body{
 
 /* Custom video controls. */
 .control_panel{
-	position: absolute;
-	bottom: 0%;
-	left: 10%;
-	width: 80%;
-	height: 10%;
-	background: rgba(153, 153, 153, 0.5);
+    position: absolute;
+    bottom: 0%;
+    left: 10%;
+    width: 80%;
+    height: 10%;
+    background: rgba(153, 153, 153, 0.5);
     border-radius: 0.2em 0.2em 0% 0%;
     z-index: 2;
 }
@@ -480,34 +480,34 @@ body{
     height: 20%;
     left: 40%;
     width: 20%;
-	transition: opacity 0.5s;
-	-moz-transition: opacity 0.5s;
-	-webkit-transition: opacity 0.5s;
-	-o-transition: opacity 0.5s;
+    transition: opacity 0.5s;
+    -moz-transition: opacity 0.5s;
+    -webkit-transition: opacity 0.5s;
+    -o-transition: opacity 0.5s;
 }
 .toggle_play{
     cursor: pointer;
 }
 .progress_bar{
-	overflow: hidden;
-	fill: rgb(102, 102, 102);
+    overflow: hidden;
+    fill: rgb(102, 102, 102);
 }
 .elapsed{
-	fill: rgb(153, 153, 153);
+    fill: rgb(153, 153, 153);
 }
 .elapsed .hover{
-	fill: red;
-	opacity:  0;
-	width: 3;
+    fill: red;
+    opacity:  0;
+    width: 3;
 }
 .buffered{
-	fill: rgb(51, 51, 51);
+    fill: rgb(51, 51, 51);
 }
 .progress_bar:hover .elapsed{
-	background: red;
+    background: red;
 }
 .timer{
-	z-index: 1;
+    z-index: 1;
 }
 .mute{
     cursor: pointer;
