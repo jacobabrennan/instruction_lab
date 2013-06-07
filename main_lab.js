@@ -19,10 +19,10 @@ var main_lab = {
                 /*
                 // Test for HTML5 video support by testing for the existence of the main video.
                     // Note: Assumes document.getElementById. Support charts show support back to IE6.
-				var video_test = document.getElementById('lab_video');
-				if(video_test && video_test.canPlayType){
-					*/this.status |= this.HTML5;/*
-				}
+                var video_test = document.getElementById('lab_video');
+                if(video_test && video_test.canPlayType){
+                    */this.status |= this.HTML5;/*
+                }
                 /
                 // Test for progress bar click support, which requires clientWidth.
                     // Note: event.clientX is not tested here, but support charts show near universal compatibility.
@@ -84,13 +84,13 @@ var main_lab = {
             popcorn: undefined,
             controls: undefined,
             currentDuration: 0,
-			dispose: function (){
-				this.media = null;
-				Popcorn.destroy(this.popcorn);
-				this.popcorn = null;
-				//this.controls.distroy();
-				this.controls = null;
-			}
+            dispose: function (){
+                this.media = null;
+                Popcorn.destroy(this.popcorn);
+                this.popcorn = null;
+                //this.controls.distroy();
+                this.controls = null;
+            }
         }
         if(media_type){
             player.media = document.createElement(media_type);
@@ -107,14 +107,14 @@ var main_lab = {
         var self = this;
         var controls = document.createElement('div');
         controls.setAttribute('class', 'controls');
-		var svgNs = 'http://www.w3.org/2000/svg';
-		var controlPanel = document.createElementNS(svgNs, 'svg');
-		controlPanel.setAttribute('class', 'control_panel');
-		controlPanel.setAttribute('viewBox', '0 0 128 9');
-		/*control_panel.setAttributeNS(null, 'xmlns:xlink', 'http://www.w3.org/1999/xlink');
-		control_panel.setAttributeNS(null, 'xmlns:ev', 'http://www.w3.org/2001/xml-events');*/
+        var svgNs = 'http://www.w3.org/2000/svg';
+        var controlPanel = document.createElementNS(svgNs, 'svg');
+        controlPanel.setAttribute('class', 'control_panel');
+        controlPanel.setAttribute('viewBox', '0 0 128 9');
+        /*control_panel.setAttributeNS(null, 'xmlns:xlink', 'http://www.w3.org/1999/xlink');
+        control_panel.setAttributeNS(null, 'xmlns:ev', 'http://www.w3.org/2001/xml-events');*/
         //var big_play = document.createElement('svg');
-		/*
+        /*
         big_play.outerHTML = '\
             <svg id="control_big_play" width="100" height="100" viewBox="0 0 100 100"\
                 xmlns="http://www.w3.org/2000/svg"\
@@ -133,89 +133,89 @@ var main_lab = {
             </svg>\
         ';*/
         var playPause = document.createElementNS(svgNs, 'svg');
-		playPause.setAttribute('class', 'icon toggle_play');
-		playPause.setAttribute('stroke-linejoin', 'round');
-		playPause.setAttribute('fill', 'rgb(102,102,102)');
-		playPause.setAttribute('stroke', '#000000');
-		playPause.setAttribute('stroke-width', '0');
-		playPause.setAttribute('x', '7');
-		playPause.setAttribute('y', '1');
-		playPause.setAttribute('width', '7');
-		playPause.setAttribute('height', '7');
-		playPause.setAttribute('viewBox', '0 0 100 100');
-		var play = document.createElementNS(svgNs, 'path');
-		play.setAttribute('class', 'play');
-		play.setAttribute('d', 'm5,5l81,45l-81,45l0,-90z');
-		var pause = document.createElementNS(svgNs, 'path');
-		pause.setAttribute('class', 'pause');
-		pause.setAttribute('d', 'm12,86 l0,-72 l20,0 l0,71.20879 l-20,0.79121 M45,86 l0,-72 l20,0 l0,71.20879 l-20,0.79121z');
-		pause.style.opacity = '0';
-		playPause.appendChild(play);
-		playPause.appendChild(pause);
-		controlPanel.appendChild(playPause);
-		/*
-			<style>\
-				#pause{\
-					opacity: 0;\
-				}\
-				.icon:hover{\
-					fill: red;\
-				}\
-			</style>\
-		*/
+        playPause.setAttribute('class', 'icon toggle_play');
+        playPause.setAttribute('stroke-linejoin', 'round');
+        playPause.setAttribute('fill', 'rgb(102,102,102)');
+        playPause.setAttribute('stroke', '#000000');
+        playPause.setAttribute('stroke-width', '0');
+        playPause.setAttribute('x', '7');
+        playPause.setAttribute('y', '1');
+        playPause.setAttribute('width', '7');
+        playPause.setAttribute('height', '7');
+        playPause.setAttribute('viewBox', '0 0 100 100');
+        var play = document.createElementNS(svgNs, 'path');
+        play.setAttribute('class', 'play');
+        play.setAttribute('d', 'm5,5l81,45l-81,45l0,-90z');
+        var pause = document.createElementNS(svgNs, 'path');
+        pause.setAttribute('class', 'pause');
+        pause.setAttribute('d', 'm12,86 l0,-72 l20,0 l0,71.20879 l-20,0.79121 M45,86 l0,-72 l20,0 l0,71.20879 l-20,0.79121z');
+        pause.style.opacity = '0';
+        playPause.appendChild(play);
+        playPause.appendChild(pause);
+        controlPanel.appendChild(playPause);
+        /*
+            <style>\
+                #pause{\
+                    opacity: 0;\
+                }\
+                .icon:hover{\
+                    fill: red;\
+                }\
+            </style>\
+        */
         var progressBar = document.createElementNS(svgNs, 'g');
         progressBar.setAttribute('class', 'progress_bar');
-		progressBar.setAttribute('transform', 'translate(17,3)');
-		progressBar.setAttribute('width', '75');
-		progressBar.setAttribute('height', '3');
+        progressBar.setAttribute('transform', 'translate(17,3)');
+        progressBar.setAttribute('width', '75');
+        progressBar.setAttribute('height', '3');
         var buffered = document.createElementNS(svgNs, 'rect');
         buffered.setAttribute('class', 'buffered');
-		buffered.setAttribute('height', '3');
-		progressBar.appendChild(buffered);
+        buffered.setAttribute('height', '3');
+        progressBar.appendChild(buffered);
         var elapsed = document.createElementNS(svgNs, 'rect');
         elapsed.setAttribute('class', 'elapsed');
-		elapsed.setAttribute('height', '3');
-		progressBar.appendChild(elapsed);
-		controlPanel.appendChild(progressBar);
+        elapsed.setAttribute('height', '3');
+        progressBar.appendChild(elapsed);
+        controlPanel.appendChild(progressBar);
         var mute = document.createElementNS(svgNs, 'svg');
-		mute.setAttribute('class', 'icon mute');
-		mute.setAttribute('stroke-linejoin', 'round');
-		mute.setAttribute('fill', 'rgb(102,102,102)');
-		mute.setAttribute('stroke', '#000000');
-		mute.setAttribute('stroke-width', '0');
-		mute.setAttribute('x', '114');
-		mute.setAttribute('y', '1');
-		mute.setAttribute('width', '7');
-		mute.setAttribute('height', '7');
-		mute.setAttribute('viewBox', '0 0 100 100');
-		var muteSpeaker = document.createElementNS(svgNs, 'path');
-		var muteSound = document.createElementNS(svgNs, 'path');
-		muteSpeaker.setAttribute('class', 'mute_speaker');
-		muteSpeaker.setAttribute('d', 'm8,30l0,40l20,0l25,25l0,-90l-25,25l-20,0z');
-		muteSound.setAttribute('class', 'mute_sound');
-		muteSound.setAttribute('d', 'm65,20a50,50 0 0 10,60 M75,10a50,50 0 0 10,80');
-		mute.appendChild(muteSpeaker);
-		mute.appendChild(muteSound);
+        mute.setAttribute('class', 'icon mute');
+        mute.setAttribute('stroke-linejoin', 'round');
+        mute.setAttribute('fill', 'rgb(102,102,102)');
+        mute.setAttribute('stroke', '#000000');
+        mute.setAttribute('stroke-width', '0');
+        mute.setAttribute('x', '114');
+        mute.setAttribute('y', '1');
+        mute.setAttribute('width', '7');
+        mute.setAttribute('height', '7');
+        mute.setAttribute('viewBox', '0 0 100 100');
+        var muteSpeaker = document.createElementNS(svgNs, 'path');
+        var muteSound = document.createElementNS(svgNs, 'path');
+        muteSpeaker.setAttribute('class', 'mute_speaker');
+        muteSpeaker.setAttribute('d', 'm8,30l0,40l20,0l25,25l0,-90l-25,25l-20,0z');
+        muteSound.setAttribute('class', 'mute_sound');
+        muteSound.setAttribute('d', 'm65,20a50,50 0 0 10,60 M75,10a50,50 0 0 10,80');
+        mute.appendChild(muteSpeaker);
+        mute.appendChild(muteSound);
         controlPanel.appendChild(mute);
         var timer = document.createElementNS(svgNs, 'svg');
-		timer.setAttribute('class', 'timer');
-		timer.setAttribute('x', '93');
-		timer.setAttribute('y', '1');
-		timer.setAttribute('width', '21');
-		timer.setAttribute('height', '7');
-		timer.setAttribute('viewBox', '0 0 225 100');
-		var timeText = document.createElementNS(svgNs, 'text');
-		timeText.setAttribute('class', 'time_text');
-		timeText.setAttribute('text-anchor', 'left');
-		timeText.setAttribute('font-family', 'sans-serif');
-		timeText.setAttribute('font-size', '24');
-		timeText.setAttribute('y', '22');
-		timeText.setAttribute('x', '0');
-		timeText.setAttribute('stroke', '#000000');
-		timeText.setAttribute('transform', 'matrix(2.0294, 0, 0, 2.0294, 4.73115, 22.9506)');
-		timer.appendChild(timeText);
-		controlPanel.appendChild(timer);
-		/*
+        timer.setAttribute('class', 'timer');
+        timer.setAttribute('x', '93');
+        timer.setAttribute('y', '1');
+        timer.setAttribute('width', '21');
+        timer.setAttribute('height', '7');
+        timer.setAttribute('viewBox', '0 0 225 100');
+        var timeText = document.createElementNS(svgNs, 'text');
+        timeText.setAttribute('class', 'time_text');
+        timeText.setAttribute('text-anchor', 'left');
+        timeText.setAttribute('font-family', 'sans-serif');
+        timeText.setAttribute('font-size', '24');
+        timeText.setAttribute('y', '22');
+        timeText.setAttribute('x', '0');
+        timeText.setAttribute('stroke', '#000000');
+        timeText.setAttribute('transform', 'matrix(2.0294, 0, 0, 2.0294, 4.73115, 22.9506)');
+        timer.appendChild(timeText);
+        controlPanel.appendChild(timer);
+        /*
         controls.appendChild(big_play);
         */
         // Capture standard play events.
@@ -226,7 +226,7 @@ var main_lab = {
                 player.popcorn.pause();
             }
         }, false);
-		/*
+        /*
         // Big Play Button
         big_play.addEventListener("click", function (){
             player.popcorn.play();
@@ -262,15 +262,15 @@ var main_lab = {
         progressBar.addEventListener('click', function (event){
             var duration = player.popcorn.duration();
             if(!duration){ return;}
-			var progressRect = progressBar.getBoundingClientRect();
-			var progressWidth = progressRect.right - progressRect.left;
-			var offsetX = event.pageX - progressRect.left;
-			var offsetPercent = offsetX / progressWidth;
+            var progressRect = progressBar.getBoundingClientRect();
+            var progressWidth = progressRect.right - progressRect.left;
+            var offsetX = event.pageX - progressRect.left;
+            var offsetPercent = offsetX / progressWidth;
             var seekTime = duration * offsetPercent;
             elapsed.style.width = ''+(offsetPercent*100)+'%';
             player.popcorn.currentTime(seekTime);
         });
-		var maxBarMidth = parseInt(progressBar.getAttribute('width'));
+        var maxBarMidth = parseInt(progressBar.getAttribute('width'));
         player.popcorn.on("timeupdate", function (){
             var duration = player.popcorn.duration();
             if(!duration){ return;}
@@ -312,11 +312,11 @@ var main_lab = {
                 muteSound.style.opacity = "0";
             }
         }, false);
-		return controlPanel;
+        return controlPanel;
     },
     setup: function (){
         var self = this;
-		//document.title = configuration.title;
+        //document.title = configuration.title;
         this.seeking = false;
         //this.setup_popcorn(configuration);
         window.addEventListener("resize", function (e){ self.resize()}, false);
@@ -341,30 +341,16 @@ var main_lab = {
         this.arrow_right.addEventListener("click", function (){
             main_lab.transition("right");
         }, false)
-        /*// Setup Instructions + Tips Sections:
-        this.tip_manager.setup(configuration);
-        this.instructions.setup(configuration);
-        //*/
         this.resize();
-        /*
-        this.popcorn.on("seeked", function (){
-            self.seeking = false;
-            self.tip_manager.populate(self.popcorn.currentTime());
-        });
-        this.popcorn.on("seeking", function (){
-            self.seeking = true;
-            self.tip_manager.clear_tips();
-        });
-        */
         // Finished
     },
-    /*registerLab: function (labType, configuration){
-        this.lab = Object.create(labType);
+    /*registerLab: function (lab_type, configuration){
+        this.lab = Object.create(lab_type);
         this.lab.setup(configuration);
     },
-	cancelLab: function (oldLab){
+	cancelLab: function (old_lab){
 		this.lab = null;
-		oldLab.dispose();
+		old_lab.dispose();
 	},*/
     frame_left: undefined,
     frame_middle: undefined,
@@ -397,31 +383,31 @@ var main_lab = {
                 break;
             }
         }
-		this.transition(null, true);
-		if(!container_element){
-			return null;
-		} else{
-			return container_element.appendChild(new_frame);
-		}
+        this.transition(null, true);
+        if(!container_element){
+            return null;
+        } else{
+            return container_element.appendChild(new_frame);
+        }
     },
     cancel_frame: function (oldFrame){
         var container_element;
-		if(oldFrame == this.frame_left){
-			this.frame_left = null;
+        if(oldFrame == this.frame_left){
+            this.frame_left = null;
             container_element = this.left;
         }
-		if(oldFrame == this.frame_middle){
-			this.frame_middle = null;
+        if(oldFrame == this.frame_middle){
+            this.frame_middle = null;
             container_element = this.middle;
         }
-		if(oldFrame == this.frame_right){
-			this.frame_right = null;
+        if(oldFrame == this.frame_right){
+            this.frame_right = null;
             container_element = this.right;
         }
-		if(container_element){
-			container_element.removeChild(oldFrame);
-		}
-		this.transition(null, true);
+        if(container_element){
+            container_element.removeChild(oldFrame);
+        }
+        this.transition(null, true);
     },
     control_interface: {
         focus: undefined,
@@ -554,86 +540,86 @@ var main_lab = {
     },
     transition: function (direction, force){
         var self = this;
-		if(direction){
-			this.slider.style.transition       = "left 1s";
-			this.slider.style.MozTransition    = "left 1s";
-			this.slider.style.WebkitTransition = "left 1s";
-			this.slider.style.OTransition      = "left 1s";
-			var destinationFrame = this.slider_state;
-			switch(direction){
-				case "left":{
-					switch(this.slider_state){
-						case "middle":{
-							destinationFrame = 'left';
-							break;
-						}
-						case "right":{
-							destinationFrame = 'middle';
-							break;
-						}
-					}
-					break;
-				}
-				case "right":{
-					switch(this.slider_state){
-						case "middle":{
-							destinationFrame = "right";
-							break;
-						}
-						case "left":{
-							destinationFrame = "middle";
-							break;
-						}
-					}
-					break;
-				}
-			}
-			switch(destinationFrame){
-				case 'left':{
-					if(this.frame_left){
-						this.slider_state = destinationFrame;
-					}
-					break;
-				}
-				case 'middle':{
-					if(this.frame_middle){
-						this.slider_state = destinationFrame;
-					}
-					break;
-				}
-				case 'right':{
-					if(this.frame_right){
-						this.slider_state = destinationFrame;
-					}
-					break;
-				}
-			}
-		}
+        if(direction){
+            this.slider.style.transition       = "left 1s";
+            this.slider.style.MozTransition    = "left 1s";
+            this.slider.style.WebkitTransition = "left 1s";
+            this.slider.style.OTransition      = "left 1s";
+            var destinationFrame = this.slider_state;
+            switch(direction){
+                case "left":{
+                    switch(this.slider_state){
+                        case "middle":{
+                            destinationFrame = 'left';
+                            break;
+                        }
+                        case "right":{
+                            destinationFrame = 'middle';
+                            break;
+                        }
+                    }
+                    break;
+                }
+                case "right":{
+                    switch(this.slider_state){
+                        case "middle":{
+                            destinationFrame = "right";
+                            break;
+                        }
+                        case "left":{
+                            destinationFrame = "middle";
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+            switch(destinationFrame){
+                case 'left':{
+                    if(this.frame_left){
+                        this.slider_state = destinationFrame;
+                    }
+                    break;
+                }
+                case 'middle':{
+                    if(this.frame_middle){
+                        this.slider_state = destinationFrame;
+                    }
+                    break;
+                }
+                case 'right':{
+                    if(this.frame_right){
+                        this.slider_state = destinationFrame;
+                    }
+                    break;
+                }
+            }
+        }
         switch(this.slider_state){
             case "left":{
                 //this.tip_manager.clear_tips();
                 this.slider.style.left = "0%";
                 this.arrow_left.style.opacity = "0";
-				if(this.frame_middle){
-					this.arrow_right.style.opacity = "1";
-				} else{
-					this.arrow_right.style.opacity = "0";
-				}
+                if(this.frame_middle){
+                    this.arrow_right.style.opacity = "1";
+                } else{
+                    this.arrow_right.style.opacity = "0";
+                }
                 //this.popcorn.pause()
                 break;
             }
             case "middle":{
                 this.slider.style.left = "-100%";
-				if(this.frame_left){
-					this.arrow_left.style.opacity = "1";
-				} else{
-					this.arrow_left.style.opacity = "0";
-				}
-				if(this.frame_right){
-					this.arrow_right.style.opacity = "1";
-				} else{
-					this.arrow_right.style.opacity = "0";
-				}
+                if(this.frame_left){
+                    this.arrow_left.style.opacity = "1";
+                } else{
+                    this.arrow_left.style.opacity = "0";
+                }
+                if(this.frame_right){
+                    this.arrow_right.style.opacity = "1";
+                } else{
+                    this.arrow_right.style.opacity = "0";
+                }
                 //this.tip_manager.populate();
                 break;
             }
@@ -641,11 +627,11 @@ var main_lab = {
                 //this.tip_manager.clear_tips();
                 this.slider.style.left = "-200%";
                 this.arrow_right.style.opacity = "0";
-				if(this.frame_middle){
-					this.arrow_left.style.opacity = "1";
-				} else{
-					this.arrow_left.style.opacity = "0";
-				}
+                if(this.frame_middle){
+                    this.arrow_left.style.opacity = "1";
+                } else{
+                    this.arrow_left.style.opacity = "0";
+                }
                 //this.popcorn.pause()
                 break;
             }

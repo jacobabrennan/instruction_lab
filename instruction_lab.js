@@ -54,16 +54,14 @@ var instruction_lab = {
 		new_lab.instructions.temp_instruction_lab = new_lab;
         new_lab.tip_manager.setup(configuration);
         new_lab.instructions.setup(configuration);
-        /*
-        this.popcorn.on("seeked", function (){
-            instruction_lab.seeking = false;
-            instruction_lab.tip_manager.populate(instruction_lab.video_frame.player.popcorn.currentTime());
+        new_lab.video_frame.player.popcorn.on("seeked", function (){
+            new_lab.seeking = false;
+            new_lab.tip_manager.populate(new_lab.video_frame.player.popcorn.currentTime());
         });
-        this.popcorn.on("seeking", function (){
-            instruction_lab.seeking = true;
-            instruction_lab.tip_manager.clear_tips();
+        new_lab.video_frame.player.popcorn.on("seeking", function (){
+            new_lab.seeking = true;
+            new_lab.tip_manager.clear_tips();
         });
-        */
         // Finished
     },
 	dispose: function (){
@@ -197,10 +195,21 @@ var instruction_lab = {
 						if(tip_template.icon_color){
 							icon.style.background = tip_template.icon_color;
 						}
-						if(tip_template.display_instructions){
-							tip.display = tip_template.display_instructions;
-							tip.display(tip_json);
-						}
+                        if(tip_template.code_display){
+                            tip.display = function (tip_json){
+                                // this = an html element; a tip.
+                                var icon_image = this.getElementsByTagName('img')[0];
+                                icon_image.style.width = 'auto';
+                                icon_image.style.height = '100%';
+                                this.className = this.className + ' double';
+                                var content = this.getElementsByClassName('content')[0];
+                                var expander = document.createElement('pre');
+                                expander.setAttribute('class', 'code');
+                                expander.textContent = tip_json.content;
+                                content.appendChild(expander);
+                            }
+                            tip.display(tip_json);
+                        }
 					}
 					return tip;
 				}
@@ -452,11 +461,13 @@ var instruction_lab = {
 			if(!tip){
 				tip = this.current_tips[1]
 			}
-			tip.style.visibility = "hidden";
-			tip.style.height = "0%";
-			tip.style.margin_bottom = "0em";
-			tip.style.margin = "0em"
-			this.remove_tip(tip, true);
+            if(tip){
+                tip.style.visibility = "hidden";
+                tip.style.height = "0%";
+                tip.style.margin_bottom = "0em";
+                tip.style.margin = "0em"
+                this.remove_tip(tip, true);
+            }
 		},
 		create_step: function (tip_json, step_index){
 			var self = this;
@@ -474,6 +485,7 @@ var instruction_lab = {
 			return tip;
 		},
 		create_tip: function (tip_json){
+            var self = this;
 			var tip_template_id = tip_json.type;
 			var tip_template = this.tip_templates[tip_template_id];
 			var tip = document.createElement('a');
@@ -510,17 +522,49 @@ var instruction_lab = {
 				if(tip_template.icon_color){
 					icon.style.background = tip_template.icon_color;
 				}
-				if(tip_template.display_tip_area){
-					tip.display = tip_template.display_tip_area;
-				}
-				if(tip_template.dispose){
-					tip.dispose = tip_template.dispose;
-				}
-			}
-			if(tip.display){
-				tip.display(tip_json);
-			}
-			return tip;
+                if(tip_template.code_display){
+                    tip.display = function (tip_json){
+                        // this = an html element; a tip.
+                        var last_tip = self.current_tips[self.current_tips.length-1];
+                        if(last_tip && last_tip.json && last_tip.json.title == tip_json.title){
+                            if(last_tip.json.type === tip_json.type){
+                                last_tip.dispose = undefined;
+                                self.remove_tip(last_tip);
+                            }
+                        }
+                        var icon_image = this.getElementsByTagName('img')[0];
+                        icon_image.style.width = 'auto';
+                        icon_image.style.height = '100%';
+                        var code_area = document.getElementById('code_display');
+                        if(!code_area){
+                            code_area = document.createElement('pre');
+                            code_area.setAttribute('id', 'code_display');
+                            code_area.setAttribute('class', 'hidden');
+                            self.tempInstructionLab.video_frame.appendChild(code_area);
+                        }
+                        setTimeout(function (){
+                            code_area.setAttribute('class', 'displayed');
+                        }, 100);
+                        code_area.tip = this;
+                        code_area.textContent = '\n'+tip_json.content+'\n\n';
+                    };
+                    tip.dispose = function (){
+                        // this = an html element; a tip.
+                        var html_tip = this;
+                        var code_area = document.getElementById('code_display');
+                        if((!code_area) || (code_area.tip != html_tip)){ return}
+                        code_area.setAttribute('class', 'hidden');
+                        setTimeout(function (){
+                            if(code_area.tip != html_tip){ return}
+                            code_area.parentNode.removeChild(code_area);
+                        }, 900);
+                    }
+                }
+            }
+            if(tip.display){
+                tip.display(tip_json);
+            }
+            return tip;
 		},
 		remove_tip: function (tip, delay){
 			var self = this;
