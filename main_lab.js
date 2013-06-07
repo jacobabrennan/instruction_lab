@@ -1,6 +1,5 @@
 /* This code written in whole by Jacob A Brennan. */
-var mainLab = {
-    lab: undefined,
+var main_lab = {
     // Define compatibility flags. This may be expanded in the future.
     compatibility: {
         EVENT: 1,
@@ -337,10 +336,10 @@ var mainLab = {
         this.arrow_left  = document.getElementById("arrow_left" );
         this.arrow_right = document.getElementById("arrow_right");
         this.arrow_left.addEventListener("click", function (){
-            mainLab.transition("left");
+            main_lab.transition("left");
         }, false)
         this.arrow_right.addEventListener("click", function (){
-            mainLab.transition("right");
+            main_lab.transition("right");
         }, false)
         /*// Setup Instructions + Tips Sections:
         this.tip_manager.setup(configuration);
@@ -359,18 +358,18 @@ var mainLab = {
         */
         // Finished
     },
-    registerLab: function (labType, configuration){
+    /*registerLab: function (labType, configuration){
         this.lab = Object.create(labType);
         this.lab.setup(configuration);
     },
 	cancelLab: function (oldLab){
 		this.lab = null;
 		oldLab.dispose();
-	},
+	},*/
     frame_left: undefined,
     frame_middle: undefined,
     frame_right: undefined,
-    registerFrame: function (frame_loc, new_frame){
+    register_frame: function (frame_loc, new_frame){
         var container_element;
         switch(frame_loc){
             case 'left': {
@@ -405,7 +404,7 @@ var mainLab = {
 			return container_element.appendChild(new_frame);
 		}
     },
-    cancelFrame: function (oldFrame){
+    cancel_frame: function (oldFrame){
         var container_element;
 		if(oldFrame == this.frame_left){
 			this.frame_left = null;
@@ -436,19 +435,19 @@ var mainLab = {
             }
             switch(key_code){
                 case 37:{
-                    mainLab.transition("left");
+                    main_lab.transition("left");
                     break;
                 }
                 case 39:{
-                    mainLab.transition("right");
+                    main_lab.transition("right");
                     break;
                 }/*
                 case 38:{
-                    mainLab.scroll("up");
+                    main_lab.scroll("up");
                     break;
                 }
                 case 40:{
-                    mainLab.scroll("down");
+                    main_lab.scroll("down");
                     break;
                 }*/
             }
@@ -469,7 +468,7 @@ var mainLab = {
                 case 'blur':
                 case 'mouseup':{
                     this.dragged_element = undefined;
-                    mainLab.right.className = '';
+                    main_lab.right.className = '';
                     break;
                 }
                 case 'mousemove':{
@@ -543,8 +542,14 @@ var mainLab = {
         this.left.style.height    = modified_height+"px";
         this.right.style.height   = modified_height+"px";
         this.slider.style.height  = modified_height+"px";
-		if(this.lab && ((typeof this.lab.resize) === 'function')){
-			this.lab.resize();
+		if(this.frame_left && ((typeof this.frame_left.resize) === 'function')){
+			this.frame_left.resize();
+		}
+		if(this.frame_middle && ((typeof this.frame_middle.resize) === 'function')){
+			this.frame_middle.resize();
+		}
+		if(this.frame_right && ((typeof this.frame_right.resize) === 'function')){
+			this.frame_right.resize();
 		}
     },
     transition: function (direction, force){
@@ -648,37 +653,31 @@ var mainLab = {
     },
 };
 
-mainLab.compatibility.check(true);
-if((mainLab.compatibility.status & mainLab.compatibility.EVENT)){
+main_lab.compatibility.check(true);
+if((main_lab.compatibility.status & main_lab.compatibility.EVENT)){
     document.addEventListener("DOMContentLoaded", function (){
-        mainLab.compatibility.check();
+        main_lab.compatibility.check();
         var full_featured = (
-            mainLab.compatibility.CONTROLS |
-            mainLab.compatibility.CSS_TRANSITION |
-            mainLab.compatibility.DOM |
-            mainLab.compatibility.EVENT |
-            mainLab.compatibility.HTML5);
-        if(mainLab.compatibility.status != full_featured){
-            mainLab.compatibility.notify()
-            console.log(mainLab.compatibility.CONTROLS)
-            console.log(mainLab.compatibility.CSS_TRANSITION)
-            console.log(mainLab.compatibility.DOM)
-            console.log(mainLab.compatibility.EVENT)
-            console.log(mainLab.compatibility.HTML5)
-            console.log('Notify: '+mainLab.compatibility.status + ' | '+full_featured)
+            main_lab.compatibility.CONTROLS |
+            main_lab.compatibility.CSS_TRANSITION |
+            main_lab.compatibility.DOM |
+            main_lab.compatibility.EVENT |
+            main_lab.compatibility.HTML5);
+        if(main_lab.compatibility.status != full_featured){
+            main_lab.compatibility.notify()
+            console.log(main_lab.compatibility.CONTROLS)
+            console.log(main_lab.compatibility.CSS_TRANSITION)
+            console.log(main_lab.compatibility.DOM)
+            console.log(main_lab.compatibility.EVENT)
+            console.log(main_lab.compatibility.HTML5)
+            console.log('Notify: '+main_lab.compatibility.status + ' | '+full_featured)
         }
-        if(mainLab.compatibility.status & (mainLab.compatibility.DOM | mainLab.compatibility.HTML5)){
-            mainLab.setup();
-            mainLab.registerLab(instructionLab, lab_configuration);
+        if(main_lab.compatibility.status & (main_lab.compatibility.DOM | main_lab.compatibility.HTML5)){
+            main_lab.setup();
+            instruction_lab.setup(lab_configuration);
         }
     }, false);
 } else{
-    mainLab.compatibility.notify()
-    console.log('notify: '+mainLab.compatibility.status)
+    main_lab.compatibility.notify()
+    console.log('notify: '+main_lab.compatibility.status)
 }
-setTimeout(function (){
-	mainLab.cancelLab(mainLab.lab);
-}, 3000);
-setTimeout(function (){
-	mainLab.registerLab(instructionLab, lab_configuration);
-}, 5000);

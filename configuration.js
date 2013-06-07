@@ -55,11 +55,11 @@ var lab_configuration = {
 			},
 			display_tip_area: function (tip_json){
 				// this = an html element; a tip.
-                var last_tip = instructionLab.tip_manager.current_tips[instructionLab.tip_manager.current_tips.length-1];
+                var last_tip = instruction_lab.tip_manager.current_tips[instruction_lab.tip_manager.current_tips.length-1];
                 if(last_tip && last_tip.json && last_tip.json.title == tip_json.title){
                     if(last_tip.json.type === tip_json.type){
                         last_tip.dispose = undefined;
-                        instructionLab.tip_manager.remove_tip(last_tip);
+                        instruction_lab.tip_manager.remove_tip(last_tip);
                     }
                 }
                 var icon_image = this.getElementsByTagName('img')[0];
@@ -70,7 +70,7 @@ var lab_configuration = {
 					code_area = document.createElement('pre');
 					code_area.setAttribute('id', 'code_display');
 					code_area.setAttribute('class', 'hidden');
-					instructionLab.middle.appendChild(code_area);
+					instruction_lab.middle.appendChild(code_area);
 				}
 				setTimeout(function (){
 					code_area.setAttribute('class', 'displayed');

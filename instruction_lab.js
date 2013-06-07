@@ -1,13 +1,12 @@
-/*
- * This code written in whole by Jacob A Brennan.
- *
- */
-var instructionLab = {
+var instruction_lab = {
     video_frame: undefined,
     instruction_frame: undefined,
     setup: function (configuration){
+		var new_lab = Object.create(this);
+		new_lab.instructions = Object.create(this.instructions);
+		new_lab.tip_manager = Object.create(this.tip_manager);
 		document.title = configuration.title;
-        this.seeking = false;
+        new_lab.seeking = false;
         // Create Frames:
             // Create Middle Frame:
         var middle_frame_html = '\
@@ -15,55 +14,61 @@ var instructionLab = {
             <img id="logo1" alt="Make Logo" />\
             <img id="logo2" alt="Lab Specific Logo" />\
             ';
-        this.video_frame = document.createElement('div');
-        this.video_frame.innerHTML = middle_frame_html;
-        var success = mainLab.registerFrame('middle', this.video_frame);
+        new_lab.video_frame = document.createElement('div');
+        new_lab.video_frame.innerHTML = middle_frame_html;
+        var success = main_lab.register_frame('middle', new_lab.video_frame);
         var right_frame_html = '\
             <div id="instructions_list"></div>\
             <div id="instructions_slider"></div>\
-            ';
-        this.instruction_frame = document.createElement('div');
-        this.instruction_frame.innerHTML = right_frame_html;
-        success = mainLab.registerFrame('right', this.instruction_frame);
+        ';
+        new_lab.instruction_frame = document.createElement('div');
+        new_lab.instruction_frame.innerHTML = right_frame_html;
+        success = main_lab.register_frame('right', new_lab.instruction_frame);
+		new_lab.video_frame.resize = function (){
+			new_lab.tip_manager.resize();
+		};
+		new_lab.instruction_frame.resize = function (){
+			new_lab.instructions.resize();
+		};
         // Configure html urls:
-        this.logo1 = document.getElementById("logo1");
-        this.logo1.src = configuration.urls.logo1;
-        this.logo2 = document.getElementById("logo2");
-        this.logo2.src = configuration.urls.logo2;
+        new_lab.logo1 = document.getElementById("logo1");
+        new_lab.logo1.src = configuration.urls.logo1;
+        new_lab.logo2 = document.getElementById("logo2");
+        new_lab.logo2.src = configuration.urls.logo2;
         // Request Media Player
-        this.video_frame.player = mainLab.create_player('video');
+        new_lab.video_frame.player = main_lab.create_player('video');
         var video_sources = configuration.urls.video;
         for(var codex in video_sources){
             var source = document.createElement('source');
             source.setAttribute('src', video_sources[codex]);
-            this.video_frame.player.media.appendChild(source);
+            new_lab.video_frame.player.media.appendChild(source);
         }
-		this.video_frame.player.media.setAttribute('id', 'lab_video');
-        this.video_frame.appendChild(this.video_frame.player.media);
-        this.video_frame.appendChild(this.video_frame.player.controls);
+		new_lab.video_frame.player.media.setAttribute('id', 'lab_video');
+        new_lab.video_frame.appendChild(new_lab.video_frame.player.media);
+        new_lab.video_frame.appendChild(new_lab.video_frame.player.controls);
         // Setup frame slider:
-        this.video_width = 1280;
-        this.video_height = 720;
+        new_lab.video_width = 1280;
+        new_lab.video_height = 720;
         // Setup Instructions + Tips Sections:
-		this.tip_manager.tempInstructionLab = this;
-		this.instructions.tempInstructionLab = this;
-        this.tip_manager.setup(configuration);
-        this.instructions.setup(configuration);
+		new_lab.tip_manager.temp_instruction_lab = new_lab;
+		new_lab.instructions.temp_instruction_lab = new_lab;
+        new_lab.tip_manager.setup(configuration);
+        new_lab.instructions.setup(configuration);
         /*
         this.popcorn.on("seeked", function (){
-            instructionLab.seeking = false;
-            instructionLab.tip_manager.populate(instructionLab.video_frame.player.popcorn.currentTime());
+            instruction_lab.seeking = false;
+            instruction_lab.tip_manager.populate(instruction_lab.video_frame.player.popcorn.currentTime());
         });
         this.popcorn.on("seeking", function (){
-            instructionLab.seeking = true;
-            instructionLab.tip_manager.clear_tips();
+            instruction_lab.seeking = true;
+            instruction_lab.tip_manager.clear_tips();
         });
         */
         // Finished
     },
 	dispose: function (){
-		mainLab.cancelFrame(this.video_frame);
-		mainLab.cancelFrame(this.instruction_frame);
+		main_lab.cancel_frame(this.video_frame);
+		main_lab.cancel_frame(this.instruction_frame);
         this.video_frame.player.dispose()
         this.video_frame = null;
         this.instruction_frame = null;
@@ -71,15 +76,11 @@ var instructionLab = {
         this.logo2 = null;
         this.tip_manager.dispose();
         this.instructions.dispose();
-		this.tip_manager.tempInstructionLab = null;
-		this.instructions.tempInstructionLab = null;
-	},
-	resize: function (){
-		this.instructions.resize();
-		this.tip_manager.resize();
+		this.tip_manager.temp_instruction_lab = null;
+		this.instructions.temp_instruction_lab = null;
 	},
 	instructions: {
-		tempInstructionLab: undefined,
+		temp_instruction_lab: undefined,
 		list: undefined,
 		list_element: undefined, // an html element
 		scroll_bar: undefined,
@@ -130,8 +131,8 @@ var instructionLab = {
 					icon.style.visibility = 'hidden';
 					//icon.style.background = 'transparent';
 					//icon.style.boxShadow = 'none';
-					self.tempInstructionLab.logo2.style.cursor = 'pointer';
-					self.tempInstructionLab.logo2.addEventListener('click', function (){
+					self.temp_instruction_lab.logo2.style.cursor = 'pointer';
+					self.temp_instruction_lab.logo2.addEventListener('click', function (){
 						self.scroll_to(instruction_index);
 					}, false);
 					if(configuration.urls.logo2){
@@ -152,10 +153,10 @@ var instructionLab = {
 					time_stamp.insertBefore(time_stamp_play, time_stamp.firstChild);
 					header.appendChild(time_stamp);
 					time_stamp.addEventListener('click', function (){
-						self.tempInstructionLab.video_frame.player.popcorn.currentTime(Math.max(0, instruction.time_in-2));
-						mainLab.transition('left');
+						self.temp_instruction_lab.video_frame.player.popcorn.currentTime(Math.max(0, instruction.time_in-2));
+						main_lab.transition('left');
 						setTimeout(function (){
-							self.tempInstructionLab.video_frame.player.popcorn.play();
+							self.temp_instruction_lab.video_frame.player.popcorn.play();
 						}, 1000);
 					}, false)
 				}
@@ -219,7 +220,7 @@ var instructionLab = {
 				icon.addEventListener('click', expander_function, false);
 				title.addEventListener('click', expander_function, false);
 			};
-			this.tempInstructionLab.tip_manager.tip_area = document.getElementById('tip_area');
+			this.temp_instruction_lab.tip_manager.tip_area = document.getElementById('tip_area');
 			var step_number = 0;
 			for(var step_index = 0; step_index < instructions_list.length; step_index++){
 				var indexed_step = instructions_list[step_index];
@@ -235,30 +236,30 @@ var instructionLab = {
 						var indexed_tip = indexed_step.content[tip_index];
 						var cue_function = function (tip){
 							return function (){
-								if(self.tempInstructionLab.seeking){ return;}
-								var node = self.tempInstructionLab.tip_manager.create_tip(tip);
-								self.tempInstructionLab.tip_manager.add_tip(node);
+								if(self.temp_instruction_lab.seeking){ return;}
+								var node = self.temp_instruction_lab.tip_manager.create_tip(tip);
+								self.temp_instruction_lab.tip_manager.add_tip(node);
 							};
 						};
-						self.tempInstructionLab.video_frame.player.popcorn.cue(indexed_step.time_in + indexed_tip.time_offset, cue_function(indexed_tip));
+						self.temp_instruction_lab.video_frame.player.popcorn.cue(indexed_step.time_in + indexed_tip.time_offset, cue_function(indexed_tip));
 						if(indexed_tip.time_out_offset){
 							var cut_function = function (tip){
 								return function (){
-									var node = self.tempInstructionLab.tip_manager.find_tip(tip);
-									self.tempInstructionLab.tip_manager.bump_tip(node, true);
+									var node = self.temp_instruction_lab.tip_manager.find_tip(tip);
+									self.temp_instruction_lab.tip_manager.bump_tip(node, true);
 								}
 							}
-							self.tempInstructionLab.video_frame.player.popcorn.cue(indexed_step.time_in + indexed_tip.time_out_offset, cut_function(indexed_tip));
+							self.temp_instruction_lab.video_frame.player.popcorn.cue(indexed_step.time_in + indexed_tip.time_out_offset, cut_function(indexed_tip));
 						}
 					}
-					self.tempInstructionLab.video_frame.player.popcorn.cue(indexed_step.time_in-1, function (){
-						self.tempInstructionLab.tip_manager.clear_tips(true);
+					self.temp_instruction_lab.video_frame.player.popcorn.cue(indexed_step.time_in-1, function (){
+						self.temp_instruction_lab.tip_manager.clear_tips(true);
 					});
-					self.tempInstructionLab.video_frame.player.popcorn.cue(indexed_step.time_in, (function (loop_step, loop_index){
+					self.temp_instruction_lab.video_frame.player.popcorn.cue(indexed_step.time_in, (function (loop_step, loop_index){
 						return function (){
-							var node = self.tempInstructionLab.tip_manager.create_step(loop_step, loop_index);
+							var node = self.temp_instruction_lab.tip_manager.create_step(loop_step, loop_index);
 							if(node){
-								self.tempInstructionLab.tip_manager.add_tip(node);
+								self.temp_instruction_lab.tip_manager.add_tip(node);
 							}
 						}
 					})(indexed_step, step_index));
@@ -278,7 +279,7 @@ var instructionLab = {
 			this.list = null;
 			this.scroll_bar.dispose();
 			this.list_element = null;
-			this.tempInstructionLab.tip_manager.tip_area = null;
+			this.temp_instruction_lab.tip_manager.tip_area = null;
 		},
 		scroll: function (percent){
 			var handle_percent = this.scroll_bar.handle.offsetHeight / this.scroll_bar.bar.offsetHeight;
@@ -295,11 +296,11 @@ var instructionLab = {
 				var top_offset = instruction.element.offsetTop-20;
 				var offset_percent = top_offset / this.list_element.scrollHeight;
 				this.scroll(offset_percent);
-				mainLab.transition('right');
+				main_lab.transition('right');
 			}
 		},
 		resize: function (){
-			var screen_percent = mainLab.slider.offsetHeight / this.list_element.scrollHeight;
+			var screen_percent = main_lab.slider.offsetHeight / this.list_element.scrollHeight;
 			screen_percent = Math.max(0, Math.min(1, screen_percent));
 			this.scroll_bar.handle.style.height = Math.floor(screen_percent*this.scroll_bar.bar.offsetHeight)+'px';
 			this.scroll(this.scroll_percent);
@@ -364,25 +365,25 @@ var instructionLab = {
 			this.scroll_bar.bar.appendChild(this.scroll_bar.handle);
 			//
 			this.scroll_bar.up_button.addEventListener('click', function (){
-				var screen_percent = mainLab.slider.offsetHeight / instructionLab.instructions.list_element.scrollHeight;
+				var screen_percent = main_lab.slider.offsetHeight / instruction_lab.instructions.list_element.scrollHeight;
 				var new_percent = self.scroll_percent - screen_percent/2;
 				self.scroll(new_percent);
 			});
 			this.scroll_bar.down_button.addEventListener('click', function (){
-				var screen_percent = mainLab.slider.offsetHeight / self.list_element.scrollHeight;
+				var screen_percent = main_lab.slider.offsetHeight / self.list_element.scrollHeight;
 				var new_percent = self.scroll_percent + screen_percent/2;
 				self.scroll(new_percent);
 			});
 			this.scroll_bar.container.addEventListener('mousedown', function (){
-				self.tempInstructionLab.instruction_frame.className = 'no_select';
+				self.temp_instruction_lab.instruction_frame.className = 'no_select';
 			}, false);
 			var find_offset = function (offset_object){
 				var parent_offset = (offset_object.offsetParent)? find_offset(offset_object.offsetParent) : 0
 				return offset_object.offsetTop + parent_offset;
 			}
 			this.scroll_bar.handle.drag = function (e){
-				//var active_x = e.pageX - mainLab.control_interface.last_click.offset_x;
-				var active_y = e.pageY - mainLab.control_interface.last_click.offset_y;
+				//var active_x = e.pageX - main_lab.control_interface.last_click.offset_x;
+				var active_y = e.pageY - main_lab.control_interface.last_click.offset_y;
 				var scroll_bar = self.scroll_bar;
 				var scroll_top_offset = find_offset(scroll_bar.bar);
 				var scroll_percent = (active_y) / (scroll_bar.bar.offsetHeight);
@@ -409,7 +410,7 @@ var instructionLab = {
 		}
 	},
 	tip_manager: {
-		tempInstructionLab: undefined,
+		temp_instruction_lab: undefined,
 		max_tips: 4,
 		current_tips: new Array(),
 		tip_templates: undefined,
@@ -463,7 +464,7 @@ var instructionLab = {
 			var tip = this.create_tip(tip_json);
 			tip.className += " step";
 			tip.addEventListener('click', function (){
-				self.tempInstructionLab.instructions.scroll_to(step_index);
+				self.temp_instruction_lab.instructions.scroll_to(step_index);
 			}, false);
 			var step_number_display = document.createElement('span');
 			step_number_display.textContent = step_index;
@@ -560,21 +561,21 @@ var instructionLab = {
 		},
 		populate: function (time_code){
 			if(!time_code){
-				time_code = this.tempInstructionLab.video_frame.player.popcorn.currentTime();
+				time_code = this.temp_instruction_lab.video_frame.player.popcorn.currentTime();
 			}
 			// Clear tip area:
 			this.clear_tips();
 			var display_step;
 			var display_tips = new Array();
 			var display_step_index;
-			for(var step_index = 0; step_index < this.tempInstructionLab.instructions.list.length; step_index++){
+			for(var step_index = 0; step_index < this.temp_instruction_lab.instructions.list.length; step_index++){
 				var time_in;
 				var time_out = time_code+1;
-				var indexed_step = this.tempInstructionLab.instructions.list[step_index];
+				var indexed_step = this.temp_instruction_lab.instructions.list[step_index];
 				if(indexed_step.time_in === undefined){ continue;} // Allow for time_in = 0
 				time_in = indexed_step.time_in;
-				for(var next_step_index = step_index+1; next_step_index < this.tempInstructionLab.instructions.list.length; next_step_index++){
-					var next_step = this.tempInstructionLab.instructions.list[next_step_index];
+				for(var next_step_index = step_index+1; next_step_index < this.temp_instruction_lab.instructions.list.length; next_step_index++){
+					var next_step = this.temp_instruction_lab.instructions.list[next_step_index];
 					if(next_step.time_in === undefined){ continue;} // Allow for time_in = 0
 					time_out = next_step.time_in;
 					break;
