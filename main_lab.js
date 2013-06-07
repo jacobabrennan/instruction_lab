@@ -77,7 +77,7 @@ var main_lab = {
             }, 1000);
         }
     },
-    create_player: function (media_type){
+    create_player: function (media){
         // media_type: video | audio
         var player = {
             media: undefined,
@@ -92,9 +92,11 @@ var main_lab = {
                 this.controls = null;
             }
         }
-        if(media_type){
-            player.media = document.createElement(media_type);
-        }
+        if((typeof media) === 'string'){
+            player.media = document.createElement(media);
+        } else if(media){
+			player.media = media;
+		}
         player.popcorn = Popcorn(player.media);
         player.controls = this.create_controls(player);
         return player;
@@ -105,6 +107,7 @@ var main_lab = {
             return undefined;
         }
         var self = this;
+		player.currentDuration = player.popcorn.duration();
         var controls = document.createElement('div');
         controls.setAttribute('class', 'controls');
         var svgNs = 'http://www.w3.org/2000/svg';
@@ -271,6 +274,7 @@ var main_lab = {
             player.popcorn.currentTime(seekTime);
         });
         var maxBarMidth = parseInt(progressBar.getAttribute('width'));
+		
         player.popcorn.on("timeupdate", function (){
             var duration = player.popcorn.duration();
             if(!duration){ return;}
@@ -302,6 +306,7 @@ var main_lab = {
                 timeText.textContent = ""+currentTime;
             }
         });
+		player.popcorn.trigger('progress');
         // Volume:
         mute.addEventListener("click", function (){
             if(player.popcorn.muted()){
@@ -312,6 +317,11 @@ var main_lab = {
                 muteSound.style.opacity = "0";
             }
         }, false);
+		if(player.popcorn.muted()){
+            muteSound.style.opacity = "0";
+		} else{
+            muteSound.style.opacity = "1";
+		}
         return controlPanel;
     },
     setup: function (){
@@ -660,7 +670,7 @@ if((main_lab.compatibility.status & main_lab.compatibility.EVENT)){
         }
         if(main_lab.compatibility.status & (main_lab.compatibility.DOM | main_lab.compatibility.HTML5)){
             main_lab.setup();
-            instruction_lab.setup(lab_configuration);
+            var new_lab = intro_cartridge.setup(intro_configuration);
         }
     }, false);
 } else{

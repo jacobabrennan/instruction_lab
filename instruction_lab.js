@@ -1,7 +1,7 @@
 var instruction_lab = {
     video_frame: undefined,
     instruction_frame: undefined,
-    setup: function (configuration){
+    setup: function (configuration, saved_video){
 		var new_lab = Object.create(this);
 		new_lab.instructions = Object.create(this.instructions);
 		new_lab.tip_manager = Object.create(this.tip_manager);
@@ -36,7 +36,12 @@ var instruction_lab = {
         new_lab.logo2 = document.getElementById("logo2");
         new_lab.logo2.src = configuration.urls.logo2;
         // Request Media Player
-        new_lab.video_frame.player = main_lab.create_player('video');
+		if(saved_video){
+			new_lab.video_frame.player = main_lab.create_player(saved_video);
+			//new_lab.video_frame.player.popcorn.currentTime(0);
+		} else{
+			new_lab.video_frame.player = main_lab.create_player('video');
+		}
         var video_sources = configuration.urls.video;
         for(var codex in video_sources){
             var source = document.createElement('source');
@@ -63,11 +68,12 @@ var instruction_lab = {
             new_lab.tip_manager.clear_tips();
         });
         // Finished
+		return new_lab;
     },
 	dispose: function (){
 		main_lab.cancel_frame(this.video_frame);
 		main_lab.cancel_frame(this.instruction_frame);
-        this.video_frame.player.dispose()
+		this.video_frame.player.dispose()
         this.video_frame = null;
         this.instruction_frame = null;
         this.logo1 = null;
@@ -540,7 +546,7 @@ var instruction_lab = {
                             code_area = document.createElement('pre');
                             code_area.setAttribute('id', 'code_display');
                             code_area.setAttribute('class', 'hidden');
-                            self.tempInstructionLab.video_frame.appendChild(code_area);
+                            self.temp_instruction_lab.video_frame.appendChild(code_area);
                         }
                         setTimeout(function (){
                             code_area.setAttribute('class', 'displayed');
