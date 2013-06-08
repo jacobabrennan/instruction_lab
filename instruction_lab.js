@@ -30,6 +30,9 @@ var instruction_lab = {
 		new_lab.instruction_frame.resize = function (){
 			new_lab.instructions.resize();
 		};
+		new_lab.video_frame.transition_away = function (){
+			new_lab.video_frame.player.popcorn.pause();
+		};
         // Configure html urls:
         new_lab.logo1 = document.getElementById("logo1");
         new_lab.logo1.src = configuration.urls.logo1;

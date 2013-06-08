@@ -523,3 +523,78 @@ body{
 .mute{
     cursor: pointer;
 }
+
+.label{
+    display: block;
+    position: relative;
+    padding: 0px;
+    margin-bottom: 1em;
+    cursor: pointer;
+}
+.label div.content{
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    overflow: hidden;
+}
+.label .header{
+}
+.label .header .title{
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 0.5em;
+}
+.label .header .title:after{
+	display: inline-block;
+	vertical-align: middle;
+	content: ' ';
+	height: 2.5em;
+}
+/*.label .header:after{
+    display: inline-block;
+    vertical-align: middle;
+    width: 0.5em;
+    content: ' ';
+    overflow: hidden;
+}*/
+.label div.title{
+    text-align: left;
+}
+.label div.icon{
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    z-index: 0;
+}
+.label div.icon img{
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 100%;
+}
+
+
+.label{
+	margin-top: 1em;
+	margin-left:  1em;
+	margin-bottom: 0em;
+	display: inline-block;
+}
+.label .icon,
+.label .header{
+	height:  2.5em;
+}
+.label .icon{
+    background: #058ef8;
+	width: 2.5em;
+}
+.label .content{
+    background: white;
+	width:  10em;
+}
+.label .icon,
+.label .content{
+    box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
+    border-radius: 0.2em;
+}

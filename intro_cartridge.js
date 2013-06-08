@@ -34,6 +34,9 @@ var intro_cartridge = {
         // Setup frame slider:
         new_lab.video_width = 1280;
         new_lab.video_height = 720;
+		new_lab.video_frame.transition_away = function (){
+			new_lab.video_frame.player.popcorn.pause();
+		};
 		// Setup Popcorn events
 		new_lab.video_frame.player.popcorn.cue(configuration.shrink_time, function (){
 			new_lab.video_frame.player.media.className = '';
@@ -43,7 +46,8 @@ var intro_cartridge = {
 		});
 		new_lab.video_frame.player.popcorn.on('ended', function (){
 			var old_video = new_lab.video_frame.player.media;
-			new_lab.dispose(true);
+			new_lab.video_frame.player.media.className = '';
+			new_lab.dispose();
 			newer_lab = instruction_lab.setup(lab_configuration, old_video);
 			newer_lab.video_frame.player.popcorn.play();
 		});
@@ -55,7 +59,8 @@ var intro_cartridge = {
 		this.video_frame.removeChild(this.video_frame.player.media);
 		this.video_frame.removeChild(this.video_frame.player.controls);
 		this.video_frame.style.display = 'none';
-		this.video_frame.player.dispose()
+		this.video_frame.player.media.className = '';
+		this.video_frame.player.dispose();
         this.video_frame = null;
         this.logo1 = null;
         this.logo2 = null;

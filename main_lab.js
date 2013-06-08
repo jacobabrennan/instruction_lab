@@ -77,6 +77,27 @@ var main_lab = {
             }, 1000);
         }
     },
+	create_label: function (tip_json){
+		/* This function currently is not used by the instruction lab.
+		 * Future refactors will lead to this, or another similar central
+		 * function, being used by all label making functions in the labs.
+		 */
+		var label = document.createElement('a');
+		label.label_icon = document.createElement('div');
+		label.label_content = document.createElement('div');
+		label.label_header = document.createElement('div');
+		label.label_title = document.createElement('div');
+		label.appendChild(label.label_icon);
+		label.label_header.appendChild(label.label_title);
+		label.label_content.appendChild(label.label_header);
+		label.appendChild(label.label_content);
+		label.setAttribute('class', 'label');
+		label.label_icon.setAttribute('class', 'icon');
+		label.label_content.setAttribute('class', 'content');
+		label.label_header.setAttribute('class', 'header');
+		label.label_title.setAttribute('class', 'title');
+		return label;
+	},
     create_player: function (media){
         // media_type: video | audio
         var player = {
@@ -293,6 +314,7 @@ var main_lab = {
             player.currentDuration = player.popcorn.duration();
             if(!player.currentDuration){ return;}
             var bufferedRange = player.popcorn.buffered();
+			if(bufferedRange.length <= 0){ return;}
             var bufferEnd = bufferedRange.end(0);
             if(!bufferEnd){ bufferEnd = 0}
             buffered.setAttribute('width', ''+((bufferEnd/player.currentDuration)*maxBarMidth));
@@ -306,7 +328,7 @@ var main_lab = {
                 timeText.textContent = ""+currentTime;
             }
         });
-		player.popcorn.trigger('progress');
+		player.popcorn.emit('progress');
         // Volume:
         mute.addEventListener("click", function (){
             if(player.popcorn.muted()){
@@ -368,30 +390,27 @@ var main_lab = {
     register_frame: function (frame_loc, new_frame){
         var container_element;
         switch(frame_loc){
-            case 'left': {
-                if(this.frame_left){
-                    this.left.removeChild(this.frame_left);
-                }
-                this.frame_left = new_frame;
-                container_element = this.left;
-                break;
-            }
-            case 'middle': {
-                if(this.frame_middle){
-                    this.middle.removeChild(this.frame_middle);
-                }
-                this.frame_middle = new_frame;
-                container_element = this.middle;
-                break;
-            }
-            case 'right': {
-                if(this.frame_right){
-                    this.right.removeChild(this.frame_right);
-                }
-                this.frame_right = new_frame;
-                container_element = this.right;
-                break;
-            }
+		case 'left':
+			if(this.frame_left){
+				this.left.removeChild(this.frame_left);
+			}
+			this.frame_left = new_frame;
+			container_element = this.left;
+		break;
+		case 'middle':
+			if(this.frame_middle){
+				this.middle.removeChild(this.frame_middle);
+			}
+			this.frame_middle = new_frame;
+			container_element = this.middle;
+		break;
+		case 'right':
+			if(this.frame_right){
+				this.right.removeChild(this.frame_right);
+			}
+			this.frame_right = new_frame;
+			container_element = this.right;
+		break;
         }
         this.transition(null, true);
         if(!container_element){
@@ -430,48 +449,44 @@ var main_lab = {
                 key_code = e.which// | e.keyCode;
             }
             switch(key_code){
-                case 37:{
-                    main_lab.transition("left");
-                    break;
-                }
-                case 39:{
-                    main_lab.transition("right");
-                    break;
-                }/*
-                case 38:{
-                    main_lab.scroll("up");
-                    break;
-                }
-                case 40:{
-                    main_lab.scroll("down");
-                    break;
-                }*/
+			case 37:
+				main_lab.transition("left");
+			break;
+			case 39:
+				main_lab.transition("right");
+			break;
+			/*
+			case 38:
+				main_lab.scroll("up");
+			break;
+			case 40:
+				main_lab.scroll("down");
+			break;
+			*/
             }
         },
         mouse_control: function (e){
             if(window.event){ e = window.event} // IE 8 and earlier compatibility.
             switch(e.type.toLowerCase()){
-                case 'mousedown':{
-                    this.dragged_element = e.target;
-                    this.last_click = {
-                        x: e.pageX,
-                        y: e.pageY,
-                        offset_x: e.pageX - e.target.offsetLeft,
-                        offset_y: e.pageY - e.target.offsetTop
-                    };
-                    break;
-                }
-                case 'blur':
-                case 'mouseup':{
-                    this.dragged_element = undefined;
-                    main_lab.right.className = '';
-                    break;
-                }
-                case 'mousemove':{
-                    if(this.dragged_element && (typeof this.dragged_element.drag === 'function')){
-                        this.dragged_element.drag(e);
-                    }
-                }
+			case 'mousedown':
+				this.dragged_element = e.target;
+				this.last_click = {
+					x: e.pageX,
+					y: e.pageY,
+					offset_x: e.pageX - e.target.offsetLeft,
+					offset_y: e.pageY - e.target.offsetTop
+				};
+			break;
+			case 'blur':
+			case 'mouseup':
+				this.dragged_element = undefined;
+				main_lab.right.className = '';
+			break;
+			case 'mousemove':
+				if(this.dragged_element && (typeof this.dragged_element.drag === 'function')){
+					this.dragged_element.drag(e);
+				}
+			break;
             }
         }
     },
@@ -517,18 +532,15 @@ var main_lab = {
         this.left.style.left      = "0px";
         this.right.style.left     = ( modified_width*2)+"px";
         switch(this.slider_state){
-            case "middle":{
-                this.slider.style.left = "-100%";
-                break;
-            }
-            case "left":{
-                this.slider.style.left = "0%";
-                break;
-            }
-            case "right":{
-                this.slider.style.left = "-200%"
-                break;
-            }
+		case "middle":
+			this.slider.style.left = "-100%";
+		break;
+		case "left":
+			this.slider.style.left = "0%";
+		break;
+		case "right":
+			this.slider.style.left = "-200%"
+		break;
         }
         this.middle.style.width   = modified_width+"px";
         this.left.style.width     = modified_width+"px";
@@ -550,102 +562,115 @@ var main_lab = {
     },
     transition: function (direction, force){
         var self = this;
+		var current_frame;
+		var destination_frame;
+        var destination_state = this.slider_state;
+        switch(this.slider_state){
+		case 'left':
+			current_frame = this.frame_left;
+		break;
+		case 'middle':
+			current_frame = this.frame_middle;
+		break;
+		case 'right':
+			current_frame = this.frame_right;
+		break;
+		}
         if(direction){
             this.slider.style.transition       = "left 1s";
             this.slider.style.MozTransition    = "left 1s";
             this.slider.style.WebkitTransition = "left 1s";
             this.slider.style.OTransition      = "left 1s";
-            var destinationFrame = this.slider_state;
             switch(direction){
-                case "left":{
-                    switch(this.slider_state){
-                        case "middle":{
-                            destinationFrame = 'left';
-                            break;
-                        }
-                        case "right":{
-                            destinationFrame = 'middle';
-                            break;
-                        }
-                    }
-                    break;
-                }
-                case "right":{
-                    switch(this.slider_state){
-                        case "middle":{
-                            destinationFrame = "right";
-                            break;
-                        }
-                        case "left":{
-                            destinationFrame = "middle";
-                            break;
-                        }
-                    }
-                    break;
-                }
+			case "left":2
+				switch(this.slider_state){
+				case "middle":
+					destination_state = 'left';
+				break;
+				case "right":
+					destination_state = 'middle';
+				break;
+				}
+			break;
+			case "right":
+				switch(this.slider_state){
+				case "middle":
+					destination_state = "right";
+				break;
+				case "left":
+					destination_state = "middle";
+				break;
+				}
+			break;
             }
-            switch(destinationFrame){
-                case 'left':{
-                    if(this.frame_left){
-                        this.slider_state = destinationFrame;
-                    }
-                    break;
-                }
-                case 'middle':{
-                    if(this.frame_middle){
-                        this.slider_state = destinationFrame;
-                    }
-                    break;
-                }
-                case 'right':{
-                    if(this.frame_right){
-                        this.slider_state = destinationFrame;
-                    }
-                    break;
-                }
+            switch(destination_state){
+			case 'left':
+				if(this.frame_left){
+					this.slider_state = destination_state;
+					destination_frame = this.frame_left;
+					
+				}
+			break;
+			case 'middle':
+				if(this.frame_middle){
+					this.slider_state = destination_state;
+					destination_frame = this.frame_middle;
+				}
+			break;
+			case 'right':
+				if(this.frame_right){
+					this.slider_state = destination_state;
+					destination_frame = this.frame_right;
+				}
+			break;
             }
         }
         switch(this.slider_state){
-            case "left":{
-                //this.tip_manager.clear_tips();
-                this.slider.style.left = "0%";
-                this.arrow_left.style.opacity = "0";
-                if(this.frame_middle){
-                    this.arrow_right.style.opacity = "1";
-                } else{
-                    this.arrow_right.style.opacity = "0";
-                }
-                //this.popcorn.pause()
-                break;
-            }
-            case "middle":{
-                this.slider.style.left = "-100%";
-                if(this.frame_left){
-                    this.arrow_left.style.opacity = "1";
-                } else{
-                    this.arrow_left.style.opacity = "0";
-                }
-                if(this.frame_right){
-                    this.arrow_right.style.opacity = "1";
-                } else{
-                    this.arrow_right.style.opacity = "0";
-                }
-                //this.tip_manager.populate();
-                break;
-            }
-            case "right":{
-                //this.tip_manager.clear_tips();
-                this.slider.style.left = "-200%";
-                this.arrow_right.style.opacity = "0";
-                if(this.frame_middle){
-                    this.arrow_left.style.opacity = "1";
-                } else{
-                    this.arrow_left.style.opacity = "0";
-                }
-                //this.popcorn.pause()
-                break;
-            }
+		case "left":
+			//this.tip_manager.clear_tips();
+			this.slider.style.left = "0%";
+			this.arrow_left.style.opacity = "0";
+			if(this.frame_middle){
+				this.arrow_right.style.opacity = "1";
+			} else{
+				this.arrow_right.style.opacity = "0";
+			}
+			//this.popcorn.pause()
+		break;
+		case "middle":
+			this.slider.style.left = "-100%";
+			if(this.frame_left){
+				this.arrow_left.style.opacity = "1";
+			} else{
+				this.arrow_left.style.opacity = "0";
+			}
+			if(this.frame_right){
+				this.arrow_right.style.opacity = "1";
+			} else{
+				this.arrow_right.style.opacity = "0";
+			}
+			//this.tip_manager.populate();
+		break;
+		case "right":
+			//this.tip_manager.clear_tips();
+			this.slider.style.left = "-200%";
+			this.arrow_right.style.opacity = "0";
+			if(this.frame_middle){
+				this.arrow_left.style.opacity = "1";
+			} else{
+				this.arrow_left.style.opacity = "0";
+			}
+			//this.popcorn.pause()
+		break;
         }
+		if(current_frame != destination_frame){
+			if(current_frame && (typeof current_frame.transition_away) === 'function'){
+				current_frame.transition_away();
+			}
+			if(destination_frame && (typeof destination_frame.transition) === 'function'){
+				destination_frame.transition();
+			}
+		}
     },
 };
 
@@ -670,7 +695,7 @@ if((main_lab.compatibility.status & main_lab.compatibility.EVENT)){
         }
         if(main_lab.compatibility.status & (main_lab.compatibility.DOM | main_lab.compatibility.HTML5)){
             main_lab.setup();
-            var new_lab = intro_cartridge.setup(intro_configuration);
+			lab_strategy.start();
         }
     }, false);
 } else{
