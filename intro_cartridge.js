@@ -47,8 +47,9 @@ var intro_cartridge = {
 		new_lab.video_frame.player.popcorn.on('ended', function (){
 			var old_video = new_lab.video_frame.player.media;
 			new_lab.video_frame.player.media.className = '';
-			new_lab.dispose();
-			newer_lab = instruction_lab.setup(lab_configuration, old_video);
+			var newer_lab = lab_strategy.play_lab_setup(old_video);
+			/*new_lab.dispose();
+			newer_lab = instruction_lab.setup(lab_configuration, old_video);*/
 			newer_lab.video_frame.player.popcorn.play();
 		});
         // Finished

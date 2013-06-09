@@ -58,7 +58,7 @@ var lab_strategy = {
 		this.current_lab = intro;
 		return intro;
 	},
-	play_lab_setup: function (){
+	play_lab_setup: function (video){
 		if(this.current_lab){
 			this.current_lab.dispose();
 		}
