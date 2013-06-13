@@ -127,7 +127,7 @@ var instruction_lab = {
 				instruction_element.appendChild(content);
 				if(!display_number){
 					display_number = '&nbsp;';
-					icon.style.background = '#058ef8';
+					icon.style.background = 'rgb(127, 129, 132)';
 				} else{
 					var step_number_display = document.createElement('span');
 					step_number_display.textContent = display_number;
@@ -383,7 +383,7 @@ var instruction_lab = {
 			this.scroll_bar.bar.appendChild(this.scroll_bar.handle);
 			//
 			this.scroll_bar.up_button.addEventListener('click', function (){
-				var screen_percent = main_lab.slider.offsetHeight / instruction_lab.instructions.list_element.scrollHeight;
+				var screen_percent = main_lab.slider.offsetHeight / self.list_element.scrollHeight;
 				var new_percent = self.scroll_percent - screen_percent/2;
 				self.scroll(new_percent);
 			});

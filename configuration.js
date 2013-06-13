@@ -8,7 +8,7 @@ var intro_configuration = {
             'webm': 'vids/make_beaglebone_480.webm'
         },
         logo1: 'makelogo.svg',
-        logo2: 'beaglebone_logo.svg',
+        logo2: 'sdn_logo.svg',
         resource_background: 'resources/svg/ignite_embossed_logo.svg',
         time_stamp_play: 'play_button.svg'
     }
@@ -22,7 +22,7 @@ var lab_configuration = {
             'webm': 'vids/make_beaglebone_480.webm'
         },
         logo1: 'makelogo.svg',
-        logo2: 'beaglebone_logo.svg',
+        logo2: 'sdn_logo.svg',
         resource_background: 'resources/svg/ignite_embossed_logo.svg',
         time_stamp_play: 'play_button.svg'
     },
@@ -32,7 +32,7 @@ var lab_configuration = {
             icon_url: 'youtube_logo.svg'
         },
         makershed: {
-            icon_color: '#ffffff',
+            icon_color: 'rgba(255,255,255,0.7)',
             icon_url: 'makershed.svg'
         },
         link:{
@@ -158,7 +158,7 @@ var lab_configuration = {
         }
     },
     instructions: [
-        {unnumbered: true, logo_linked: true, time_in: 13,
+        {unnumbered: true, title: 'Software Defined Networking', time_in: 13,
             notes: "Your Beaglebone is a microcontroller. If you don't have one already, you can score one in the Makershed. It's customary to get started with a microcontroller by making an LED blink, just like in the Arduino video below. It's kind of like the \"Hello World\" of microcontrollers.",
             content: [
                 {type: 'makershed', title: 'GET A BEAGLEBONE', time_offset: 2, content: {url: 'http://www.makershed.com/ProductDetails.asp?ProductCode=MKCCE1&Click=37845'}},

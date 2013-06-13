@@ -3,10 +3,17 @@ var lab_strategy = {
 	start: function (){
 		var self = this;
 		this.nav_frame = document.createElement('div');
-		this.nav_frame.style.width = '100%';
+        var background_logo = document.createElement('img');
+        background_logo.setAttribute('src', 'ignite_embossed_logo.svg')
+        background_logo.setAttribute('id', 'logo_background');
+		this.nav_frame.appendChild(background_logo)
+        this.nav_frame.style.width = '100%';
 		this.nav_frame.style.height = '100%';
 		var create_button = function (title, click){
 			var button = main_lab.create_label();
+            var icon_img = document.createElement('img');
+            icon_img.setAttribute('src', 'ignite_embossed_logo.svg');
+            button.label_icon.appendChild(icon_img);
 			button.label_title.textContent = title;
 			button.addEventListener('click', click);
 			self.nav_frame.appendChild(button);

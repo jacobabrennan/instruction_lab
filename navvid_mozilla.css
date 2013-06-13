@@ -14,10 +14,18 @@
     font-family: sohopro_regular_ie;
     src: url('SohoPro-Regular.eot');
 }
+@font-face{
+    font-family: league_gothic;
+    src: url('league_gothic.otf');
+}
+@font-face{
+    font-family: league_gothic_ie;
+    src: url('league_gothic.eot');
+}
 body{
     background: #2e3132;
     /*background: white;*/
-    font-family: "SohoPro-Condensed", sohopro, sohopro_ie, serif;
+    font-family: 'League Gothic', league_gothic, league_gothic_ie, serif;
     margin: 0;
 }
 #support_message, #support_none, #support_limited{
@@ -46,7 +54,7 @@ body{
     left: 0px;
     top: 0px;
     overflow: hidden;
-    background-image: url('background.png');
+    background-image: url('ignite_background.png');
     background-size: 100% 100%;
 }
 #frame a:link, #frame a:visited{
@@ -60,7 +68,7 @@ body{
     width: 57%;
     height: 57%;
 	border-style: solid;
-	border-color: #999;
+	border-color: rgba(255,255,255,0.7);
 	border-width: 0.35em;
 	box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
 	transition        : width 1s, height 1s, border 1s, left 1s, top 1s;
@@ -162,7 +170,7 @@ body{
 }
 .icon{
     display: inline-block;
-    background: #058ef8;
+    background: rgb(127, 129, 132);
     text-align: center;
     border-radius: 0.2em;
 }
@@ -214,7 +222,7 @@ body{
     position: relative;
     display: inline-block;
     vertical-align: top;
-    background: #058ef8;
+    background: rgb(127, 129, 132);
     text-align: center;
     border-radius: 0.2em;
     z-index: 0;
@@ -257,7 +265,7 @@ body{
 }
 #tip_area .tip div.content{
     width: 7.5em;
-    background: white;
+    background: rgba(255,255,255,0.7);
     border-radius: 0.2em;
 }
 #tip_area .tip div.header{
@@ -271,7 +279,7 @@ body{
     width: 2.5em;
 }
 #tip_area .tip.step div.icon{
-    background: red;
+    background: rgb(239, 72, 25);
 }
 #tip_area .tip div.icon img{
 }
@@ -339,7 +347,7 @@ body{
     border: 1px solid black;
 }
 .instruction > .icon{
-    background: red;
+    background: rgb(239, 72, 25);
     display: inline-block;
     width: 3em;
     height: 3em;
@@ -459,7 +467,7 @@ body{
     position: absolute;
     width: 2em;
     border-radius: 0.2em;
-    background: red;
+    background: rgb(239, 72, 25);
     /**/
     min-height: 1em;
     
@@ -478,7 +486,7 @@ body{
     left: 10%;
     width: 80%;
     height: 10%;
-    background: rgba(153, 153, 153, 0.5);
+    background: rgba(255, 255, 255, 0.7);
     border-radius: 0.2em 0.2em 0% 0%;
     z-index: 2;
 }
@@ -499,6 +507,9 @@ body{
 .toggle_play{
     cursor: pointer;
 }
+.toggle_play:hover, .mute:hover{
+    fill: rgb(239, 72, 25);
+}
 .progress_bar{
     overflow: hidden;
     fill: rgb(102, 102, 102);
@@ -507,7 +518,7 @@ body{
     fill: rgb(153, 153, 153);
 }
 .elapsed .hover{
-    fill: red;
+    fill: rgb(239, 72, 25);
     opacity:  0;
     width: 3;
 }
@@ -515,13 +526,16 @@ body{
     fill: rgb(51, 51, 51);
 }
 .progress_bar:hover .elapsed{
-    background: red;
+    fill: rgb(239, 72, 25);
 }
 .timer{
     z-index: 1;
 }
 .mute{
     cursor: pointer;
+}
+.control_panel .icon{
+    overflow: auto;
 }
 
 .label{
@@ -586,7 +600,8 @@ body{
 	height:  2.5em;
 }
 .label .icon{
-    background: #058ef8;
+    background: rgb(239, 72, 25);
+    /*background: rgb(127, 129, 132);*/
 	width: 2.5em;
 }
 .label .content{
@@ -597,4 +612,17 @@ body{
 .label .content{
     box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
     border-radius: 0.2em;
+}
+#frame_left .label{
+    font-size: 0.67em;
+}
+#frame_left{
+    background: rgb(46, 49, 50);
+}
+
+.logo_background, #logo_background{
+    position: absolute;
+    top: 30%;
+    left: 25%;
+    height: 140%;
 }
