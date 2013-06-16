@@ -61,7 +61,7 @@ var lab_strategy = {
 		if(this.current_lab){
 			this.current_lab.dispose();
 		}
-		var intro = intro_cartridge.setup(intro_configuration);
+		var intro = intro_cartridge.setup(configuration.intro);
 		this.current_lab = intro;
 		return intro;
 	},
@@ -69,7 +69,7 @@ var lab_strategy = {
 		if(this.current_lab){
 			this.current_lab.dispose();
 		}
-		var new_lab = instruction_lab.setup(lab_configuration);
+		var new_lab = instruction_lab.setup(configuration.lab_0);
 		this.current_lab = new_lab;
 		return new_lab;
 	},
@@ -77,7 +77,7 @@ var lab_strategy = {
 		if(this.current_lab){
 			this.current_lab.dispose();
 		}
-		var new_lab = instruction_lab.setup(lab_configuration);
+		var new_lab = instruction_lab.setup(configuration.lab_1);
 		this.current_lab = new_lab;
 		return new_lab;
 	},
@@ -85,7 +85,7 @@ var lab_strategy = {
 		if(this.current_lab){
 			this.current_lab.dispose();
 		}
-		var new_lab = instruction_lab.setup(lab_configuration);
+		var new_lab = instruction_lab.setup(configuration.lab_2);
 		this.current_lab = new_lab;
 		return new_lab;
 	},
@@ -93,7 +93,7 @@ var lab_strategy = {
 		if(this.current_lab){
 			this.current_lab.dispose();
 		}
-		var new_lab = instruction_lab.setup(lab_configuration);
+		var new_lab = instruction_lab.setup(configuration.lab_3);
 		this.current_lab = new_lab;
 		return new_lab;
 	},
@@ -101,7 +101,7 @@ var lab_strategy = {
 		if(this.current_lab){
 			this.current_lab.dispose();
 		}
-		var new_lab = instruction_lab.setup(lab_configuration);
+		var new_lab = instruction_lab.setup(configuration.lab_0);
 		this.current_lab = new_lab;
 		return new_lab;
 	},
@@ -109,7 +109,7 @@ var lab_strategy = {
 		if(this.current_lab){
 			this.current_lab.dispose();
 		}
-		var new_lab = intro_cartridge.setup(intro_configuration);
+		var new_lab = intro_cartridge.setup(configuration.intro);
 		this.current_lab = new_lab;
 		return new_lab;
 	}
