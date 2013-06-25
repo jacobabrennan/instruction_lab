@@ -590,10 +590,11 @@ body{
 
 
 .label{
-	margin-top: 1em;
-	margin-left:  1em;
-	margin-bottom: 0em;
-	display: inline-block;
+	margin: 0.5em;
+    margin-left: 2em;
+    margin-right: 2em;
+	margin-bottom: 0.5em;
+	/*display: inline-block;*/
 }
 .label .icon,
 .label .header{
@@ -605,8 +606,9 @@ body{
 	width: 2.5em;
 }
 .label .content{
+    text-align: left;
     background: white;
-	width:  10em;
+	width:  15em;
 }
 .label .icon,
 .label .content{
@@ -614,12 +616,27 @@ body{
     border-radius: 0.2em;
 }
 #frame_left .label{
-    font-size: 0.67em;
+    font-size: 0.65em;
 }
 #frame_left{
     background: rgb(46, 49, 50);
 }
-
+#frame_left hr{
+    margin: 0em auto;
+    width: 80%;
+    height: 0.1em;
+    border: 0px solid transparent;
+    background: white;
+    color: white;
+}
+#frame_left .section_description{
+    display: inline-block;
+    color: white;
+    margin: auto;
+    min-width: 10em;
+    position: relative;
+    top: 0.3em;
+}
 .logo_background, #logo_background{
     position: absolute;
     top: 30%;
