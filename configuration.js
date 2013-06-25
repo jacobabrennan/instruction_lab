@@ -33,9 +33,9 @@ var configuration = {
         title: 'Test Lab', // Used as the text for the html title.
         urls: {
             video: {
-                'mp4': 'video/sdn_diy_0.mp4',
-                'ogv': 'video/sdn_diy_0.ogv',
-                'webm': 'video/sdn_diy_0.webm'
+                'mp4': 'video/sdn_diy_setup.mp4',
+                'ogv': 'video/sdn_diy_setup.ogv',
+                'webm': 'video/sdn_diy_setup.webm'
             },
             logo1: 'ignite_logo.svg',
             logo2: 'sdn_logo.svg',
@@ -101,9 +101,9 @@ var configuration = {
         title: 'Test Lab', // Used as the text for the html title.
         urls: {
             video: {
-                'mp4': 'video/sdn_diy_1.mp4',
-                'ogv': 'video/sdn_diy_1.ogv',
-                'webm': 'video/sdn_diy_1.webm'
+                'mp4': 'video/sdn_diy_01.mp4',
+                'ogv': 'video/sdn_diy_01.ogv',
+                'webm': 'video/sdn_diy_01.webm'
             },
             logo1: 'ignite_logo.svg',
             logo2: 'sdn_logo.svg'//,
@@ -153,9 +153,9 @@ var configuration = {
         title: 'Test Lab', // Used as the text for the html title.
         urls: {
             video: {
-                'mp4': 'video/sdn_diy_2.mp4',
-                'ogv': 'video/sdn_diy_2.ogv',
-                'webm': 'video/sdn_diy_2.webm'
+                'mp4': 'video/sdn_diy_02.mp4',
+                'ogv': 'video/sdn_diy_02.ogv',
+                'webm': 'video/sdn_diy_02.webm'
             },
             logo1: 'ignite_logo.svg',
             logo2: 'sdn_logo.svg'//,
@@ -204,9 +204,9 @@ var configuration = {
         title: 'Test Lab', // Used as the text for the html title.
         urls: {
             video: {
-                'mp4': 'video/sdn_diy_3.mp4',
-                'ogv': 'video/sdn_diy_3.ogv',
-                'webm': 'video/sdn_diy_3.webm'
+                'mp4': 'video/sdn_diy_03.mp4',
+                'ogv': 'video/sdn_diy_03.ogv',
+                'webm': 'video/sdn_diy_03.webm'
             },
             logo1: 'ignite_logo.svg',
             logo2: 'sdn_logo.svg'//,
