@@ -315,6 +315,17 @@ var configuration = {
         ]
     },
 	credits: {
-		title: 'SDN Lab Credits'
+		title: 'SDN Lab Credits',
+		contributors: [
+			'Michael McCarthy',
+			'Kenny Katzgrau',
+			'Jacob A Brennan',
+			'Graham Wheeler',
+			'Yiannis Yiakoumis',
+			'Jason Parraga',
+			'Jonathan Heiliger',
+			'Rick Kagan',
+			'Tango Desktop Project'
+		]
 	}
 }

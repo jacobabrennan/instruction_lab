@@ -77,7 +77,7 @@ var main_lab = {
             }, 1000);
         }
     },
-	create_label: function (tip_json){
+	create_label: function (){
 		/* This function currently is not used by the instruction lab.
 		 * Future refactors will lead to this, or another similar central
 		 * function, being used by all label making functions in the labs.
