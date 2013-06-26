@@ -23,59 +23,59 @@ var lab_strategy = {
         var diy_div = document.createElement('div');
         var dive_div = document.createElement('div');
         var credits_div = document.createElement('div');
-        var intro_description = document.createElement('span');
+        //var intro_description = document.createElement('span');
         var diy_description = document.createElement('span');
         var dive_description = document.createElement('span');
-        var credits_description = document.createElement('span');
+        //var credits_description = document.createElement('span');
         diy_div.style.textAlign = 'right';
         credits_div.style.textAlign = 'right';
-        intro_description.style.cssFloat = 'right';
+        //intro_description.style.cssFloat = 'right';
         diy_description.style.cssFloat = 'left';
         dive_description.style.cssFloat = 'right';
-        credits_description.style.cssFloat = 'left';
-        intro_description.className = 'section_description';
+        //credits_description.style.cssFloat = 'left';
+        //intro_description.className = 'section_description';
         diy_description.className = 'section_description';
         dive_description.className = 'section_description';
-        credits_description.className = 'section_description';
-        intro_description.textContent = 'This is the intro, intro yup yup';
-        diy_description.textContent = 'Do this stuff if you want';
-        dive_description.textContent = 'Dive deeply into a deep dive';
-        credits_description.textContent = 'This is the peoples';
-        intro_div.appendChild(intro_description);
+        //credits_description.className = 'section_description';
+        //intro_description.textContent = '';
+        diy_description.textContent = 'DIY Software Defined Networking Lab';
+        dive_description.textContent = 'More on SND & Openflow';
+        //credits_description.textContent = '';
+        //intro_div.appendChild(intro_description);
         diy_div.appendChild(diy_description);
         dive_div.appendChild(dive_description);
-        credits_div.appendChild(credits_description);
-		var button = create_button('Intro', intro_div, function (){
+        //credits_div.appendChild(credits_description);
+		var button = create_button(configuration.intro.title, intro_div, function (){
 			var intro = self.play_intro();
 			main_lab.transition('right');
 			intro.video_frame.player.popcorn.play();
 		});
-		var button = create_button('Setup Open Flow', diy_div, function (){
+		var button = create_button(configuration.lab_0.title, diy_div, function (){
 			var lab = self.play_lab_setup();
 			main_lab.transition('right');
 			lab.video_frame.player.popcorn.play();
 		});
-		var button = create_button('Open Flow Example 1', diy_div, function (){
+		var button = create_button(configuration.lab_1.title, diy_div, function (){
 			var lab = self.play_lab_1();
 			main_lab.transition('right');
 			lab.video_frame.player.popcorn.play();
 		});
-		var button = create_button('Open Flow Example 2', diy_div, function (){
+		var button = create_button(configuration.lab_2.title, diy_div, function (){
 			var lab = self.play_lab_2();
 			main_lab.transition('right');
 			lab.video_frame.player.popcorn.play();
 		});
-		var button = create_button('Open Flow Example 3', diy_div, function (){
+		var button = create_button(configuration.lab_3.title, diy_div, function (){
 			var lab = self.play_lab_3();
 			main_lab.transition('right');
 			lab.video_frame.player.popcorn.play();
 		});
-		var button = create_button('Deep Dive', dive_div, function (){
+		var button = create_button(configuration.deep_dive.title, dive_div, function (){
 			var lab = self.play_deep_dive();
 			main_lab.transition('right');
 			lab.video_frame.player.popcorn.play();
 		});
-		var button = create_button('Credits', credits_div, function (){
+		var button = create_button(configuration.credits.title, credits_div, function (){
 			var lab = self.play_deep_dive();
 			main_lab.transition('right');
 			lab.video_frame.player.popcorn.play();

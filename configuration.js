@@ -1,6 +1,6 @@
 var configuration = {
     intro: {
-        title: 'Software Defined Networking', // Used as the text for the html title.
+        title: 'Intro to Software Defined Networking', // Used as the text for the html title.
         shrink_time: 10,
         urls: {
             video: {
@@ -313,5 +313,8 @@ var configuration = {
                 ]
             }
         ]
-    }
+    },
+	credits: {
+		title: 'SDN Lab Credits'
+	}
 }
