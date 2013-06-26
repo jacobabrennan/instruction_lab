@@ -248,8 +248,8 @@ var configuration = {
         urls: {
             video: {
                 'mp4': 'video/sdn_deepdive.mp4',
-                'ogv': 'video/sdn_deepdive.ogv',
-                'webm': 'video/sdn_deepdive.webm'
+                'webm': 'video/sdn_deepdive.webm',
+		'ogv': 'video/sdn_deepdive.ogv'
             },
             logo1: 'ignite_logo.svg',
             logo2: 'sdn_logo.svg'//,
@@ -279,8 +279,31 @@ var configuration = {
             }
         },
         instructions: [
-            {short_title: '', title: '', time_in: undefined,
+            {unnumbered: true, title: 'Software Defined Networking', time_in: 13,
                 notes: "",
+                content: [
+                    {type: '', title: '', time_offset: 2, content: {url: ''}},
+                    {type: '', title: '', time_offset: 10, content: {url: ''}},
+                    
+                ]
+            },
+            {title: 'Yiannis Yiakoumis', short_title: 'Yiannis Yiakoumis', time_in: 63,
+                notes: "",
+                content: [
+		    {type: 'link', title: 'Stanford Research', time_offset: 8, content: {url: 'http://www.stanford.edu/~yiannisy/cgi-bin/research.php'}},
+                    {type: 'link', title: 'Twitter', time_offset: 8, content: {url: 'https://twitter.com/gyiakoumis'}},
+                    {type: 'link', title: 'Github', time_offset: 12, content: {url: 'https://github.com/yiannisy'}}
+                ]
+            },
+            {title: '', short_title: '', time_in: 45,
+                notes: "",
+                content: [
+                    {type: 'link', title: '', time_offset: 17, content: {url: ''}},
+                    {type: 'link', title: '', time_offset: 19, content: {url: ''}}
+                ]
+            },
+            {title: 'HOOK UP YOUR LED & LOCATE ITS NUMBER IN LINUX', short_title: 'HOOK UP AND LOCATE LED', time_in: 80,
+                notes: "Watch the video carefully and set up your LED. Next, use the Beaglebone manual to discover your pin's default configuration. If you want to set up your own configuration or learn more about pinmuxing on the Beaglebone in general, check out these additional resources.",
                 content: [
                     {type: '', title: '', time_offset: undefined, content: {url: ''}}
                 ]
