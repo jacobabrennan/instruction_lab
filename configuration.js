@@ -302,12 +302,6 @@ var configuration = {
                     {type: 'link', title: '', time_offset: 19, content: {url: ''}}
                 ]
             },
-            {title: 'HOOK UP YOUR LED & LOCATE ITS NUMBER IN LINUX', short_title: 'HOOK UP AND LOCATE LED', time_in: 80,
-                notes: "Watch the video carefully and set up your LED. Next, use the Beaglebone manual to discover your pin's default configuration. If you want to set up your own configuration or learn more about pinmuxing on the Beaglebone in general, check out these additional resources.",
-                content: [
-                    {type: '', title: '', time_offset: undefined, content: {url: ''}}
-                ]
-            },
             {short_title: '', title: '', time_in: undefined,
                 notes: "",
                 content: [
