@@ -260,7 +260,7 @@ var configuration = {
         },
         instructions: [
             {unnumbered: true, title: 'Software Defined Networking', time_in: 41,
-                notes: "In this deep dive into software defined networking, we focus strongly on OpenFlow. Get started by checking out OpenFlow.org. Also, it will be helpful to learn more about the Open Networking Foundation, the organization that manages the OpenFlow standard. Martin Casado of Stanford University maintains a large list of active OpenFlow projects. Check that out as well!",
+                notes: "In this deep dive into software defined networking, we focus strongly on OpenFlow. Get started by checking out OpenFlow.org. Also check out the Open Networking Foundation, the organization that manages the OpenFlow standard. Martin Casado of Stanford University maintains a large list of active OpenFlow projects. Check that out as well!",
                 content: [
                     {type: 'link', title: 'OpenFlow.org', time_offset: 2, content: {url: 'http://www.openflow.org/'}},
 		    {type: 'link', title: 'Open Networking Foundation', time_offset: 7, content: {url: 'https://www.opennetworking.org/'}},
@@ -277,7 +277,7 @@ var configuration = {
                 ]
             },
             {title: 'Jason Parraga', short_title: 'Jason Parraga', time_in: 256,
-                notes: "Jason is a student at Marist College. IBM and Marist are involved in an ongoing joint study that began in 1988. Learn more about their partnership, and check out some of Jason's work.",
+                notes: "Jason is a student at Marist College. IBM and Marist are involved in a joint study that began in 1988. Learn more about their partnership, and take the time to check out some of Jason's work.",
                 content: [
 		    {type: 'link', title: 'IBM/Marist Joint Study', time_offset: 7, content: {url: 'http://www.marist.edu/community/ibm.html'}},
                     {type: 'github', title: 'Github', time_offset: 20, content: {url: 'https://github.com/Sovietaced'}},
@@ -285,14 +285,14 @@ var configuration = {
                 ]
             },
             {title: 'OpenFlow Controllers', short_title: 'OpenFlow Controllers', time_in: 338,
-                notes: "OpenFlow is currently the defacto standard in Software Defined Networking. There are already many good OpenFlow controllers available, so programmers have their pick of resources. Two good examples are Floodlight and Pox. We use Pox, a python-based controller, in our Do-it-yourself SDN Lab.",
+                notes: "OpenFlow is currently the defacto standard in Software Defined Networking. There are many good OpenFlow controllers available, so programmers have their pick of resources to get started. We use Pox, a python-based controller, in our DIY SDN Lab.",
                 content: [
                     {type: 'link', title: 'Floodlight', time_offset: 14, content: {url: 'http://www.projectfloodlight.org/floodlight/'}},
 		    {type: 'link', title: 'Pox', time_offset: 18, content: {url: 'http://www.noxrepo.org/pox/about-pox/'}}
                 ]
             },
             {title: 'Jonathan Heiliger', short_title: 'Jonathan Heiliger', time_in: 365,
-                notes: "Jonathan successfully oversaw the expansion of Facebook from forty million, to eight-hundred million users. Pay particular attention to Jonathan's assertion that Ops and Software Engineer disciplines will begin to merge and shift thanks to SDN. Below, you'll find links to help you explore more resources to scaffold your SDN and Gigabit software development.",
+                notes: "Jonathan oversaw the expansion of Facebook from forty million to eight-hundred million users. Pay particular attention to his assertion that Ops and Software Engineers will begin to merge.",
                 content: [
 		    {type: 'link', title: 'GENI', time_offset: 73, content: {url: 'http://www.geni.net/'}},
 		    {type: 'link', title: 'GENI Docs', time_offset: 78, content: {url: 'http://geni-app-developer-documentation.readthedocs.org/en/latest/index.html'}},
@@ -301,7 +301,7 @@ var configuration = {
                 ]
             },
             {title: 'Rick Kagan', short_title: 'Rick Kagan', time_in: 526,
-                notes: "Rick's points regarding the inefficiencies of current networking technology should hammer home the new frontier that SDN and OpenFlow creates. Be sure to check out the DIY Software Defined Networking Lab!",
+                notes: "Rick hammers home the new frontier that SDN and OpenFlow creates by pointing out how dramatically different our experience on Skype could be.",
                 content: [
                     {type: 'link', title: 'Skype Protocol', time_offset: 43, content: {url: 'http://en.wikipedia.org/wiki/Skype_protocol'}}
                 ]
