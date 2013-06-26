@@ -5,8 +5,8 @@ var configuration = {
         urls: {
             video: {
                 'mp4': 'video/sdn_intro.mp4',
-                'ogv': 'video/sdn_intro.ogv',
-                'webm': 'video/sdn_intro.webm'
+		'webm': 'video/sdn_intro.webm',
+                'ogv': 'video/sdn_intro.ogv'
             },
             logo1: 'ignite_logo.svg',
             logo2: 'sdn_logo.svg',
@@ -34,8 +34,8 @@ var configuration = {
         urls: {
             video: {
                 'mp4': 'video/sdn_diy_setup.mp4',
-                'ogv': 'video/sdn_diy_setup.ogv',
-                'webm': 'video/sdn_diy_setup.webm'
+                'webm': 'video/sdn_diy_setup.webm',
+		'ogv': 'video/sdn_diy_setup.ogv'
             },
             logo1: 'ignite_logo.svg',
             logo2: 'sdn_logo.svg',
@@ -102,8 +102,8 @@ var configuration = {
         urls: {
             video: {
                 'mp4': 'video/sdn_diy_01.mp4',
-                'ogv': 'video/sdn_diy_01.ogv',
-                'webm': 'video/sdn_diy_01.webm'
+                'webm': 'video/sdn_diy_01.webm',
+		'ogv': 'video/sdn_diy_01.ogv'
             },
             logo1: 'ignite_logo.svg',
             logo2: 'sdn_logo.svg'//,
@@ -154,8 +154,8 @@ var configuration = {
         urls: {
             video: {
                 'mp4': 'video/sdn_diy_02.mp4',
-                'ogv': 'video/sdn_diy_02.ogv',
-                'webm': 'video/sdn_diy_02.webm'
+                'webm': 'video/sdn_diy_02.webm',
+		'ogv': 'video/sdn_diy_02.ogv'
             },
             logo1: 'ignite_logo.svg',
             logo2: 'sdn_logo.svg'//,
@@ -205,8 +205,8 @@ var configuration = {
         urls: {
             video: {
                 'mp4': 'video/sdn_diy_03.mp4',
-                'ogv': 'video/sdn_diy_03.ogv',
-                'webm': 'video/sdn_diy_03.webm'
+		'webm': 'video/sdn_diy_03.webm',
+                'ogv': 'video/sdn_diy_03.ogv'
             },
             logo1: 'ignite_logo.svg',
             logo2: 'sdn_logo.svg'//,
@@ -256,8 +256,8 @@ var configuration = {
         urls: {
             video: {
                 'mp4': 'video/sdn_deepdive.mp4',
-                'ogv': 'video/sdn_deepdive.ogv',
-                'webm': 'video/sdn_deepdive.webm'
+                'webm': 'video/sdn_deepdive.webm',
+		'ogv': 'video/sdn_deepdive.ogv'
             },
             logo1: 'ignite_logo.svg',
             logo2: 'sdn_logo.svg'//,
@@ -288,25 +288,26 @@ var configuration = {
         },
         instructions: [
             {unnumbered: true, title: 'Software Defined Networking', time_in: 13,
-                notes: "Your Beaglebone is a microcontroller. If you don't have one already, you can score one in the Makershed. It's customary to get started with a microcontroller by making an LED blink, just like in the Arduino video below. It's kind of like the \"Hello World\" of microcontrollers.",
+                notes: "",
                 content: [
-                    {type: 'makershed', title: 'GET A BEAGLEBONE', time_offset: 2, content: {url: 'http://www.makershed.com/ProductDetails.asp?ProductCode=MKCCE1&Click=37845'}},
-                    {type: 'video', title: 'ARDUINO EXAMPLE', time_offset: 10, content: {url: 'http://www.youtube-nocookie.com/embed/pMV2isNm8JU?rel=0'}},
+                    {type: '', title: '', time_offset: 2, content: {url: ''}},
+                    {type: '', title: '', time_offset: 10, content: {url: ''}},
                     
                 ]
             },
-            {title: 'Update Your BeagleBone\'s Operating System', short_title: 'Update your OS', time_in: 30,
-                notes: "Your Beaglebone runs on Angstrom, a distribution of Linux that is made for embedded devices and microcontrollers. Here's the Angstrom manual, along with resources to learn how to update your Beaglebone's OS.",
+            {title: 'Yiannis Yiakoumis', short_title: 'Yiannis Yiakoumis', time_in: 63,
+                notes: "",
                 content: [
-                    {type: 'link', title: 'More About Angstrom', time_offset: 4, content: {url: 'http://www.linuxtogo.org/gowiki/AngstromManual'}},
-                    {type: 'link', title: 'Updating Angstrom', time_offset: 10, content: {url: 'http://www.angstrom-distribution.org/demo/beaglebone/'}}
+		    {type: 'link', title: 'Stanford Research', time_offset: 8, content: {url: 'http://www.stanford.edu/~yiannisy/cgi-bin/research.php'}},
+                    {type: 'link', title: 'Twitter', time_offset: 8, content: {url: 'https://twitter.com/gyiakoumis'}},
+                    {type: 'link', title: 'Github', time_offset: 12, content: {url: 'https://github.com/yiannisy'}}
                 ]
             },
-            {title: 'CHOOSE A METHOD, THEN CONNECT TO YOUR BEAGLEBONE', short_title: 'CONNECT YOUR BEAGLEBONE', time_in: 45,
-                notes: "If connecting via USB, eject the disk image, then look in your router's settings for a list of <b>DHCP clients</b> to determine your BeagleBone's IP address. Connecting to your Beaglebone via SSH depends on your computer's operating system. If you're using Mac OSX or Linux, you can use the command below in the terminal. If you're on a Windows machine, you can use PuTTY, a free TelNet/SSH client.",
+            {title: '', short_title: '', time_in: 45,
+                notes: "",
                 content: [
-                    {type: 'code', title: 'MAC & LINUX: USE THIS COMMAND IN THE TERMINAL', short_title: 'MAC AND LINUX COMMAND', time_offset: 17, content: 'ssh root@[your BeagleBone\'s IP]'},
-                    {type: 'link', title: 'PuTTY FOR WINDOWS', time_offset: 19, content: {url: 'http://www.chiark.greenend.org.uk/~sgtatham/putty/'}}
+                    {type: 'link', title: '', time_offset: 17, content: {url: ''}},
+                    {type: 'link', title: '', time_offset: 19, content: {url: ''}}
                 ]
             },
             {title: 'HOOK UP YOUR LED & LOCATE ITS NUMBER IN LINUX', short_title: 'HOOK UP AND LOCATE LED', time_in: 80,
