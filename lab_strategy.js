@@ -76,9 +76,8 @@ var lab_strategy = {
 			lab.video_frame.player.popcorn.play();
 		});
 		var button = create_button(configuration.credits.title, credits_div, function (){
-			var lab = self.play_deep_dive();
+			var lab = self.show_credits();
 			main_lab.transition('right');
-			lab.video_frame.player.popcorn.play();
 		});
         this.nav_frame.appendChild(intro_div);
         this.nav_frame.appendChild(document.createElement('hr'));
@@ -135,6 +134,27 @@ var lab_strategy = {
 			this.current_lab.dispose();
 		}
 		var new_lab = instruction_lab.setup(configuration.deep_dive);
+		this.current_lab = new_lab;
+		return new_lab;
+	},
+	show_credits: function (){
+		if(this.current_lab){
+			this.current_lab.dispose();
+		}
+		var new_lab = {
+			dispose: function (){
+				
+			},
+			credits_frame: document.createElement('div')
+		}
+		new_lab.credits_frame.style.fontSize = '0.8em'
+		for(var credit_index = 0; credit_index < configuration.credits.contributors.length; credit_index++){
+			var indexed_credit = configuration.credits.contributors[credit_index];
+			var credit_label = main_lab.create_label();
+			credit_label.label_title.textContent = indexed_credit;
+			new_lab.credits_frame.appendChild(credit_label)
+		}
+		main_lab.register_frame('middle', new_lab.credits_frame);
 		this.current_lab = new_lab;
 		return new_lab;
 	}
