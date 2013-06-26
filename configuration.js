@@ -1,10 +1,6 @@
-/*
- * TODO: Make titles do something
- */
-
 var configuration = {
     intro: {
-        title: 'Test Lab', // Used as the text for the html title.
+        title: 'Software Defined Networking', // Used as the text for the html title.
         shrink_time: 10,
         urls: {
             video: {
@@ -17,24 +13,8 @@ var configuration = {
             time_stamp_play: 'play_button.svg'
         }
     },
-    
-    
-    
-    /*
-            {title: '', short_title: '', time_in: 30,
-                notes: "",
-                content: [
-                    {type: 'link', title: '', time_offset: 4, content: {url: ''}},
-                    {type: 'link', title: '', time_offset: 10, content: {url: ''}}
-                ]
-            }
-    */
-    
-    
-    
-    
     lab_0: {
-        title: 'Test Lab', // Used as the text for the html title.
+        title: 'Setup Openflow', // Used as the text for the html title.
         urls: {
             video: {
                 'mp4': 'video/sdn_diy_setup.mp4',
@@ -110,8 +90,8 @@ var configuration = {
                 'ogv': 'video/sdn_diy_01.ogv'
             },
             logo1: 'ignite_logo.svg',
-            logo2: 'sdn_logo.svg'//,
-            /*time_stamp_play: 'play_button.svg'*/
+            logo2: 'sdn_logo.svg',
+            time_stamp_play: 'play_button.svg'
         },
         tip_templates: {
             github:{
@@ -162,8 +142,8 @@ var configuration = {
                 'ogv': 'video/sdn_diy_02.ogv'
             },
             logo1: 'ignite_logo.svg',
-            logo2: 'sdn_logo.svg'//,
-            /*time_stamp_play: 'play_button.svg'*/
+            logo2: 'sdn_logo.svg',
+            time_stamp_play: 'play_button.svg'
         },
         tip_templates: {
             github:{
@@ -207,8 +187,8 @@ var configuration = {
                 'ogv': 'video/sdn_diy_03.ogv'
             },
             logo1: 'ignite_logo.svg',
-            logo2: 'sdn_logo.svg'//,
-            /*time_stamp_play: 'play_button.svg'*/
+            logo2: 'sdn_logo.svg',
+            time_stamp_play: 'play_button.svg'
         },
         tip_templates: {
             github:{
@@ -244,16 +224,16 @@ var configuration = {
         ]
     },
     deep_dive: {
-        title: 'Test Lab', // Used as the text for the html title.
+        title: 'SDN Deep Dive', // Used as the text for the html title.
         urls: {
             video: {
                 'mp4': 'video/sdn_deepdive.mp4',
                 'webm': 'video/sdn_deepdive.webm',
-		'ogv': 'video/sdn_deepdive.ogv'
+                'ogv': 'video/sdn_deepdive.ogv'
             },
             logo1: 'ignite_logo.svg',
-            logo2: 'sdn_logo.svg'//,
-            /*time_stamp_play: 'play_button.svg'*/
+            logo2: 'sdn_logo.svg',
+            time_stamp_play: 'play_button.svg'
         },
         tip_templates: {
             video: {
