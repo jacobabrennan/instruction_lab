@@ -1,20 +1,4 @@
 @font-face{
-    font-family: sohopro;
-    src: url('SohoPro-Condensed.otf');
-}
-@font-face{
-    font-family: sohopro_ie;
-    src: url('SohoPro-Condensed.eot');
-}
-@font-face{
-    font-family: sohopro_regular;
-    src: url('SohoPro-Regular.otf');
-}
-@font-face{
-    font-family: sohopro_regular_ie;
-    src: url('SohoPro-Regular.eot');
-}
-@font-face{
     font-family: league_gothic;
     src: url('league_gothic.otf');
 }
@@ -411,7 +395,6 @@ body{
     -o-transition     : opacity 0.5s;
 }
 .instruction .notes{
-    font-family: sohopro_regular;
     margin: 0em 1em;
     margin-bottom: 1em;
     padding-bottom: 0.5em;
