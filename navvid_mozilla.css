@@ -158,10 +158,16 @@ body{
     text-align: center;
     border-radius: 0.2em;
 }
-.icon .number{
+.icon span.ordinal{
     vertical-align: middle;
     color: white;
     text-align: center;
+}
+.icon img.ordinal{
+    vertical-align: middle;
+    text-align: center;
+    width: 100%;
+    height: 100%;
 }
 .tip{
     cursor: pointer;
@@ -217,7 +223,7 @@ body{
     right: 0px;
     width: 100%;
 }
-.tip .icon .number{
+.tip .icon .ordinal{
     font-size: 2em;
 }
 #tip_area{
@@ -340,7 +346,7 @@ body{
     vertical-align: top;
     cursor: pointer;
 }
-.instruction .icon .number{
+.instruction .icon .ordinal{
     font-size: 2.5em;
 }
 .instruction > .content{
@@ -625,4 +631,17 @@ body{
     top: 30%;
     left: 25%;
     height: 140%;
+}
+.credits{
+    padding: 1em;
+    text-align: center;
+}
+.credits .credit{
+    display: inline-block;
+    width: 40%;
+    text-align: center;
+    margin: 0.3em 0em;
+}
+.credits h1{
+    margin-bottom: 0.2em;
 }

@@ -1,11 +1,14 @@
 var instruction_lab = {
     video_frame: undefined,
     instruction_frame: undefined,
-    setup: function (configuration, saved_video){
+    setup: function (lab_config, saved_video){
 		var new_lab = Object.create(this);
 		new_lab.instructions = Object.create(this.instructions);
 		new_lab.tip_manager = Object.create(this.tip_manager);
-		document.title = configuration.title;
+        if(lab_config.urls.ordinals){
+            new_lab.tip_manager.ordinals_url = lab_config.urls.ordinals;
+        }
+		document.title = lab_config.title;
         new_lab.seeking = false;
         // Create Frames:
             // Create Middle Frame:
@@ -35,9 +38,9 @@ var instruction_lab = {
 		};
         // Configure html urls:
         new_lab.logo1 = document.getElementById("logo1");
-        new_lab.logo1.src = configuration.urls.logo1;
+        new_lab.logo1.src = lab_config.urls.logo1;
         new_lab.logo2 = document.getElementById("logo2");
-        new_lab.logo2.src = configuration.urls.logo2;
+        new_lab.logo2.src = lab_config.urls.logo2;
         // Request Media Player
 		if(saved_video){
 			new_lab.video_frame.player = main_lab.create_player(saved_video);
@@ -45,7 +48,7 @@ var instruction_lab = {
 		} else{
 			new_lab.video_frame.player = main_lab.create_player('video');
 		}
-        var video_sources = configuration.urls.video;
+        var video_sources = lab_config.urls.video;
         for(var codex in video_sources){
             var source = document.createElement('source');
             source.setAttribute('src', video_sources[codex]);
@@ -60,8 +63,8 @@ var instruction_lab = {
         // Setup Instructions + Tips Sections:
 		new_lab.tip_manager.temp_instruction_lab = new_lab;
 		new_lab.instructions.temp_instruction_lab = new_lab;
-        new_lab.tip_manager.setup(configuration);
-        new_lab.instructions.setup(configuration);
+        new_lab.tip_manager.setup(lab_config);
+        new_lab.instructions.setup(lab_config);
         new_lab.video_frame.player.popcorn.on("seeked", function (){
             new_lab.seeking = false;
             new_lab.tip_manager.populate(new_lab.video_frame.player.popcorn.currentTime());
@@ -70,6 +73,10 @@ var instruction_lab = {
             new_lab.seeking = true;
             new_lab.tip_manager.clear_tips();
         });
+		new_lab.video_frame.player.popcorn.on('ended', function (){
+            new_lab.video_frame.player.popcorn.currentTime(0);
+            main_lab.transition('left');
+		});
         // Finished
 		return new_lab;
     },
@@ -92,12 +99,12 @@ var instruction_lab = {
 		list_element: undefined, // an html element
 		scroll_bar: undefined,
 		scroll_percent: 0,
-		setup: function (configuration){
+		setup: function (instruction_config){
 			var self = this;
-			this.list = configuration.instructions;
+			this.list = instruction_config.instructions;
 			this.setup_scrollbar('instructions_slider');
 			this.list_element = document.getElementById("instructions_list");
-			var instructions_list = configuration.instructions;
+			var instructions_list = instruction_config.instructions;
 			var display_step = function (instruction, instruction_index, display_number){
 				var instruction_element = document.createElement('div');
 				instruction.element = instruction_element;
@@ -129,10 +136,16 @@ var instruction_lab = {
 					display_number = '&nbsp;';
 					icon.style.background = 'rgb(127, 129, 132)';
 				} else{
-					var step_number_display = document.createElement('span');
-					step_number_display.textContent = display_number;
-					step_number_display.setAttribute('class', 'number');
-					icon.appendChild(step_number_display);
+                    var step_ordinal_display;
+                    if(instruction_config.urls.ordinals){
+                        step_ordinal_display = document.createElement('img');
+                        step_ordinal_display.setAttribute('src', instruction_config.urls.ordinals);
+                    } else{
+                        step_ordinal_display = document.createElement('span');
+                        step_ordinal_display.textContent = display_number;
+                    }
+                    step_ordinal_display.setAttribute('class','ordinal');
+                    icon.appendChild(step_ordinal_display);
 				}
 				if(instruction.logo_linked){
 					icon.style.visibility = 'hidden';
@@ -142,9 +155,9 @@ var instruction_lab = {
 					self.temp_instruction_lab.logo2.addEventListener('click', function (){
 						self.scroll_to(instruction_index);
 					}, false);
-					if(configuration.urls.logo2){
+					if(instruction_config.urls.logo2){
 						var title_logo = document.createElement('img');
-						title_logo.src = configuration.urls.logo2;
+						title_logo.src = instruction_config.urls.logo2;
 						title.insertBefore(title_logo, title.firstChild);
 					}
 				}
@@ -155,7 +168,7 @@ var instruction_lab = {
 					var first_digit  = Math.floor( instruction.time_in    /60);
 					var second_digit = Math.floor((instruction.time_in%60)/10);
 					var third_digit  = Math.floor( instruction.time_in%10    );
-					time_stamp_play.src = configuration.urls.time_stamp_play;
+					time_stamp_play.src = instruction_config.urls.time_stamp_play;
 					time_stamp.textContent = ''+first_digit+':'+second_digit+third_digit;
 					time_stamp.insertBefore(time_stamp_play, time_stamp.firstChild);
 					header.appendChild(time_stamp);
@@ -169,7 +182,7 @@ var instruction_lab = {
 				}
 				var create_tip = function (tip_json){
 					var tip_template_id = tip_json.type;
-					var tip_template = configuration.tip_templates[tip_template_id];
+					var tip_template = instruction_config.tip_templates[tip_template_id];
 					var tip = document.createElement('a');
 					if(tip_json.content.url){
 						tip.setAttribute('href', tip_json.content.url);
@@ -432,8 +445,9 @@ var instruction_lab = {
 		max_tips: 4,
 		current_tips: new Array(),
 		tip_templates: undefined,
-		setup: function (configuration){
-			this.tip_templates = configuration.tip_templates;
+        ordinals_url: undefined,
+		setup: function (tip_config){
+			this.tip_templates = tip_config.tip_templates;
 		},
 		dispose: function (){
 			this.tip_templates = null;
@@ -478,19 +492,25 @@ var instruction_lab = {
                 this.remove_tip(tip, true);
             }
 		},
-		create_step: function (tip_json, step_index){
+		create_step: function (tip_json, step_number){
 			var self = this;
 			if(tip_json.unnumbered){ return undefined;}
 			var tip = this.create_tip(tip_json);
 			tip.className += " step";
 			tip.addEventListener('click', function (){
-				self.temp_instruction_lab.instructions.scroll_to(step_index);
+				self.temp_instruction_lab.instructions.scroll_to(step_number);
 			}, false);
-			var step_number_display = document.createElement('span');
-			step_number_display.textContent = step_index;
-			step_number_display.setAttribute('class', 'number');
 			var icon = tip.getElementsByClassName('icon')[0];
-			icon.appendChild(step_number_display);
+            var step_ordinal_display;
+            if(this.ordinals_url){
+                step_ordinal_display = document.createElement('img');
+                step_ordinal_display.setAttribute('src', this.ordinals_url);
+            } else{
+                step_ordinal_display = document.createElement('span');
+                step_ordinal_display.textContent = step_number;
+            }
+            step_ordinal_display.setAttribute('class', 'ordinal');
+			icon.appendChild(step_ordinal_display);
 			return tip;
 		},
 		create_tip: function (tip_json){

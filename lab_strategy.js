@@ -147,12 +147,18 @@ var lab_strategy = {
 			},
 			credits_frame: document.createElement('div')
 		}
-		new_lab.credits_frame.style.fontSize = '0.8em'
+        new_lab.credits_frame.setAttribute('class', 'credits');
+        var credits_header = document.createElement('h1');
+        credits_header.textContent = 'SDN Lab Credits:'
+        new_lab.credits_frame.appendChild(credits_header);
 		for(var credit_index = 0; credit_index < configuration.credits.contributors.length; credit_index++){
 			var indexed_credit = configuration.credits.contributors[credit_index];
-			var credit_label = main_lab.create_label();
-			credit_label.label_title.textContent = indexed_credit;
-			new_lab.credits_frame.appendChild(credit_label)
+            var credit_span = document.createElement('span');
+            credit_span.textContent = indexed_credit;
+            credit_span.setAttribute('class', 'credit');
+			/*var credit_label = main_lab.create_label();
+			credit_label.label_title.textContent = indexed_credit;*/
+			new_lab.credits_frame.appendChild(credit_span)
 		}
 		main_lab.register_frame('middle', new_lab.credits_frame);
 		this.current_lab = new_lab;

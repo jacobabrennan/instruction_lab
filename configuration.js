@@ -1,7 +1,7 @@
 var configuration = {
     intro: {
         title: 'Intro to Software Defined Networking', // Used as the text for the html title.
-        shrink_time: 10,
+        shrink_time: 132,
         urls: {
             video: {
                 'mp4': 'video/sdn_intro.mp4',
@@ -233,7 +233,8 @@ var configuration = {
             },
             logo1: 'ignite_logo.svg',
             logo2: 'sdn_logo.svg',
-            time_stamp_play: 'play_button.svg'
+            time_stamp_play: 'play_button.svg',
+            ordinals: 'ignite_embossed_logo.svg'
         },
         tip_templates: {
             video: {
@@ -327,7 +328,7 @@ var configuration = {
 			'Jason Parraga',
 			'Jonathan Heiliger',
 			'Rick Kagan',
-			'Tango Desktop Project'
+			'Tango Desktop Project (iconography)'
 		]
 	}
 }

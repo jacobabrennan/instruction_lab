@@ -582,7 +582,7 @@ var main_lab = {
             this.slider.style.WebkitTransition = "left 1s";
             this.slider.style.OTransition      = "left 1s";
             switch(direction){
-			case "left":2
+			case "left":
 				switch(this.slider_state){
 				case "middle":
 					destination_state = 'left';
@@ -663,7 +663,7 @@ var main_lab = {
 			//this.popcorn.pause()
 		break;
         }
-		if(current_frame != destination_frame){
+		if(!force && current_frame != destination_frame){
 			if(current_frame && (typeof current_frame.transition_away) === 'function'){
 				current_frame.transition_away();
 			}

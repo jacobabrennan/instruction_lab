@@ -1,8 +1,8 @@
 var intro_cartridge = {
     video_frame: undefined,
-    setup: function (configuration){
+    setup: function (lab_config){
 		var new_lab = Object.create(this);
-		document.title = configuration.title;
+		document.title = lab_config.title;
         new_lab.seeking = false;
         // Create Frames:
             // Create Middle Frame:
@@ -16,12 +16,12 @@ var intro_cartridge = {
         var success = main_lab.register_frame('middle', new_lab.video_frame);
         // Configure html urls:
         new_lab.logo1 = document.getElementById("logo1");
-        new_lab.logo1.src = configuration.urls.logo1;
+        new_lab.logo1.src = lab_config.urls.logo1;
         new_lab.logo2 = document.getElementById("logo2");
-        new_lab.logo2.src = configuration.urls.logo2;
+        new_lab.logo2.src = lab_config.urls.logo2;
         // Request Media Player
 		new_lab.video_frame.player = main_lab.create_player('video');
-        var video_sources = configuration.urls.video;
+        var video_sources = lab_config.urls.video;
         for(var codex in video_sources){
             var source = document.createElement('source');
             source.setAttribute('src', video_sources[codex]);
@@ -38,11 +38,14 @@ var intro_cartridge = {
 			new_lab.video_frame.player.popcorn.pause();
 		};
 		// Setup Popcorn events
-		new_lab.video_frame.player.popcorn.cue(configuration.shrink_time, function (){
+		new_lab.video_frame.player.popcorn.cue(lab_config.shrink_time, function (){
 			new_lab.video_frame.player.media.className = '';
 		});
-		new_lab.video_frame.player.popcorn.cue(configuration.shrink_time+2, function (){
-			new_lab.video_frame.player.popcorn.currentTime(new_lab.video_frame.player.popcorn.duration()-2);
+		new_lab.video_frame.player.popcorn.cue(lab_config.shrink_time+5, function (){
+            main_lab.transition('left', true);
+		});
+		new_lab.video_frame.player.popcorn.cue(lab_config.shrink_time+8, function (){
+            main_lab.transition('right', true);
 		});
 		new_lab.video_frame.player.popcorn.on('ended', function (){
 			var old_video = new_lab.video_frame.player.media;
