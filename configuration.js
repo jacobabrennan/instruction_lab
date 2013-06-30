@@ -43,26 +43,26 @@ configuration.lab_0 = {
     },
     instructions: [
         {title: 'What You Need to Get Started', short_title: 'What you need', time_in: 15,
-            notes: "",
+            notes: "Here is the link where you can check out the TP Link router we use in this lab. In addition to the router, we're using three separate computers. We're using a Raspberry Pi as our OpenFlow controller, but you can use just about any computer - though we highly suggest a Linux or Mac machine.",
             content: [
                 {type: 'link', title: 'Get Router', time_offset: 4, content: {url: 'http://www.amazon.com/TP-LINK-TL-WR1043ND-Ultimate-Wireless-Detachable/dp/B002YLAUU8/ref=sr_1_1?s=electronics&ie=UTF8&qid=1371061220&sr=1-1&keywords=tp-link+tl-wr1043nd'}}
             ]
         },
         {title: 'Prep', short_title: 'Prep', time_in: 50,
-            notes: "",
+            notes: "Once you've downloaded the files from the Mozilla Ignite Github account. Also, make sure you've disconnected all the computers from any possible network connection.",
             content: [
                 {type: 'github', title: 'Get the Files', time_offset: 4, content: {url: 'https://github.com/mozilla/mozilla-ignite-learning-lab-demos/tree/master/lab-6-7-openflow'}}
             ]
         },
         {title: 'Upgrade Firmware', short_title: 'Upgrade Firmware', time_in: 94,
-            notes: "",
+            notes: "Take your time with this step and the following; if you move too quickly, it is entirely possible to brick your router! The firmware you're installing is OpenWRT v. 12.09 \"Attitude Adjustment.\"",
             content: [
                 {type: 'code', title: 'Browse to', time_offset: 9, content: '192.168.1.1'},
                 {type: 'code', title: 'Select File', time_offset: 29, content: 'misc/firmware/ofwrt-attitude-adj-pantou.bin'}
             ]
         },
         {title: 'Set Password', short_title: 'Set Password', time_in: 137,
-            notes: "",
+            notes: "If you're using a Raspberry Pi as an OpenFlow controller as we did, make sure you have telnet installed. We have instructions for that in \"What you need to get started.\" If you're using a windows machine, you should download \"PuTTy.\"",
             content: [
                 {type: 'code', title: 'Telnet to Router', time_offset: 8, content: 'telnet 192.168.1.1'},
                 {type: 'code', title: 'Set Password', time_offset: 16, content: 'passwd'},
@@ -71,7 +71,7 @@ configuration.lab_0 = {
             ]
         },
         {title: 'Configure Router', short_title: 'Configure Router', time_in: 173,
-            notes: "",
+            notes: "In case you're having a hard time understanding, Kenny is saying that the controller will be plugged into the WAN port, and the other computers will connect through the usual LAN ports. Also, take your time to understand how to use the VI text editor. You can always choose a different means to edit your files.",
             content: [
                 {type: 'code', title: 'Copy Config Files', time_offset: 194, content: 'scp network root@192.168.1.1'},
                 {type: 'code', title: 'Run Command on Router', time_offset: 0, content: 'sudo cp network /etc/config'},
@@ -95,26 +95,26 @@ configuration.lab_1 = {
     },
     instructions: [
         {unnumbered: true, title: 'More Info', short_title: 'More Info', time_in: 1,
-            notes: "",
+            notes: "It's totally worth digging into the python scripts and reading Kenny's comments! Take your time navigating to your files.",
             content: [
                 {type: 'code', title: 'Project Files', time_offset: 82, content: 'ext/mozilla_flow.py'},
                 {type: 'link', title: 'POX wiki', time_offset: 94, content: 'https://openflow.stanford.edu/display/ONL/POX+Wiki'},
             ]
         },
         {title: 'Start Controller', short_title: 'Start Controller', time_in: 100,
-            notes: "",
+            notes: "Kick things off with this command: a flow module will install a flow and facilitate redirection of packets sent from port 10002 to port 10003. From here things are easy, just be sure to be patient!",
             content: [
                 {type: 'code', title: 'Run Script', time_offset: 2, content: '/pox.py --verbose mozilla_flow'}
             ]
         },
         {title: 'Determine IP Addresses', short_title: 'Determine IP Addresses', time_in: 130,
-            notes: "",
+            notes: "You're going to want to keep track of your host's computers IP addresses.",
             content: [
                 {type: 'code', title: 'Find IP', time_offset: 4, content: 'Windows:\n    ipconfig\n\nLinux/Mac:\n    ifconfig'}
             ]
         },
         {title: 'Send Openflow Message', short_title: 'Send Openflow Message', time_in: 146,
-            notes: "",
+            notes: "We're sending \"Hello OpenFlow\" to the computer listening on port 10002.. but the awesome part is that our flow table is going to make sure that our host listening on 10003 also receives the network traffic!",
             content: [
                 {type: 'code', title: 'Example Code', time_offset: 2, content: 'code/mozilla_flow/'},
                 {type: 'code', title: 'Listen on 10003', time_offset: 20, content: 'python receive.py'},
@@ -134,19 +134,19 @@ configuration.lab_2 = {
     },
     instructions: [
         {unnumbered: true, title: 'More Info', short_title: 'More Info', time_in: 3,
-            notes: "",
+            notes: "This example is pretty cool stuff... we're going to be modifying packets while they're on the move! Be sure to check out the code and its comments, so you've got a chance to learn how the module is accomplishing packet injection.",
             content: [
                 {type: 'code', title: 'Controller Code', time_offset: 23, content: 'ext/mozilla_injector.py'}
             ]
         },
         {title: 'Start Controller', short_title: 'Start Controller', time_in: 35,
-            notes: "",
+            notes: "Instead of installing flows, the injector module is going to inspect every packet that comes in, and then modifies it when the conditions are right.",
             content: [
                 {type: 'code', title: 'Run Script', time_offset: 2, content: '/pox.py --verbose mozilla_injector'}
             ]
         },
         {title: 'Send Openflow Message', short_title: 'Send Openflow Message', time_in: 55,
-            notes: "",
+            notes: "Both computers are working through port 10002 this time. With the right conditions met, the router modifies the packet and sends it onwards to its intended recipient. Imagine combining flows and packet injection! What are some ways apps could use these new capabilities?",
             content: [
                 {type: 'code', title: 'Example Code', time_offset: 4, content: 'code/mozilla_injector/'},
                 {type: 'code', title: 'Listen on 10003', time_offset: 25, content: 'python receive.py'},
@@ -166,19 +166,19 @@ configuration.lab_3 = {
     },
     instructions: [
         {unnumbered: true, title: 'More Info', short_title: 'More Info', time_in: 3,
-            notes: "",
+            notes: "With supercast, the router will be able to intelligently direct traffic to other network locations dependent on variables set by the programmer! When combined with flow control, ports and IP addresses can be switched effortlessly. Access Control Lists can now be managed from a single point, and can be dynamically arranged by the software!",
             content: [
                 {type: 'code', title: 'Project Files', time_offset: 25, content: 'ext/mozilla_protocol.py'}
             ]
         },
         {title: 'Start Controller', short_title: 'Start Controller', time_in: 36,
-            notes: "",
+            notes: "Instead of flow control or packet injection, now we're inspecting packets for a \"supercast\" header. When the controller finds an appropriate packet, it fires the network traffic off to the recipients listening on the appropriate port: in this case, port 10002.",
             content: [
                 {type: 'code', title: 'Run Script', time_offset: 2, content: '/pox.py --verbose mozilla_protocol'}
             ]
         },
         {title: 'Send Openflow Message', short_title: 'Send Openflow Message', time_in: 55,
-            notes: "",
+            notes: "Make sure you've got the right IP addresses, and be sure both hosts are listening on 10002! Theoretically, you could connect more computers than what the lab calls for, and then easily forward network traffic to those computers as well. Since this is the final example and experiment.. we're hoping you learned a bunch, and are ready to build your own killer new app!",
             content: [
                 {type: 'code', title: 'Example Code', time_offset: 3, content: 'code/mozilla_protocol/'},
                 {type: 'code', title: 'Listen on 10002', time_offset: 20, content: 'python receive.py'},
