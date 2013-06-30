@@ -1,0 +1,656 @@
+/*
+ * Urls in need of editing
+ */
+@font-face{
+    font-family: league_gothic;
+    src: url('../font/league_gothic.otf');
+}
+@font-face{
+    font-family: league_gothic_ie;
+    src: url('../font/league_gothic.eot');
+}
+#frame{
+    background-image: url('../images/ignite_background.png');
+}
+
+
+
+
+body{
+    background: #2e3132;
+    /*background: white;*/
+    font-family: 'League Gothic', league_gothic, league_gothic_ie, serif;
+    margin: 0;
+}
+#support_message, #support_none, #support_limited{
+    display: none;
+}
+#support_message{
+    position: absolute;
+    left: 25%;
+    top: 25%;
+    width: 50%;
+    height: 50%;
+    background: rgb(204, 204, 204);
+    border: 3px solid black;
+    z-index: 5;
+}
+#support_none, #support_limited{
+    position: relative;
+    top: 35%;
+    text-align: center;
+}
+#support_button{
+    width: 20%;
+}
+#frame{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    overflow: hidden;
+    background-size: 100% 100%;
+}
+#frame a:link, #frame a:visited{
+    color: black;
+    text-decoration: none;
+}
+#lab_video{
+    position:absolute;
+    left: 4%;
+    top: 22%;
+    width: 57%;
+    height: 57%;
+	border-style: solid;
+	border-color: rgba(255,255,255,0.7);
+	border-width: 0.35em;
+	box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
+	transition        : width 1s, height 1s, border 1s, left 1s, top 1s;
+	-moz-transition   : width 1s, height 1s, border 1s, left 1s, top 1s;
+	-webkit-transition: width 1s, height 1s, border 1s, left 1s, top 1s;
+	-o-transition     : width 1s, height 1s, border 1s, left 1s, top 1s;
+}
+#lab_video.full_screen{
+	left: 0%;
+	top: 0%;
+	width: 100%;
+	height: 100%;
+	border: 0px solid transparent;
+}
+#logo1{
+    height: 13%;
+    position: absolute;
+    top: 1em;
+    left: 1em;
+}
+#logo2{
+    height: 13%;
+    position: absolute;
+    top: 1em;
+    right: 1em;
+}
+.slider_arrow{
+    opacity: 0;
+    position: absolute;
+    width: auto;
+    /* The above line overrides the size declared on the svg element,
+     * and makes the width scale to fit the height at the proper aspect ratio. */
+    transition: opacity 1s;
+    -moz-transition: opacity 1s;
+    -webkit-transition: opacity 1s;
+    -o-transition: opacity 1s;
+}
+#arrow_left{
+    height: 18%;
+    top: 42%;
+    left: 0%;
+}
+#arrow_right{
+    height: 18%;
+    top: 42%;
+    right: 0%;
+}
+#arrow_up{
+    width: 10%;
+    left: 45%;
+    top: 1%;
+}
+#arrow_down{
+    width: 10%;
+    left: 45%;
+    bottom: 1%;
+}
+#slider{
+    position: absolute;
+}
+#frame_middle{
+    position: absolute;
+    overflow: hidden;
+}
+#frame_left{
+    position: absolute;
+    overflow: hidden;
+}
+#frame_right{
+    position: absolute;
+    overflow: hidden;
+}
+#code_display{
+    z-index: 1;
+    background: white;
+    position: absolute;
+    font-family: monospace;
+    font-size: 0.5em;
+    padding: 0% 1%;
+    left: 6%;
+    width: 51%;
+    max-height: 57%;
+    min-height: 3em;
+    border-style: solid;
+    border-color: #999;
+    border-width: 0.70em;
+    box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
+    transition        : height 1s, width 1s, left 1s, bottom 1s;
+    -moz-transition   : height 1s, width 1s, left 1s, bottom 1s;
+    -webkit-transition: height 1s, width 1s, left 1s, bottom 1s;
+    -o-transition     : height 1s, width 1s, left 1s, bottom 1s;
+    overflow: auto;
+}
+#code_display.hidden{
+    bottom: -65%;
+}
+#code_display.displayed{
+    bottom: 12%;
+}
+.icon{
+    display: inline-block;
+    background: rgb(127, 129, 132);
+    text-align: center;
+    border-radius: 0.2em;
+}
+.icon span.ordinal{
+    vertical-align: middle;
+    color: white;
+    text-align: center;
+}
+.icon img.ordinal{
+    vertical-align: middle;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+.tip{
+    cursor: pointer;
+    border-radius: 0.2em;
+}
+.tip div.content{
+    position: relative;
+    background: white;
+    display: inline-block;
+    vertical-align: top;
+    overflow: hidden;
+}
+.tip .content pre.code{
+    font-family: monospace;
+    font-size: 0.5em;
+    margin: 1em;
+    margin-top: -0.5em;
+    padding: 0.25em;
+    background: rgb(240,240,240);
+    border: solid 1px rgb(204,204,204);
+    border-radius: 0.2em;
+    overflow: auto;
+}
+.tip .header{
+}
+.tip .header .title{
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 0.5em;
+}
+.tip .header:after{
+    display: inline-block;
+    vertical-align: middle;
+    width: 0.5em;
+    content: ' ';
+    overflow: hidden;
+}
+.tip div.title{
+    text-align: left;
+}
+.tip div.icon{
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    background: rgb(127, 129, 132);
+    text-align: center;
+    border-radius: 0.2em;
+    z-index: 0;
+}
+.tip div.icon img{
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 100%;
+}
+.tip .icon .ordinal{
+    font-size: 2em;
+}
+#tip_area{
+    position: absolute;
+    right: 6%;
+    top: 19%;
+    height: 13em;
+    width: 10em;
+}
+#tip_area .tip{
+    display: block;
+    position: relative;
+    padding: 0px;
+    width: 10em;
+    height: 2.5em;
+    margin-bottom: 1em;
+    opacity: 0;
+    box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
+    transition        : opacity 1s, height 1s, width 1s, left 1s, margin 1s, margin-bottom 1s;
+    -moz-transition   : opacity 1s, height 1s, width 1s, left 1s, margin 1s, margin-bottom 1s;
+    -webkit-transition: opacity 1s, height 1s, width 1s, left 1s, margin 1s, margin-bottom 1s;
+    -o-transition     : opacity 1s, height 1s, width 1s, left 1s, margin 1s, margin-bottom 1s;
+}
+#tip_area .tip div.content,
+#tip_area .tip div.header,
+#tip_area .tip div.icon,
+#tip_area .tip .header:after{
+    height: 2.5em;
+}
+#tip_area .tip div.content{
+    width: 7.5em;
+    background: rgba(255,255,255,0.7);
+    border-radius: 0.2em;
+}
+#tip_area .tip div.header{
+    width: 7.25em;
+}
+#tip_area .tip div.title{
+    line-height: 0.95em;
+    width: 6em;
+}
+#tip_area .tip div.icon{
+    width: 2.5em;
+}
+#tip_area .tip.step div.icon{
+    background: rgb(239, 72, 25);
+}
+#tip_area .tip div.icon img{
+}
+.expander .tip div.header,
+.expander .tip div.icon,
+.expander .tip .header:after{
+    height: 2em;
+}
+.expander .tip div.content,
+.expander .tip div.icon{
+    box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
+    border-radius: 0.2em;
+}
+.expander .tip{
+    display: inline-block;
+    margin: 0em;
+    margin-bottom: 0.5em;
+    margin-left: 1em;
+    min-height: 2em;
+    width: 11em;
+}
+.expander .tip div.content{
+    width: 9em;
+}
+.expander .tip.double{
+    width: 23em;
+}
+.expander .tip.double div.content{
+    width: 21em;
+}
+.expander .tip.double div.title{
+    width: 20em;
+}
+.expander .tip div.title{
+    margin-left: 0.5em;
+    font-size: smaller;
+}
+.expander .tip div.icon{
+    width: 2em;
+    height: 2em;
+}
+.expander .tip div.icon img{
+}
+/* Left Div, Resource Link Area */
+#instructions_list{
+    position: absolute;
+    top: 0em;
+    height:  100%;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    display: block;
+    list-style: none;
+    margin-left: 5%;
+    /* Padding gives the slider a margin of error.*/
+}
+.instruction{
+    margin: 1em 0em;
+    padding: 0em;
+}
+
+/*.instruction > .icon,*/
+.instruction > .content/*,
+.tip*/{
+    border: 1px solid black;
+}
+.instruction > .icon{
+    background: rgb(239, 72, 25);
+    display: inline-block;
+    width: 3em;
+    height: 3em;
+    border-radius: 0.2em;
+    box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
+    vertical-align: top;
+    cursor: pointer;
+}
+.instruction .icon .ordinal{
+    font-size: 2.5em;
+}
+.instruction > .content{
+    background: white;
+    display: inline-block;
+    border-radius: 0.2em;
+    width: 26em;
+    min-height: 3em;
+    box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
+}
+.instruction > .content > .header{
+    height: 3em;
+}
+.instruction > .content > .header > .title{
+    display: inline-block;
+    vertical-align: middle;
+    width: 23em;
+    cursor: pointer;
+}
+.instruction > .content > .header > .title > img{
+    display: inline-block;
+    vertical-align: middle;
+    height: 2.5em;
+    margin-right: 1em;
+}
+.instruction > .content > .header > .time_stamp{
+    display: inline-block;
+    vertical-align: middle;
+    color: blue;
+    cursor: pointer;
+}
+.instruction > .content > .header > .time_stamp > img{
+    display: inline-block;
+    vertical-align: middle;
+    height: 0.75em;
+    margin-right: 0.2em;
+}
+.instruction > .content > .header > .title:before{
+    display: inline-block;
+    vertical-align: middle;
+    width: 1em;
+    height: 3em;
+    content: ' ';
+}
+.instruction .expander{
+    display: none;
+    opacity: 0;
+    padding: 0em;
+    transition        : opacity 0.5s;
+    -moz-transition   : opacity 0.5s;
+    -webkit-transition: opacity 0.5s;
+    -o-transition     : opacity 0.5s;
+}
+.instruction .notes{
+    margin: 0em 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    border-bottom: dotted 1px grey;
+    font-size: 0.7em;
+}
+#instructions_slider{
+    background: white;
+    position: absolute;
+    border: 1px solid black;
+    top: 1em;
+    right: 1em;
+    width: 2em;
+    height: 17.5em;
+    border-radius: 0.2em;
+    box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
+    z-index: 3; /* Above the nav arrows.*/
+}
+#instructions_slider *{
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    cursor: pointer;
+}
+#instructions_slider .scroll_bar{
+    position: absolute;
+    top: 2em;
+    left: 0em;
+    width: 2em;
+    height: 13.5em;
+    
+}
+#instructions_slider .scroll_up{
+    position: absolute;
+    top: 0em;
+    left: 0em;
+    width: 2em;
+    height: 2em;
+    border-radius: 0.2em 0.2em 0em 0em;
+    background: grey;
+}
+#instructions_slider .scroll_down{
+    position: absolute;
+    bottom: 0em;
+    left: 0em;
+    width: 2em;
+    height: 2em;
+    border-radius: 0em 0em 0.2em 0.2em;
+    background: grey;
+}
+#instructions_slider .scroll_handle{
+    position: absolute;
+    width: 2em;
+    border-radius: 0.2em;
+    background: rgb(239, 72, 25);
+    /**/
+    min-height: 1em;
+    
+}
+.no_select{
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+}
+
+/* Custom video controls. */
+.control_panel{
+    position: absolute;
+    bottom: 0%;
+    left: 10%;
+    width: 80%;
+    height: 10%;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 0.2em 0.2em 0% 0%;
+    z-index: 2;
+}
+.control_panel:hover{
+}
+.control_big_play{
+    cursor: pointer;
+    position: absolute;
+    top: 40%;
+    height: 20%;
+    left: 40%;
+    width: 20%;
+    transition: opacity 0.5s;
+    -moz-transition: opacity 0.5s;
+    -webkit-transition: opacity 0.5s;
+    -o-transition: opacity 0.5s;
+}
+.toggle_play{
+    cursor: pointer;
+}
+.toggle_play:hover, .mute:hover{
+    fill: rgb(239, 72, 25);
+}
+.progress_bar{
+    overflow: hidden;
+    fill: rgb(102, 102, 102);
+}
+.elapsed{
+    fill: rgb(153, 153, 153);
+}
+.elapsed .hover{
+    fill: rgb(239, 72, 25);
+    opacity:  0;
+    width: 3;
+}
+.buffered{
+    fill: rgb(51, 51, 51);
+}
+.progress_bar:hover .elapsed{
+    fill: rgb(239, 72, 25);
+}
+.timer{
+    z-index: 1;
+}
+.mute{
+    cursor: pointer;
+}
+.control_panel .icon{
+    overflow: auto;
+}
+
+.label{
+    display: block;
+    position: relative;
+    padding: 0px;
+    margin-bottom: 1em;
+    cursor: pointer;
+}
+.label div.content{
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    overflow: hidden;
+}
+.label .header{
+}
+.label .header .title{
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 0.5em;
+}
+.label .header .title:after{
+	display: inline-block;
+	vertical-align: middle;
+	content: ' ';
+	height: 2.5em;
+}
+/*.label .header:after{
+    display: inline-block;
+    vertical-align: middle;
+    width: 0.5em;
+    content: ' ';
+    overflow: hidden;
+}*/
+.label div.title{
+    text-align: left;
+}
+.label div.icon{
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    z-index: 0;
+}
+.label div.icon img{
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 100%;
+}
+
+
+.label{
+	margin: 0.5em;
+    margin-left: 2em;
+    margin-right: 2em;
+	margin-bottom: 0.5em;
+	/*display: inline-block;*/
+}
+.label .icon,
+.label .header{
+	height:  2.5em;
+}
+.label .icon{
+    background: rgb(239, 72, 25);
+    /*background: rgb(127, 129, 132);*/
+	width: 2.5em;
+}
+.label .content{
+    text-align: left;
+    background: white;
+	width:  15em;
+}
+.label .icon,
+.label .content{
+    box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.25);
+    border-radius: 0.2em;
+}
+#frame_left .label{
+    font-size: 0.65em;
+}
+#frame_left{
+    background: rgb(46, 49, 50);
+}
+#frame_left hr{
+    margin: 0em auto;
+    width: 80%;
+    height: 0.1em;
+    border: 0px solid transparent;
+    background: white;
+    color: white;
+}
+#frame_left .section_description{
+    display: inline-block;
+    color: white;
+    margin: auto;
+    min-width: 13em;
+    position: relative;
+    top: 0.3em;
+}
+.logo_background, #logo_background{
+    position: absolute;
+    top: 30%;
+    left: 25%;
+    height: 140%;
+}
+.credits{
+    padding: 1em;
+    text-align: center;
+}
+.credits .credit{
+    display: inline-block;
+    width: 40%;
+    text-align: center;
+    margin: 0.3em 0em;
+}
+.credits h1{
+    margin-bottom: 0.2em;
+}
