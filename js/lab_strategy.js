@@ -4,7 +4,7 @@ var lab_strategy = {
 		var self = this;
 		this.nav_frame = document.createElement('div');
         var background_logo = document.createElement('img');
-        background_logo.setAttribute('src', 'ignite_embossed_logo.svg')
+        background_logo.setAttribute('src', urls.ignite);
         background_logo.setAttribute('id', 'logo_background');
 		this.nav_frame.appendChild(background_logo)
         this.nav_frame.style.width = '100%';
@@ -12,7 +12,7 @@ var lab_strategy = {
 		var create_button = function (title, container, click){
 			var button = main_lab.create_label();
             var icon_img = document.createElement('img');
-            icon_img.setAttribute('src', 'ignite_embossed_logo.svg');
+            icon_img.setAttribute('src', urls.ignite);
             button.label_icon.appendChild(icon_img);
 			button.label_title.textContent = title;
 			button.addEventListener('click', click);

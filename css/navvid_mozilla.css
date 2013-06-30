@@ -1,11 +1,21 @@
+/*
+ * Urls in need of editing
+ */
 @font-face{
     font-family: league_gothic;
-    src: url('league_gothic.otf');
+    src: url('../font/league_gothic.otf');
 }
 @font-face{
     font-family: league_gothic_ie;
-    src: url('league_gothic.eot');
+    src: url('../font/league_gothic.eot');
 }
+#frame{
+    background-image: url('../images/ignite_background.png');
+}
+
+
+
+
 body{
     background: #2e3132;
     /*background: white;*/
@@ -38,7 +48,6 @@ body{
     left: 0px;
     top: 0px;
     overflow: hidden;
-    background-image: url('ignite_background.png');
     background-size: 100% 100%;
 }
 #frame a:link, #frame a:visited{

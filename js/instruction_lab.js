@@ -293,7 +293,7 @@ var instruction_lab = {
 								self.temp_instruction_lab.tip_manager.add_tip(node);
 							}
 						}
-					})(indexed_step, step_index));
+					})(indexed_step, step_number));
 				}
 			};
 			this.resize();
@@ -640,11 +640,14 @@ var instruction_lab = {
 			this.clear_tips();
 			var display_step;
 			var display_tips = new Array();
-			var display_step_index;
+			var display_step_number = 0;
 			for(var step_index = 0; step_index < this.temp_instruction_lab.instructions.list.length; step_index++){
 				var time_in;
 				var time_out = time_code+1;
 				var indexed_step = this.temp_instruction_lab.instructions.list[step_index];
+                if(!indexed_step.unnumbered){
+                    display_step_number++;
+                }
 				if(indexed_step.time_in === undefined){ continue;} // Allow for time_in = 0
 				time_in = indexed_step.time_in;
 				for(var next_step_index = step_index+1; next_step_index < this.temp_instruction_lab.instructions.list.length; next_step_index++){
@@ -655,7 +658,6 @@ var instruction_lab = {
 				}
 				if(time_in <= time_code && time_out > time_code){
 					display_step = indexed_step;
-					display_step_index = step_index;
 					break;
 				}
 			}
@@ -678,7 +680,7 @@ var instruction_lab = {
 				var indexed_tip = display_tips[display_index];
 				var new_tip;
 				if(display_index == 0){
-					new_tip = this.create_step(indexed_tip, display_step_index);
+					new_tip = this.create_step(indexed_tip, display_step_number);
 				} else{
 					new_tip = this.create_tip(indexed_tip);
 				}

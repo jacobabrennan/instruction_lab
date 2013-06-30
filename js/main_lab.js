@@ -321,7 +321,11 @@ var main_lab = {
             var currentTime = player.popcorn.currentTime()
             var extra0 = ((currentTime%60) < 10)? "0" : "";
             currentTime = ""+Math.floor(currentTime/60)+":"+extra0+Math.floor(currentTime%60);
-            player.currentDuration = ""+Math.floor(player.currentDuration/60)+":"+Math.floor(player.currentDuration%60);
+            var last_digits = ''+Math.floor(player.currentDuration%60);
+            if(last_digits.length == 1){
+                last_digits = '0'+last_digits;
+            }
+            player.currentDuration = ""+Math.floor(player.currentDuration/60)+":"+last_digits;
             if(player.currentDuration){
                 timeText.textContent = ""+currentTime+"/"+player.currentDuration;
             } else{

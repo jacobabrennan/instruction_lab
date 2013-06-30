@@ -7,12 +7,6 @@ var configuration = {
         link:{
             icon_url: urls.tip_icons.link_out
         },
-        linux:{
-            icon_url: urls.tip_icons.linux
-        },
-        blog:{
-            icon_url: urls.tip_icons.blog
-        },
         github:{
             icon_url: urls.tip_icons.github
         },
@@ -20,12 +14,67 @@ var configuration = {
             icon_color: 'transparent',
             icon_url: urls.tip_icons.code,
             code_display: true
+        },
+        home:{
+            icon_color: 'white',
+            icon_url: urls.tip_icons.home
+        },
+        router:{
+            icon_color: 'white',
+            icon_url: urls.tip_icons.router
+        },
+        bigswitch:{
+            icon_color: 'white',
+            icon_url: urls.tip_icons.bigswitch
+        },
+        floodlight:{
+            icon_color: 'white',
+            icon_url: urls.tip_icons.floodlight
+        },
+        geni:{
+            icon_color: 'white',
+            icon_url: urls.tip_icons.geni
+        },
+        marist:{
+            icon_color: 'white',
+            icon_url: urls.tip_icons.marist
+        },
+        onf:{
+            icon_color: 'white',
+            icon_url: urls.tip_icons.onf
+        },
+        openflow:{
+            icon_color: 'white',
+            icon_url: urls.tip_icons.openflow
+        },
+        person:{
+            icon_color: 'white',
+            icon_url: urls.tip_icons.person
+        },
+        pox:{
+            icon_color: 'white',
+            icon_url: urls.tip_icons.pox
+        },
+        raspberrypi:{
+            icon_color: 'white',
+            icon_url: urls.tip_icons.raspberrypi
+        },
+        stanford:{
+            icon_color: 'white',
+            icon_url: urls.tip_icons.stanford
+        },
+        wikipedia:{
+            icon_color: 'white',
+            icon_url: urls.tip_icons.wikipedia
+        },
+        email:{
+            icon_url: urls.tip_icons.email
         }
     }
 };
 configuration.intro = {
     title: 'Intro to Software Defined Networking', // Used as the text for the html title.
-    shrink_time: 132,
+    shrink_time: 135,
     urls: {
         video: urls.video.intro,
         logo1: urls.logo1,
@@ -45,7 +94,9 @@ configuration.lab_0 = {
         {title: 'What You Need to Get Started', short_title: 'What you need', time_in: 15,
             notes: "Here is the link where you can check out the TP Link router we use in this lab. In addition to the router, we're using three separate computers. We're using a Raspberry Pi as our OpenFlow controller, but you can use just about any computer - though we highly suggest a Linux or Mac machine.",
             content: [
-                {type: 'link', title: 'Get Router', time_offset: 4, content: {url: 'http://www.amazon.com/TP-LINK-TL-WR1043ND-Ultimate-Wireless-Detachable/dp/B002YLAUU8/ref=sr_1_1?s=electronics&ie=UTF8&qid=1371061220&sr=1-1&keywords=tp-link+tl-wr1043nd'}}
+                {type: 'router', title: 'Get Router', time_offset: 4, content: {url: 'http://www.amazon.com/TP-LINK-TL-WR1043ND-Ultimate-Wireless-Detachable/dp/B002YLAUU8/ref=sr_1_1?s=electronics&ie=UTF8&qid=1371061220&sr=1-1&keywords=tp-link+tl-wr1043nd'}},
+                {type: 'raspberrypi', title: 'RaspberryPi.org', time_offset: 15, content: {url: 'http://raspberryPi.org'}},
+                {type: 'raspberrypi', title: 'Enable Telnet', time_offset: 29, content: {url: 'http://ronnutter.com/raspberry-pi-enabling-telnet/'}}
             ]
         },
         {title: 'Prep', short_title: 'Prep', time_in: 50,
@@ -64,22 +115,23 @@ configuration.lab_0 = {
         {title: 'Set Password', short_title: 'Set Password', time_in: 137,
             notes: "If you're using a Raspberry Pi as an OpenFlow controller as we did, make sure you have telnet installed. We have instructions for that in \"What you need to get started.\" If you're using a windows machine, you should download \"PuTTy.\"",
             content: [
-                {type: 'code', title: 'Telnet to Router', time_offset: 8, content: 'telnet 192.168.1.1'},
+                {type: 'code', title: 'Telnet to Router', time_offset: 6, content: 'telnet 192.168.1.1'},
                 {type: 'code', title: 'Set Password', time_offset: 16, content: 'passwd'},
-                {type: 'code', title: 'Exit Telnet', time_offset: 20, content: 'exit'},
-                {type: 'code', title: 'SSH into Router', time_offset: 25, content: 'ssh root@192.168.1.1'}
+                {type: 'code', title: 'Exit Telnet', time_offset: 22, content: 'exit'},
+                {type: 'link', title: 'Putty for Windows', time_offset: 28, content: {url: 'http://putty.org'}},
+                {type: 'code', title: 'SSH into Router', time_offset: 34, content: 'ssh root@192.168.1.1'}
             ]
         },
-        {title: 'Configure Router', short_title: 'Configure Router', time_in: 173,
+        {title: 'Configure Router', short_title: 'Configure Router', time_in: 182,
             notes: "In case you're having a hard time understanding, Kenny is saying that the controller will be plugged into the WAN port, and the other computers will connect through the usual LAN ports. Also, take your time to understand how to use the VI text editor. You can always choose a different means to edit your files.",
             content: [
-                {type: 'code', title: 'Copy Config Files', time_offset: 194, content: 'scp network root@192.168.1.1'},
-                {type: 'code', title: 'Run Command on Router', time_offset: 0, content: 'sudo cp network /etc/config'},
-                {type: 'code', title: 'Restart Networking', time_offset: 1, content: '/etc/init.d/network restart'},
-                {type: 'code', title: 'Find IP Address', time_offset: 2, content: 'ifconfig\n(ip config on windows)'},
-                {type: 'code', title: 'SSH Into Router', time_offset: 3, content: 'ssh root@192.168.1.1'},
-                {type: 'code', title: 'Edit Openflow Config', time_offset: 4, content: 'vim /etc/config/openflow'},
-                {type: 'code', title: 'Restart Openflow', time_offset: 5, content: '/etc/init.d/openflow restart'}
+                {type: 'code', title: 'Copy Config Files', time_offset: 18, content: 'scp network root@192.168.1.1'},
+                {type: 'code', title: 'Run Command on Router', time_offset: 38, content: 'sudo cp network /etc/config'},
+                {type: 'code', title: 'Restart Networking', time_offset: 52, content: '/etc/init.d/network restart'},
+                {type: 'code', title: 'Find IP Address', time_offset: 71, content: 'ifconfig\n(ip config on windows)'},
+                {type: 'code', title: 'SSH Into Router', time_offset: 82, content: 'ssh root@192.168.1.1'},
+                {type: 'code', title: 'Edit Openflow Config', time_offset: 88, content: 'vim /etc/config/openflow'},
+                {type: 'code', title: 'Restart Openflow', time_offset: 112, content: '/etc/init.d/openflow restart'}
             ]
         }
     ]
@@ -98,7 +150,7 @@ configuration.lab_1 = {
             notes: "It's totally worth digging into the python scripts and reading Kenny's comments! Take your time navigating to your files.",
             content: [
                 {type: 'code', title: 'Project Files', time_offset: 82, content: 'ext/mozilla_flow.py'},
-                {type: 'link', title: 'POX wiki', time_offset: 94, content: 'https://openflow.stanford.edu/display/ONL/POX+Wiki'},
+                {type: 'pox', title: 'POX wiki', time_offset: 94, content: 'https://openflow.stanford.edu/display/ONL/POX+Wiki'},
             ]
         },
         {title: 'Start Controller', short_title: 'Start Controller', time_in: 100,
@@ -201,56 +253,56 @@ configuration.deep_dive = {
         {unnumbered: true, title: 'Software Defined Networking', time_in: 41,
             notes: "In this deep dive into software defined networking, we focus strongly on OpenFlow. Get started by checking out OpenFlow.org. Also check out the Open Networking Foundation, the organization that manages the OpenFlow standard. Martin Casado of Stanford University maintains a large list of active OpenFlow projects. Check that out as well!",
             content: [
-                {type: 'link', title: 'OpenFlow.org', time_offset: 2, content: {url: 'http://www.openflow.org/'}},
-        {type: 'link', title: 'Open Networking Foundation', time_offset: 7, content: {url: 'https://www.opennetworking.org/'}},
-        {type: 'link', title: "Martin Casado's OpenFlow List", time_offset: 14, content: {url: 'http://yuba.stanford.edu/~casado/of-sw.html/'}}
+                {type: 'openflow', title: 'OpenFlow.org', time_offset: 2, content: {url: 'http://www.openflow.org/'}},
+                {type: 'onf', title: 'Open Networking Foundation', time_offset: 7, content: {url: 'https://www.opennetworking.org/'}},
+                {type: 'stanford', title: "Martin Casado's OpenFlow List", time_offset: 14, content: {url: 'http://yuba.stanford.edu/~casado/of-sw.html/'}}
             ]
         },
         {title: 'Yiannis Yiakoumis', short_title: 'Yiannis Yiakoumis', time_in: 63,
             notes: "Yiannis is a PhD candidate at the Department of Electrical Engineering at Stanford University. Stanford is very active in OpenFlow and SDN research, and a link to their OpenFlow Dashboard is enclosed.",
             content: [
-        {type: 'link', title: 'Stanford Research', time_offset: 2, content: {url: 'http://www.stanford.edu/~yiannisy/cgi-bin/research.php'}},
-        {type: 'link', title: 'OpenFlow at Stanford', time_offset: 5, content: {url: 'https://openflow.stanford.edu/dashboard.action'}},
-        {type: 'link', title: 'Home Authentication', time_offset: 12, content: {url: 'http://www.multichannel.com/mobile/cable-show-2012-stanford-team-wins-app-challenge-bandwidth-priority-system/125686'}},
-                {type: 'github', title: 'Github', time_offset: 18, content: {url: 'https://github.com/yiannisy'}}
+                {type: 'stanford', title: 'Stanford Research', time_offset: 2, content: {url: 'http://www.stanford.edu/~yiannisy/cgi-bin/research.php'}},
+                {type: 'openflow', title: 'OpenFlow at Stanford', time_offset: 5, content: {url: 'https://openflow.stanford.edu/dashboard.action'}},
+                {type: 'github', title: 'Github', time_offset: 9, content: {url: 'https://github.com/yiannisy'}},
+                {type: 'home', title: 'Home Authentication', time_offset: 133, content: {url: 'http://www.multichannel.com/mobile/cable-show-2012-stanford-team-wins-app-challenge-bandwidth-priority-system/125686'}}
             ]
         },
         {title: 'Jason Parraga', short_title: 'Jason Parraga', time_in: 256,
             notes: "Jason is a student at Marist College. IBM and Marist are involved in a joint study that began in 1988. Learn more about their partnership, and take the time to check out some of Jason's work.",
             content: [
-        {type: 'link', title: 'IBM/Marist Joint Study', time_offset: 7, content: {url: 'http://www.marist.edu/community/ibm.html'}},
+                {type: 'marist', title: 'IBM/Marist Joint Study', time_offset: 7, content: {url: 'http://www.marist.edu/community/ibm.html'}},
                 {type: 'github', title: 'Github', time_offset: 20, content: {url: 'https://github.com/Sovietaced'}},
-        {type: 'link', title: 'Access Control List', time_offset: 66, content: {url: 'http://en.wikipedia.org/wiki/Access_control_list'}}
+                {type: 'wikipedia', title: 'Access Control List', time_offset: 66, content: {url: 'http://en.wikipedia.org/wiki/Access_control_list'}}
             ]
         },
         {title: 'OpenFlow Controllers', short_title: 'OpenFlow Controllers', time_in: 338,
             notes: "OpenFlow is currently the defacto standard in Software Defined Networking. There are many good OpenFlow controllers available, so programmers have their pick of resources to get started. We use Pox, a python-based controller, in our DIY SDN Lab.",
             content: [
-                {type: 'link', title: 'Floodlight', time_offset: 14, content: {url: 'http://www.projectfloodlight.org/floodlight/'}},
-        {type: 'link', title: 'Pox', time_offset: 18, content: {url: 'http://www.noxrepo.org/pox/about-pox/'}}
+                {type: 'floodlight', title: 'Floodlight', time_offset: 14, content: {url: 'http://www.projectfloodlight.org/floodlight/'}},
+                {type: 'pox', title: 'Pox', time_offset: 18, content: {url: 'http://www.noxrepo.org/pox/about-pox/'}}
             ]
         },
         {title: 'Jonathan Heiliger', short_title: 'Jonathan Heiliger', time_in: 365,
             notes: "Jonathan oversaw the expansion of Facebook from forty million to eight-hundred million users. Pay particular attention to his assertion that Ops and Software Engineers will begin to merge.",
             content: [
-        {type: 'link', title: 'GENI', time_offset: 73, content: {url: 'http://www.geni.net/'}},
-        {type: 'link', title: 'GENI Docs', time_offset: 78, content: {url: 'http://geni-app-developer-documentation.readthedocs.org/en/latest/index.html'}},
-        {type: 'link', title: 'Big Switch', time_offset: 118, content: {url: 'http://www.bigswitch.com/'}},
-        {type: 'video', title: 'Hyperglance', time_offset: 152, content: {url: 'http://www.youtube.com/watch?v=L-ad0Phy0eI'}}
+                {type: 'geni', title: 'GENI', time_offset: 73, content: {url: 'http://www.geni.net/'}},
+                {type: 'geni', title: 'GENI Docs', time_offset: 78, content: {url: 'http://geni-app-developer-documentation.readthedocs.org/en/latest/index.html'}},
+                {type: 'bigswitch', title: 'Big Switch', time_offset: 118, content: {url: 'http://www.bigswitch.com/'}},
+                {type: 'video', title: 'Hyperglance', time_offset: 152, content: {url: 'http://www.youtube.com/watch?v=L-ad0Phy0eI'}}
             ]
         },
         {title: 'Rick Kagan', short_title: 'Rick Kagan', time_in: 526,
             notes: "Rick hammers home the new frontier that SDN and OpenFlow creates by pointing out how dramatically different our experience on Skype could be.",
             content: [
-                {type: 'link', title: 'Skype Protocol', time_offset: 43, content: {url: 'http://en.wikipedia.org/wiki/Skype_protocol'}}
+                {type: 'wikipedia', title: 'Skype Protocol', time_offset: 43, content: {url: 'http://en.wikipedia.org/wiki/Skype_protocol'}}
             ]
         },
         {unnumbered: true, title: 'Dive In!', short_title: '', time_in: 619,
             notes: "",
             content: [
                 {type: 'github', title: 'Learning Labs', time_offset: 21, content: {url: 'https://github.com/mozilla/mozilla-ignite-learning-lab-demos'}},
-        {type: 'link', title: 'Mozilla Ignite Twitter', time_offset: 23, content: {url: 'https://twitter.com/MozillaIgnite'}},
-        {type: 'link', title: 'Email: Mozilla Ignite', time_offset: 24, content: {url: 'ignite@mozillafoundation.org'}}
+                {type: 'link', title: 'Mozilla Ignite Twitter', time_offset: 23, content: {url: 'https://twitter.com/MozillaIgnite'}},
+                {type: 'email', title: 'Email: Mozilla Ignite', time_offset: 24, content: {url: 'ignite@mozillafoundation.org'}}
             ]
         }
     ]
