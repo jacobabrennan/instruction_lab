@@ -192,6 +192,11 @@ var main_lab = {
         progressBar.setAttribute('transform', 'translate(17,3)');
         progressBar.setAttribute('width', '75');
         progressBar.setAttribute('height', '3');
+        var background = document.createElementNS(svgNs, 'rect');
+        background.setAttribute('class', 'progress_background');
+        background.setAttribute('height', '3');
+        background.setAttribute('width', '75');
+        progressBar.appendChild(background);
         var buffered = document.createElementNS(svgNs, 'rect');
         buffered.setAttribute('class', 'buffered');
         buffered.setAttribute('height', '3');
