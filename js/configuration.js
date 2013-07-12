@@ -13,7 +13,8 @@ var configuration = {
         code:{
             icon_color: 'transparent',
             icon_url: urls.tip_icons.code,
-            code_display: true
+            code_display: true,
+			time_link: true
         },
         home:{
             icon_color: 'white',
@@ -201,7 +202,7 @@ configuration.lab_2 = {
             notes: "Both computers are working through port 10002 this time. With the right conditions met, the router modifies the packet and sends it onwards to its intended recipient. Imagine combining flows and packet injection! What are some ways apps could use these new capabilities?",
             content: [
                 {type: 'code', title: 'Example Code', time_offset: 4, content: 'code/mozilla_injector/'},
-                {type: 'code', title: 'Listen on 10003', time_offset: 25, content: 'python receive.py'},
+                {type: 'code', title: 'Listen on 10002', time_offset: 25, content: 'python receive.py'},
                 {type: 'code', title: 'Send Message', time_offset: 36, content: 'python send.py [receiving computer IP] "Hello Openflow!"'}
             ]
         }
@@ -234,7 +235,7 @@ configuration.lab_3 = {
             content: [
                 {type: 'code', title: 'Example Code', time_offset: 3, content: 'code/mozilla_protocol/'},
                 {type: 'code', title: 'Listen on 10002', time_offset: 20, content: 'python receive.py'},
-                {type: 'code', title: 'Run Supercast', time_offset: 42, content: 'python send.py [receiving computer IP] "Hello Openflow!"'}
+                {type: 'code', title: 'Run Supercast', time_offset: 42, content: 'python send.py [receiving computer IP] "Hello from the SUPERCAST protocol!"'}
             ]
         }
     ]
@@ -255,7 +256,8 @@ configuration.deep_dive = {
             content: [
                 {type: 'openflow', title: 'OpenFlow.org', time_offset: 2, content: {url: 'http://www.openflow.org/'}},
                 {type: 'onf', title: 'Open Networking Foundation', time_offset: 7, content: {url: 'https://www.opennetworking.org/'}},
-                {type: 'stanford', title: "Martin Casado's OpenFlow List", time_offset: 14, content: {url: 'http://yuba.stanford.edu/~casado/of-sw.html/'}}
+                {type: 'stanford', title: "Martin Casado's OpenFlow List", time_offset: 14, content: {url: 'http://yuba.stanford.edu/~casado/of-sw.html/'}},
+				{type: 'openflow', title: 'OpenFlow Tutorial', time_offset: 16, content: {urls: 'http://www.openflow.org/wk/index.php/OpenFlow_Tutorial'}}
             ]
         },
         {title: 'Yiannis Yiakoumis', short_title: 'Yiannis Yiakoumis', time_in: 63,
@@ -318,6 +320,8 @@ configuration.credits = {
         'Jason Parraga',
         'Jonathan Heiliger',
         'Rick Kagan',
+		'KK Yap',
+		'Te-Yuan Huang',
         'Tango Desktop Project (iconography)'
     ]
 };

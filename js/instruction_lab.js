@@ -106,6 +106,8 @@ var instruction_lab = {
 			this.list_element = document.getElementById("instructions_list");
 			var instructions_list = instruction_config.instructions;
 			var display_step = function (instruction, instruction_index, display_number){
+				instruction.instruction_index = instruction_index;
+				instruction.instruction_number = display_number;
 				var instruction_element = document.createElement('div');
 				instruction.element = instruction_element;
 				instruction_element.setAttribute('class', 'instruction');
@@ -180,7 +182,7 @@ var instruction_lab = {
 						}, 1000);
 					}, false)
 				}
-				var create_tip = function (tip_json){
+				var create_tip = function (tip_json, instruction_json){
 					var tip_template_id = tip_json.type;
 					var tip_template = instruction_config.tip_templates[tip_template_id];
 					var tip = document.createElement('a');
@@ -217,6 +219,14 @@ var instruction_lab = {
 						if(tip_template.icon_color){
 							icon.style.background = tip_template.icon_color;
 						}
+						if(tip_template.time_link){
+							tip.addEventListener('click', function (){
+								var tip_time_code = tip_json.time_offset + instruction_json.time_in;
+								main_lab.transition('left');
+								//self.temp_instruction_lab.video_frame.player.popcorn.currentTime(tip_time_code);
+								self.temp_instruction_lab.video_frame.player.popcorn.play(tip_time_code-1);
+							})
+						}
                         if(tip_template.code_display){
                             tip.display = function (tip_json){
                                 // this = an html element; a tip.
@@ -238,7 +248,7 @@ var instruction_lab = {
 				for(var tip_index = 0; tip_index < instruction.content.length; tip_index++){
 					var indexed_tip = instruction.content[tip_index];
 					if(indexed_tip && (indexed_tip.display_instructions !== false)){
-						var new_tip = create_tip(indexed_tip);
+						var new_tip = create_tip(indexed_tip, instruction);
 						expander.appendChild(new_tip);
 					}
 				}
@@ -268,7 +278,7 @@ var instruction_lab = {
 						var cue_function = function (tip){
 							return function (){
 								if(self.temp_instruction_lab.seeking){ return;}
-								var node = self.temp_instruction_lab.tip_manager.create_tip(tip);
+								var node = self.temp_instruction_lab.tip_manager.create_tip(tip, indexed_step);
 								self.temp_instruction_lab.tip_manager.add_tip(node);
 							};
 						};
@@ -288,7 +298,7 @@ var instruction_lab = {
 					});
 					self.temp_instruction_lab.video_frame.player.popcorn.cue(indexed_step.time_in, (function (loop_step, loop_index){
 						return function (){
-							var node = self.temp_instruction_lab.tip_manager.create_step(loop_step, loop_index);
+							var node = self.temp_instruction_lab.tip_manager.create_step(loop_step);
 							if(node){
 								self.temp_instruction_lab.tip_manager.add_tip(node);
 							}
@@ -482,23 +492,24 @@ var instruction_lab = {
 		},
 		bump_tip: function (tip){
 			if(!tip){
-				tip = this.current_tips[1]
+				tip = this.current_tips[1];
 			}
             if(tip){
                 tip.style.visibility = "hidden";
                 tip.style.height = "0%";
                 tip.style.margin_bottom = "0em";
-                tip.style.margin = "0em"
+                tip.style.margin = "0em";
                 this.remove_tip(tip, true);
             }
 		},
-		create_step: function (tip_json, step_number){
+		create_step: function (tip_json){
 			var self = this;
+			var step_number = tip_json.instruction_number;
 			if(tip_json.unnumbered){ return undefined;}
-			var tip = this.create_tip(tip_json);
+			var tip = this.create_tip(tip_json, tip_json);
 			tip.className += " step";
 			tip.addEventListener('click', function (){
-				self.temp_instruction_lab.instructions.scroll_to(step_number);
+				self.temp_instruction_lab.instructions.scroll_to(tip_json.instruction_index);
 			}, false);
 			var icon = tip.getElementsByClassName('icon')[0];
             var step_ordinal_display;
@@ -513,7 +524,7 @@ var instruction_lab = {
 			icon.appendChild(step_ordinal_display);
 			return tip;
 		},
-		create_tip: function (tip_json){
+		create_tip: function (tip_json, instruction_json){
             var self = this;
 			var tip_template_id = tip_json.type;
 			var tip_template = this.tip_templates[tip_template_id];
@@ -550,6 +561,11 @@ var instruction_lab = {
 				}
 				if(tip_template.icon_color){
 					icon.style.background = tip_template.icon_color;
+				}
+				if(tip_template.time_link){
+					tip.addEventListener('click', function (){
+						self.temp_instruction_lab.instructions.scroll_to(instruction_json.instruction_index);
+					}, false);
 				}
                 if(tip_template.code_display){
                     tip.display = function (tip_json){
@@ -680,9 +696,9 @@ var instruction_lab = {
 				var indexed_tip = display_tips[display_index];
 				var new_tip;
 				if(display_index == 0){
-					new_tip = this.create_step(indexed_tip, display_step_number);
+					new_tip = this.create_step(indexed_tip);
 				} else{
-					new_tip = this.create_tip(indexed_tip);
+					new_tip = this.create_tip(indexed_tip, display_step);
 				}
 				if(new_tip){
 					this.add_tip(new_tip)
