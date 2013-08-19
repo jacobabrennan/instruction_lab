@@ -7,34 +7,34 @@ var urls = {
     ordinals: 'images/ignite_embossed_logo.svg',
     video: {
         intro: {
-            'mp4': 'video/sdn_intro.mp4',
-            'webm': 'video/sdn_intro.webm',
-            'ogv': 'video/sdn_intro.ogv'
+            'mp4': 'https://videos-cdn.mozilla.net/serv/webmademovies/ignite/sdn_intro.mp4',
+            'webm': 'https://videos-cdn.mozilla.net/serv/webmademovies/ignite/sdn_intro.webm',
+            'ogv': 'https://videos-cdn.mozilla.net/serv/webmademovies/ignite/sdn_intro.ogv'
         },
         lab_setup: {
-            'mp4': 'video/sdn_diy_setup.mp4',
-            'webm': 'video/sdn_diy_setup.webm',
-            'ogv': 'video/sdn_diy_setup.ogv'
+            'mp4': 'https://videos-cdn.mozilla.net/serv/webmademovies/ignite/sdn_diy_setup.mp4',
+            'webm': 'https://videos-cdn.mozilla.net/serv/webmademovies/ignite/sdn_diy_setup.webm',
+            'ogv': 'https://videos-cdn.mozilla.net/serv/webmademovies/ignite/sdn_diy_setup.ogv'
         },
         lab_1: {
-            'mp4': 'video/sdn_diy_01.mp4',
-            'webm': 'video/sdn_diy_01.webm',
-            'ogv': 'video/sdn_diy_01.ogv'
+            'mp4': 'https://videos-cdn.mozilla.net/serv/webmademovies/ignite/sdn_diy_01.mp4',
+            'webm': 'https://videos-cdn.mozilla.net/serv/webmademovies/ignite/sdn_diy_01.webm',
+            'ogv': 'https://videos-cdn.mozilla.net/serv/webmademovies/ignite/sdn_diy_01.ogv'
         },
         lab_2: {
-            'mp4': 'video/sdn_diy_02.mp4',
-            'webm': 'video/sdn_diy_02.webm',
-            'ogv': 'video/sdn_diy_02.ogv'
+            'mp4': 'https://videos-cdn.mozilla.net/serv/webmademovies/ignite/sdn_diy_02.mp4',
+            'webm': 'https://videos-cdn.mozilla.net/serv/webmademovies/ignite/sdn_diy_02.webm',
+            'ogv': 'https://videos-cdn.mozilla.net/serv/webmademovies/ignite/sdn_diy_02.ogv'
         },
         lab_3: {
-            'mp4': 'video/sdn_diy_03.mp4',
-            'webm': 'video/sdn_diy_03.webm',
-            'ogv': 'video/sdn_diy_03.ogv'
+            'mp4': 'https://videos-cdn.mozilla.net/serv/webmademovies/ignite/sdn_diy_03.mp4',
+            'webm': 'https://videos-cdn.mozilla.net/serv/webmademovies/ignite/sdn_diy_03.webm',
+            'ogv': 'https://videos-cdn.mozilla.net/serv/webmademovies/ignite/sdn_diy_03.ogv'
         },
         deep_dive: {
-            'mp4': 'video/sdn_deepdive.mp4',
-            'webm': 'video/sdn_deepdive.webm',
-            'ogv': 'video/sdn_deepdive.ogv'
+            'mp4': 'https://videos-cdn.mozilla.net/serv/webmademovies/ignite/sdn_deepdive.mp4',
+            'webm': 'https://videos-cdn.mozilla.net/serv/webmademovies/ignite/sdn_deepdive.webm',
+            'ogv': 'https://videos-cdn.mozilla.net/serv/webmademovies/ignite/sdn_deepdive.ogv'
         }
     },
     tip_icons: {
